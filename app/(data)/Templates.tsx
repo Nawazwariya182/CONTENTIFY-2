@@ -1,4 +1,106 @@
-export default [
+import { TEMPLATE } from "../dashboard/_component/TemplateCard";
+
+const Templates: TEMPLATE[] =[
+    {
+        "name": "AI Translator",
+        "desc": "A tool that translates text from one language to another based on user input.",
+        "category": "Translation",
+        "icon": "https://cdn-icons-png.flaticon.com/128/482/482631.png",
+        "aiprompt": "Translate the provided text from the source language to the target language with its pronunciation in english character and display the result in a rich text editor format.",
+        "slug": "AI-Translator",
+        "form": [
+            {
+                "label": "Enter the text to translate",
+                "field": "textarea",
+                "name": "text",
+                "required": true
+            },
+            {
+                "label": "Enter the source language",
+                "field": "input",
+                "name": "source_language",
+                "required": false
+            },
+            {
+                "label": "Enter the target language",
+                "field": "input",
+                "name": "target_language",
+                "required": true
+            }
+        ]
+    },
+    {
+        "name": "AI Text Summarizer",
+        "desc": "A tool that summarizes text based on user input.",
+        "category": "Summarization",
+        "icon": "https://cdn-icons-png.flaticon.com/128/1387/1387672.png",
+        "aiprompt": "Summarize the provided text and display the result in a rich text editor format.",
+        "slug": "AI-Text-Summarizer",
+        "form": [
+            {
+                "label": "Enter the text to summarize",
+                "field": "textarea",
+                "name": "text",
+                "required": true
+            }
+        ]
+    },    
+    {
+        "name": "Paraphrasing and Rewriting Tool",
+        "desc": "A tool that rewrites or paraphrases text based on user input.",
+        "category": "Paraphrasing",
+        "icon": "https://cdn-icons-png.flaticon.com/128/2211/2211342.png",
+        "aiprompt": "Paraphrase or rewrite the provided text and display the result in a rich text editor format.",
+        "slug": "Paraphrasing-Rewriting-Tool",
+        "form": [
+            {
+                "label": "Enter the text to paraphrase or rewrite",
+                "field": "textarea",
+                "name": "text",
+                "required": true
+            }
+        ]
+    },    
+    {
+        "name": "Grammar and Style Checker",
+        "desc": "A tool that checks grammar and allows the user to choose a writing style for improvement.",
+        "category": "Writing Assistant",
+        "icon": "https://cdn-icons-png.flaticon.com/128/753/753345.png",
+        "aiprompt": "Check the grammar of the provided text and improve the style based on the selected option. Display the result in a rich text editor format.",
+        "slug": "Grammar-Style-Checker",
+        "form": [
+            {
+                "label": "Enter the text for grammar and style check",
+                "field": "textarea",
+                "name": "text",
+                "required": true
+            },
+            {
+                "label": "Choose the style e.g., formal, casual, creative) for rewriting",
+                "field": "input",
+                "name": "style",
+                "required": true,
+                // "placeholder": "Enter style (e.g., formal, casual, creative)"
+            }
+        ]
+    },    
+    {
+        "name": "Data-Driven Content Generator",
+        "desc": "A tool that generates charts, tables, and other data visualizations based on the provided data.",
+        "category": "Data Visualization",
+        "icon": "https://cdn-icons-png.flaticon.com/128/888/888879.png",
+        "aiprompt": "Generate a data-driven visualization table based on the provided data and display it in a rich text editor format.",
+        "slug": "Data-Driven-Content",
+        "form": [
+            {
+                "label": "Enter the data (CSV or JSON format)",
+                "field": "textarea",
+                "name": "data",
+                "required": true,
+                // "placeholder": "e.g., name,value\nApples,50\nBananas,30"
+            },
+        ]
+    },    
     {
         name: "Blog Title",
         desc: "An AI tool that generates blog titles based on your blog information.",
@@ -1791,5 +1893,1795 @@ export default [
                 name: "lifestyle"
             }
         ]
-    }
+    },
+{
+    name: "Email Campaign",
+    desc: "An AI tool that drafts email campaigns tailored to your product and target audience.",
+    category: "Marketing",
+    icon: "https://cdn-icons-png.flaticon.com/128/732/732200.png",
+    aiprompt: "Draft an email campaign based on the given product details and target audience. Provide the result in a rich text editor format.",
+    slug: "Generate-Email-Campaign",
+    form: [
+        {
+            label: "Enter product details",
+            field: "textarea",
+            name: "productDetails",
+            required: true
+        },
+        {
+            label: "Enter target audience",
+            field: "input",
+            name: "audience",
+            required: true
+        },
+        {
+            label: "Enter desired word count",
+            field: "input",
+            name: "wordCount",
+            required: true
+        }
+    ]
+},
+{
+    name: "Brand Slogan Generator",
+    desc: "An AI tool that generates catchy slogans for brands.",
+    category: "Marketing & Sales",
+    icon: "https://cdn-icons-png.flaticon.com/128/2566/2566427.png",
+    aiprompt: "Generate a catchy slogan for the given brand name and target audience. Provide the result in a rich text editor format.",
+    slug: "Generate-Brand-Slogan",
+    form: [
+        {
+            label: "Enter brand name",
+            field: "input",
+            name: "brandName",
+            required: true
+        },
+        {
+            label: "Enter target audience",
+            field: "input",
+            name: "audience",
+        },
+        {
+            label: "Enter desired word count",
+            field: "input",
+            name: "wordCount",
+            required: true
+        }
+    ]
+},
+{
+    name: "Product Feature List",
+    desc: "An AI tool that generates a detailed list of product features.",
+    category: "Marketing & Sales",
+    icon: "https://cdn-icons-png.flaticon.com/128/2000/2000052.png",
+    aiprompt: "Create a detailed list of product features based on the provided product information. Provide the result in a rich text editor format.",
+    slug: "Generate-Product-Feature-List",
+    form: [
+        {
+            label: "Enter product name",
+            field: "input",
+            name: "productName",
+            required: true
+        },
+        {
+            label: "Enter product description",
+            field: "textarea",
+            name: "description",
+            required: true
+        },
+        {
+            label: "Enter desired word count",
+            field: "input",
+            name: "wordCount",
+            required: true
+        }
+    ]
+},
+{
+    name: "Customer Testimonial",
+    desc: "An AI tool that drafts customer testimonials based on provided feedback.",
+    category: "Marketing & Sales",
+    icon: "https://cdn-icons-png.flaticon.com/128/2942/2942637.png",
+    aiprompt: "Generate a customer testimonial based on the given feedback. Provide the result in a rich text editor format.",
+    slug: "Generate-Customer-Testimonial",
+    form: [
+        {
+            label: "Enter customer feedback",
+            field: "textarea",
+            name: "feedback",
+            required: true
+        },
+        {
+            label: "Enter product/service name",
+            field: "input",
+            name: "productName",
+        },
+        {
+            label: "Enter desired word count",
+            field: "input",
+            name: "wordCount",
+            required: true
+        }
+    ]
+},
+{
+    name: "Lead Nurturing Email Sequence",
+    desc: "An AI tool that generates a sequence of emails to nurture leads.",
+    category: "Marketing & Sales",
+    icon: "https://cdn-icons-png.flaticon.com/128/2951/2951343.png",
+    aiprompt: "Create a sequence of lead nurturing emails based on the provided details. Provide the result in a rich text editor format.",
+    slug: "Generate-Lead-Nurturing-Emails",
+    form: [
+        {
+            label: "Enter lead details",
+            field: "textarea",
+            name: "leadDetails",
+            required: true
+        },
+        {
+            label: "Enter product/service information",
+            field: "textarea",
+            name: "productInfo",
+        },
+        {
+            label: "Enter desired word count",
+            field: "input",
+            name: "wordCount",
+            required: true
+        }
+    ]
+},
+{
+    name: "Sales Pitch",
+    desc: "An AI tool that generates persuasive sales pitches for products or services.",
+    category: "Marketing & Sales",
+    icon: "https://cdn-icons-png.flaticon.com/128/3580/3580428.png",
+    aiprompt: "Create a persuasive sales pitch based on the provided product/service details. Provide the result in a rich text editor format.",
+    slug: "Generate-Sales-Pitch",
+    form: [
+        {
+            label: "Enter product/service details",
+            field: "textarea",
+            name: "productServiceDetails",
+            required: true
+        },
+        {
+            label: "Enter target audience",
+            field: "input",
+            name: "audience",
+        },
+        {
+            label: "Enter desired word count",
+            field: "input",
+            name: "wordCount",
+            required: true
+        }
+    ]
+},
+{
+    name: "Marketing Plan Outline",
+    desc: "An AI tool that generates a comprehensive marketing plan outline.",
+    category: "Marketing & Sales",
+    icon: "https://cdn-icons-png.flaticon.com/128/2916/2916133.png",
+    aiprompt: "Create a comprehensive marketing plan outline based on the provided business and marketing goals. Provide the result in a rich text editor format.",
+    slug: "Generate-Marketing-Plan-Outline",
+    form: [
+        {
+            label: "Enter business goals",
+            field: "textarea",
+            name: "businessGoals",
+            required: true
+        },
+        {
+            label: "Enter marketing objectives",
+            field: "textarea",
+            name: "marketingObjectives",
+            required: true
+        },
+        {
+            label: "Enter desired word count",
+            field: "input",
+            name: "wordCount",
+            required: true
+        }
+    ]
+},
+{
+    name: "Campaign Budget Estimator",
+    desc: "An AI tool that creates a budget estimate for marketing campaigns.",
+    category: "Marketing & Sales",
+    icon: "https://cdn-icons-png.flaticon.com/128/2636/2636387.png",
+    aiprompt: "Generate a budget estimate for a marketing campaign based on the provided details. Provide the result in a rich text editor format.",
+    slug: "Generate-Campaign-Budget-Estimate",
+    form: [
+        {
+            label: "Enter campaign details",
+            field: "textarea",
+            name: "campaignDetails",
+            required: true
+        },
+        {
+            label: "Enter estimated costs",
+            field: "input",
+            name: "estimatedCosts",
+        },
+        {
+            label: "Enter desired word count",
+            field: "input",
+            name: "wordCount",
+            required: true
+        }
+    ]
+},
+{
+    name: "Social Media Calendar",
+    desc: "An AI tool that generates a social media posting calendar.",
+    category: "Marketing & Sales",
+    icon: "https://cdn-icons-png.flaticon.com/128/3037/3037156.png",
+    aiprompt: "Create a social media calendar based on the provided content strategy. Provide the result in a rich text editor format.",
+    slug: "Generate-Social-Media-Calendar",
+    form: [
+        {
+            label: "Enter content strategy",
+            field: "textarea",
+            name: "contentStrategy",
+            required: true
+        },
+        {
+            label: "Enter social media platforms",
+            field: "input",
+            name: "platforms",
+        },
+        {
+            label: "Enter desired word count",
+            field: "input",
+            name: "wordCount",
+            required: true
+        }
+    ]
+},
+{
+    name: "Influencer Outreach Email",
+    desc: "An AI tool that drafts an email template for reaching out to influencers.",
+    category: "Marketing & Sales",
+    icon: "https://cdn-icons-png.flaticon.com/128/1534/1534346.png",
+    aiprompt: "Generate an influencer outreach email template based on the provided campaign and influencer details. Provide the result in a rich text editor format.",
+    slug: "Generate-Influencer-Outreach-Email",
+    form: [
+        {
+            label: "Enter campaign details",
+            field: "textarea",
+            name: "campaignDetails",
+            required: true
+        },
+        {
+            label: "Enter influencer details",
+            field: "textarea",
+            name: "influencerDetails",
+        },
+        {
+            label: "Enter desired word count",
+            field: "input",
+            name: "wordCount",
+            required: true
+        }
+    ]
+},
+{
+    name: "Client Proposal",
+    desc: "An AI tool that generates a detailed client proposal based on the project scope.",
+    category: "Marketing & Sales",
+    icon: "https://cdn-icons-png.flaticon.com/128/4102/4102173.png",
+    aiprompt: "Create a detailed client proposal based on the provided project scope and client requirements. Provide the result in a rich text editor format.",
+    slug: "Generate-Client-Proposal",
+    form: [
+        {
+            label: "Enter project scope",
+            field: "textarea",
+            name: "projectScope",
+            required: true
+        },
+        {
+            label: "Enter client requirements",
+            field: "textarea",
+            name: "clientRequirements",
+        },
+        {
+            label: "Enter desired word count",
+            field: "input",
+            name: "wordCount",
+            required: true
+        }
+    ]
+},
+{
+    name: "Video Description",
+    desc: "An AI tool that generates descriptions for YouTube videos or other platforms.",
+    category: "Content Creation",
+    icon: "https://cdn-icons-png.flaticon.com/128/482/482112.png",
+    aiprompt: "Generate a video description based on the provided video title and content summary. Provide the result in a rich text editor format.",
+    slug: "Generate-Video-Description",
+    form: [
+        {
+            label: "Enter video title",
+            field: "input",
+            name: "videoTitle",
+            required: true
+        },
+        {
+            label: "Enter content summary",
+            field: "textarea",
+            name: "contentSummary",
+        },
+        {
+            label: "Enter desired word count",
+            field: "input",
+            name: "wordCount",
+            required: true
+        }
+    ]
+},
+{
+    name: "Podcast Episode Ideas",
+    desc: "An AI tool that generates a list of podcast episode ideas.",
+    category: "Content Creation",
+    icon: "https://cdn-icons-png.flaticon.com/128/3313/3313793.png",
+    aiprompt: "Generate a list of podcast episode ideas based on the provided niche and target audience. Provide the result in a rich text editor format.",
+    slug: "Generate-Podcast-Episode-Ideas",
+    form: [
+        {
+            label: "Enter podcast niche",
+            field: "input",
+            name: "podcastNiche",
+            required: true
+        },
+        {
+            label: "Enter target audience",
+            field: "input",
+            name: "audience",
+        },
+        {
+            label: "Enter desired word count",
+            field: "input",
+            name: "wordCount",
+            required: true
+        }
+    ]
+},
+{
+    name: "Content Calendar",
+    desc: "An AI tool that generates a content calendar for blogs, videos, and social media.",
+    category: "Content Creation",
+    icon: "https://cdn-icons-png.flaticon.com/128/3127/3127336.png",
+    aiprompt: "Create a content calendar based on the provided content strategy and frequency. Provide the result in a rich text editor format.",
+    slug: "Generate-Content-Calendar",
+    form: [
+        {
+            label: "Enter content strategy",
+            field: "textarea",
+            name: "contentStrategy",
+            required: true
+        },
+        {
+            label: "Enter posting frequency",
+            field: "input",
+            name: "frequency",
+        },
+        {
+            label: "Enter desired word count",
+            field: "input",
+            name: "wordCount",
+            required: true
+        }
+    ]
+},
+{
+    name: "Blog Post Outline",
+    desc: "An AI tool that generates a detailed outline for blog posts.",
+    category: "Content Creation",
+    icon: "https://cdn-icons-png.flaticon.com/128/3032/3032057.png",
+    aiprompt: "Create a detailed blog post outline based on the provided topic and keywords. Provide the result in a rich text editor format.",
+    slug: "Generate-Blog-Post-Outline",
+    form: [
+        {
+            label: "Enter blog topic",
+            field: "input",
+            name: "blogTopic",
+            required: true
+        },
+        {
+            label: "Enter keywords",
+            field: "textarea",
+            name: "keywords",
+        },
+        {
+            label: "Enter desired word count",
+            field: "input",
+            name: "wordCount",
+            required: true
+        }
+    ]
+},
+{
+    name: "Case Study",
+    desc: "An AI tool that generates a case study based on client success stories.",
+    category: "Content Creation",
+    icon: "https://cdn-icons-png.flaticon.com/128/3421/3421058.png",
+    aiprompt: "Create a case study based on the provided client success story and data. Provide the result in a rich text editor format.",
+    slug: "Generate-Case-Study",
+    form: [
+        {
+            label: "Enter client success story",
+            field: "textarea",
+            name: "successStory",
+            required: true
+        },
+        {
+            label: "Enter relevant data",
+            field: "textarea",
+            name: "data",
+        },
+        {
+            label: "Enter desired word count",
+            field: "input",
+            name: "wordCount",
+            required: true
+        }
+    ]
+},
+{
+    name: "E-book Outline",
+    desc: "An AI tool that generates an outline for an e-book on a given topic.",
+    category: "Content Creation",
+    icon: "https://cdn-icons-png.flaticon.com/128/3062/3062653.png",
+    aiprompt: "Create an e-book outline based on the provided topic and target audience. Provide the result in a rich text editor format.",
+    slug: "Generate-E-book-Outline",
+    form: [
+        {
+            label: "Enter e-book topic",
+            field: "input",
+            name: "ebookTopic",
+            required: true
+        },
+        {
+            label: "Enter target audience",
+            field: "input",
+            name: "audience",
+        },
+        {
+            label: "Enter desired word count",
+            field: "input",
+            name: "wordCount",
+            required: true
+        }
+    ]
+},
+{
+    name: "Whitepaper",
+    desc: "An AI tool that generates a whitepaper based on industry research and trends.",
+    category: "Content Creation",
+    icon: "https://cdn-icons-png.flaticon.com/128/3314/3314494.png",
+    aiprompt: "Create a whitepaper based on the provided research and industry trends. Provide the result in a rich text editor format.",
+    slug: "Generate-Whitepaper",
+    form: [
+        {
+            label: "Enter research data",
+            field: "textarea",
+            name: "researchData",
+            required: true
+        },
+        {
+            label: "Enter industry trends",
+            field: "textarea",
+            name: "trends",
+        },
+        {
+            label: "Enter desired word count",
+            field: "input",
+            name: "wordCount",
+            required: true
+        }
+    ]
+},
+{
+    name: "Webinar Script",
+    desc: "An AI tool that generates a script for hosting webinars.",
+    category: "Content Creation",
+    icon: "https://cdn-icons-png.flaticon.com/128/2921/2921826.png",
+    aiprompt: "Create a webinar script based on the provided topic and audience. Provide the result in a rich text editor format.",
+    slug: "Generate-Webinar-Script",
+    form: [
+        {
+            label: "Enter webinar topic",
+            field: "input",
+            name: "webinarTopic",
+            required: true
+        },
+        {
+            label: "Enter target audience",
+            field: "input",
+            name: "audience",
+        },
+        {
+            label: "Enter desired word count",
+            field: "input",
+            name: "wordCount",
+            required: true
+        }
+    ]
+},
+{
+    name: "Interactive Quiz",
+    desc: "An AI tool that generates quiz questions and results based on a specific topic.",
+    category: "Content Creation",
+    icon: "https://cdn-icons-png.flaticon.com/128/3061/3061927.png",
+    aiprompt: "Create an interactive quiz based on the provided topic and target audience. Provide the result in a rich text editor format.",
+    slug: "Generate-Interactive-Quiz",
+    form: [
+        {
+            label: "Enter quiz topic",
+            field: "input",
+            name: "quizTopic",
+            required: true
+        },
+        {
+            label: "Enter target audience",
+            field: "input",
+            name: "audience",
+        },
+        {
+            label: "Enter number of questions",
+            field: "input",
+            name: "numQuestions",
+            required: true
+        },
+        {
+            label: "Enter desired word count",
+            field: "input",
+            name: "wordCount",
+            required: true
+        }
+    ]
+},
+{
+    name: "Course Module Outline",
+    desc: "An AI tool that generates an outline for an educational course module.",
+    category: "Content Creation",
+    icon: "https://cdn-icons-png.flaticon.com/128/4320/4320538.png",
+    aiprompt: "Create a course module outline based on the provided course topic and learning objectives. Provide the result in a rich text editor format.",
+    slug: "Generate-Course-Module-Outline",
+    form: [
+        {
+            label: "Enter course topic",
+            field: "input",
+            name: "courseTopic",
+            required: true
+        },
+        {
+            label: "Enter learning objectives",
+            field: "textarea",
+            name: "learningObjectives",
+        },
+        {
+            label: "Enter desired word count",
+            field: "input",
+            name: "wordCount",
+            required: true
+        }
+    ]
+},
+{
+    name: "Product Tagline Generator",
+    desc: "An AI tool that generates catchy taglines for products.",
+    category: "E-commerce",
+    icon: "https://cdn-icons-png.flaticon.com/128/3063/3063716.png",
+    aiprompt: "Generate a catchy tagline for the given product based on the product description and target market. Provide the result in a rich text editor format.",
+    slug: "Generate-Product-Tagline",
+    form: [
+        {
+            label: "Enter product name",
+            field: "input",
+            name: "productName",
+            required: true
+        },
+        {
+            label: "Enter product description",
+            field: "textarea",
+            name: "description",
+        },
+        {
+            label: "Enter target market",
+            field: "input",
+            name: "targetMarket",
+        },
+        {
+            label: "Enter desired word count",
+            field: "input",
+            name: "wordCount",
+            required: true
+        }
+    ]
+},
+{
+    name: "Product Description Generator",
+    desc: "An AI tool that generates detailed product descriptions.",
+    category: "E-commerce",
+    icon: "https://cdn-icons-png.flaticon.com/128/3659/3659871.png",
+    aiprompt: "Generate a detailed product description based on the provided product information and target market. Provide the result in a rich text editor format.",
+    slug: "Generate-Product-Description",
+    form: [
+        {
+            label: "Enter product name",
+            field: "input",
+            name: "productName",
+            required: true
+        },
+        {
+            label: "Enter product features",
+            field: "textarea",
+            name: "features",
+        },
+        {
+            label: "Enter target market",
+            field: "input",
+            name: "targetMarket",
+        },
+        {
+            label: "Enter desired word count",
+            field: "input",
+            name: "wordCount",
+            required: true
+        }
+    ]
+},
+{
+    name: "Email Newsletter",
+    desc: "An AI tool that generates email newsletters based on the provided content.",
+    category: "Email Marketing",
+    icon: "https://cdn-icons-png.flaticon.com/128/3544/3544729.png",
+    aiprompt: "Generate an email newsletter based on the provided content and target audience. Provide the result in a rich text editor format.",
+    slug: "Generate-Email-Newsletter",
+    form: [
+        {
+            label: "Enter newsletter content",
+            field: "textarea",
+            name: "newsletterContent",
+            required: true
+        },
+        {
+            label: "Enter target audience",
+            field: "input",
+            name: "audience",
+        },
+        {
+            label: "Enter desired word count",
+            field: "input",
+            name: "wordCount",
+            required: true
+        }
+    ]
+},
+{
+    name: "Cold Email Template",
+    desc: "An AI tool that generates a cold email template for reaching out to potential clients.",
+    category: "Email Marketing",
+    icon: "https://cdn-icons-png.flaticon.com/128/3523/3523063.png",
+    aiprompt: "Generate a cold email template for reaching out to potential clients based on the provided business and offer details. Provide the result in a rich text editor format.",
+    slug: "Generate-Cold-Email-Template",
+    form: [
+        {
+            label: "Enter business details",
+            field: "textarea",
+            name: "businessDetails",
+            required: true
+        },
+        {
+            label: "Enter offer details",
+            field: "textarea",
+            name: "offerDetails",
+        },
+        {
+            label: "Enter target audience",
+            field: "input",
+            name: "audience",
+        },
+        {
+            label: "Enter desired word count",
+            field: "input",
+            name: "wordCount",
+            required: true
+        }
+    ]
+},
+{
+    name: "Press Release",
+    desc: "An AI tool that generates a press release based on the provided event or product launch details.",
+    category: "Public Relations",
+    icon: "https://cdn-icons-png.flaticon.com/128/2562/2562783.png",
+    aiprompt: "Generate a press release based on the provided event or product launch details. Provide the result in a rich text editor format.",
+    slug: "Generate-Press-Release",
+    form: [
+        {
+            label: "Enter event/product launch details",
+            field: "textarea",
+            name: "eventDetails",
+            required: true
+        },
+        {
+            label: "Enter company name",
+            field: "input",
+            name: "companyName",
+        },
+        {
+            label: "Enter desired word count",
+            field: "input",
+            name: "wordCount",
+            required: true
+        }
+    ]
+},
+{
+    name: "Social Media Bio Generator",
+    desc: "An AI tool that generates a social media bio for platforms like Twitter, LinkedIn, etc.",
+    category: "Social Media",
+    icon: "https://cdn-icons-png.flaticon.com/128/733/733585.png",
+    aiprompt: "Generate a social media bio based on the provided personal or business information. Provide the result in a rich text editor format.",
+    slug: "Generate-Social-Media-Bio",
+    form: [
+        {
+            label: "Enter personal/business information",
+            field: "textarea",
+            name: "info",
+            required: true
+        },
+        {
+            label: "Enter target platform",
+            field: "input",
+            name: "platform",
+        },
+        {
+            label: "Enter desired word count",
+            field: "input",
+            name: "wordCount",
+            required: true
+        }
+    ]
+},
+{
+    name: "Video Script",
+    desc: "An AI tool that generates a script for creating a video based on a provided topic.",
+    category: "Video Production",
+    icon: "https://cdn-icons-png.flaticon.com/128/2601/2601999.png",
+    aiprompt: "Generate a video script based on the provided topic and target audience. Provide the result in a rich text editor format.",
+    slug: "Generate-Video-Script",
+    form: [
+        {
+            label: "Enter video topic",
+            field: "input",
+            name: "videoTopic",
+            required: true
+        },
+        {
+            label: "Enter target audience",
+            field: "input",
+            name: "audience",
+        },
+        {
+            label: "Enter desired word count",
+            field: "input",
+            name: "wordCount",
+            required: true
+        }
+    ]
+},
+{
+    name: "Customer Survey",
+    desc: "An AI tool that generates a customer survey to gather feedback.",
+    category: "Customer Service",
+    icon: "https://cdn-icons-png.flaticon.com/128/1077/1077114.png",
+    aiprompt: "Generate a customer survey based on the provided product/service and survey objectives. Provide the result in a rich text editor format.",
+    slug: "Generate-Customer-Survey",
+    form: [
+        {
+            label: "Enter product/service name",
+            field: "input",
+            name: "productName",
+            required: true
+        },
+        {
+            label: "Enter survey objectives",
+            field: "textarea",
+            name: "surveyObjectives",
+        },
+        {
+            label: "Enter desired word count",
+            field: "input",
+            name: "wordCount",
+            required: true
+        }
+    ]
+},
+{
+    name: "Customer Onboarding Email",
+    desc: "An AI tool that generates an email template for onboarding new customers.",
+    category: "Customer Service",
+    icon: "https://cdn-icons-png.flaticon.com/128/2667/2667274.png",
+    aiprompt: "Generate a customer onboarding email template based on the provided product/service details and onboarding process. Provide the result in a rich text editor format.",
+    slug: "Generate-Customer-Onboarding-Email",
+    form: [
+        {
+            label: "Enter product/service details",
+            field: "textarea",
+            name: "productServiceDetails",
+            required: true
+        },
+        {
+            label: "Enter onboarding process",
+            field: "textarea",
+            name: "onboardingProcess",
+        },
+        {
+            label: "Enter desired word count",
+            field: "input",
+            name: "wordCount",
+            required: true
+        }
+    ]
+},
+{
+    name: "Product FAQ",
+    desc: "An AI tool that generates a list of frequently asked questions for a product or service.",
+    category: "Customer Service",
+    icon: "https://cdn-icons-png.flaticon.com/128/3199/3199142.png",
+    aiprompt: "Generate a list of frequently asked questions based on the provided product/service details and customer inquiries. Provide the result in a rich text editor format.",
+    slug: "Generate-Product-FAQ",
+    form: [
+        {
+            label: "Enter product/service name",
+            field: "input",
+            name: "productName",
+            required: true
+        },
+        {
+            label: "Enter common customer inquiries",
+            field: "textarea",
+            name: "inquiries",
+        },
+        {
+            label: "Enter desired word count",
+            field: "input",
+            name: "wordCount",
+            required: true
+        }
+    ]
+},
+{
+    name: "User Manual",
+    desc: "An AI tool that generates a user manual based on product details.",
+    category: "Technical Writing",
+    icon: "https://cdn-icons-png.flaticon.com/128/1524/1524715.png",
+    aiprompt: "Generate a user manual based on the provided product details and user instructions. Provide the result in a rich text editor format.",
+    slug: "Generate-User-Manual",
+    form: [
+        {
+            label: "Enter product name",
+            field: "input",
+            name: "productName",
+            required: true
+        },
+        {
+            label: "Enter user instructions",
+            field: "textarea",
+            name: "instructions",
+        },
+        {
+            label: "Enter desired word count",
+            field: "input",
+            name: "wordCount",
+            required: true
+        }
+    ]
+},
+{
+    name: "Website Copy",
+    desc: "An AI tool that generates website copy based on the provided content strategy.",
+    category: "Web Development",
+    icon: "https://cdn-icons-png.flaticon.com/128/3563/3563400.png",
+    aiprompt: "Generate website copy based on the provided content strategy and target audience. Provide the result in a rich text editor format.",
+    slug: "Generate-Website-Copy",
+    form: [
+        {
+            label: "Enter content strategy",
+            field: "textarea",
+            name: "contentStrategy",
+            required: true
+        },
+        {
+            label: "Enter target audience",
+            field: "input",
+            name: "audience",
+        },
+        {
+            label: "Enter desired word count",
+            field: "input",
+            name: "wordCount",
+            required: true
+        }
+    ]
+},
+{
+    name: "Website Landing Page",
+    desc: "An AI tool that generates copy for a website landing page.",
+    category: "Web Development",
+    icon: "https://cdn-icons-png.flaticon.com/128/893/893131.png",
+    aiprompt: "Generate a landing page copy based on the provided content strategy and target audience. Provide the result in a rich text editor format.",
+    slug: "Generate-Website-Landing-Page",
+    form: [
+        {
+            label: "Enter content strategy",
+            field: "textarea",
+            name: "contentStrategy",
+            required: true
+        },
+        {
+            label: "Enter target audience",
+            field: "input",
+            name: "audience",
+        },
+        {
+            label: "Enter desired word count",
+            field: "input",
+            name: "wordCount",
+            required: true
+        }
+    ]
+},
+{
+    name: "Landing Page Wireframe",
+    desc: "An AI tool that generates a wireframe for a website landing page.",
+    category: "Web Development",
+    icon: "https://cdn-icons-png.flaticon.com/128/3143/3143460.png",
+    aiprompt: "Generate a wireframe for a landing page based on the provided content strategy and user experience goals. Provide the result in a wireframe editor format.",
+    slug: "Generate-Landing-Page-Wireframe",
+    form: [
+        {
+            label: "Enter content strategy",
+            field: "textarea",
+            name: "contentStrategy",
+            required: true
+        },
+        {
+            label: "Enter user experience goals",
+            field: "textarea",
+            name: "uxGoals",
+        }
+    ]
+},
+{
+    name: "App User Flow",
+    desc: "An AI tool that generates a user flow diagram for a mobile or web application.",
+    category: "Web Development",
+    icon: "https://cdn-icons-png.flaticon.com/128/3453/3453757.png",
+    aiprompt: "Generate a user flow diagram based on the provided app features and user journey. Provide the result in a diagram editor format.",
+    slug: "Generate-App-User-Flow",
+    form: [
+        {
+            label: "Enter app features",
+            field: "textarea",
+            name: "appFeatures",
+            required: true
+        },
+        {
+            label: "Enter user journey",
+            field: "textarea",
+            name: "userJourney",
+        }
+    ]
+},
+{
+    name: "App Wireframe",
+    desc: "An AI tool that generates a wireframe for a mobile or web application.",
+    category: "Web Development",
+    icon: "https://cdn-icons-png.flaticon.com/128/3039/3039471.png",
+    aiprompt: "Generate a wireframe for an application based on the provided app features and user experience goals. Provide the result in a wireframe editor format.",
+    slug: "Generate-App-Wireframe",
+    form: [
+        {
+            label: "Enter app features",
+            field: "textarea",
+            name: "appFeatures",
+            required: true
+        },
+        {
+            label: "Enter user experience goals",
+            field: "textarea",
+            name: "uxGoals",
+        }
+    ]
+},
+{
+    name: "Code Review",
+    desc: "An AI tool that performs a code review and provides suggestions for improvement.",
+    category: "Programming",
+    icon: "https://cdn-icons-png.flaticon.com/128/2809/2809383.png",
+    aiprompt: "Perform a code review based on the provided code snippet and coding standards. Provide the result in a code editor format.",
+    slug: "Generate-Code-Review",
+    form: [
+        {
+            label: "Enter code snippet",
+            field: "textarea",
+            name: "codeSnippet",
+            required: true
+        },
+        {
+            label: "Enter coding standards",
+            field: "textarea",
+            name: "codingStandards",
+        }
+    ]
+},
+{
+    name: "API Documentation",
+    desc: "An AI tool that generates API documentation based on provided code and endpoints.",
+    category: "Programming",
+    icon: "https://cdn-icons-png.flaticon.com/128/2913/2913775.png",
+    aiprompt: "Generate API documentation based on the provided code and endpoints. Provide the result in a rich text editor format.",
+    slug: "Generate-API-Documentation",
+    form: [
+        {
+            label: "Enter code snippet",
+            field: "textarea",
+            name: "codeSnippet",
+            required: true
+        },
+        {
+            label: "Enter endpoints",
+            field: "textarea",
+            name: "endpoints",
+        },
+        {
+            label: "Enter desired word count",
+            field: "input",
+            name: "wordCount",
+            required: true
+        }
+    ]
+},
+{
+    name: "Bug Report",
+    desc: "An AI tool that generates a detailed bug report based on user input.",
+    category: "Programming",
+    icon: "https://cdn-icons-png.flaticon.com/128/3114/3114808.png",
+    aiprompt: "Generate a bug report based on the provided bug description and steps to reproduce. Provide the result in a rich text editor format.",
+    slug: "Generate-Bug-Report",
+    form: [
+        {
+            label: "Enter bug description",
+            field: "textarea",
+            name: "bugDescription",
+            required: true
+        },
+        {
+            label: "Enter steps to reproduce",
+            field: "textarea",
+            name: "stepsToReproduce",
+        },
+        {
+            label: "Enter expected outcome",
+            field: "input",
+            name: "expectedOutcome",
+            required: true
+        },
+        {
+            label: "Enter actual outcome",
+            field: "input",
+            name: "actualOutcome",
+            required: true
+        }
+    ]
+},
+{
+    name: "Tech Stack Recommendation",
+    desc: "An AI tool that recommends a technology stack for web or mobile applications.",
+    category: "Programming",
+    icon: "https://cdn-icons-png.flaticon.com/128/3064/3064435.png",
+    aiprompt: "Recommend a technology stack for the given web or mobile application based on the provided project requirements and development goals. Provide the result in a rich text editor format.",
+    slug: "Generate-Tech-Stack-Recommendation",
+    form: [
+        {
+            label: "Enter project requirements",
+            field: "textarea",
+            name: "projectRequirements",
+            required: true
+        },
+        {
+            label: "Enter development goals",
+            field: "textarea",
+            name: "developmentGoals",
+        }
+    ]
+},
+{
+    name: "User Persona",
+    desc: "An AI tool that generates user personas based on the target audience.",
+    category: "User Experience",
+    icon: "https://cdn-icons-png.flaticon.com/128/3872/3872626.png",
+    aiprompt: "Generate user personas based on the provided target audience and user behavior data. Provide the result in a rich text editor format.",
+    slug: "Generate-User-Persona",
+    form: [
+        {
+            label: "Enter target audience",
+            field: "textarea",
+            name: "audience",
+            required: true
+        },
+        {
+            label: "Enter user behavior data",
+            field: "textarea",
+            name: "userBehavior",
+        }
+    ]
+},
+{
+    name: "Wireframe Analysis",
+    desc: "An AI tool that analyzes wireframes for usability and design effectiveness.",
+    category: "User Experience",
+    icon: "https://cdn-icons-png.flaticon.com/128/3520/3520709.png",
+    aiprompt: "Analyze the provided wireframe for usability and design effectiveness based on the provided design principles and user experience goals. Provide the result in a wireframe editor format.",
+    slug: "Generate-Wireframe-Analysis",
+    form: [
+        {
+            label: "Enter wireframe design",
+            field: "textarea",
+            name: "wireframeDesign",
+            required: true
+        },
+        {
+            label: "Enter design principles",
+            field: "textarea",
+            name: "designPrinciples",
+        },
+        {
+            label: "Enter user experience goals",
+            field: "textarea",
+            name: "uxGoals",
+        }
+    ]
+},
+{
+    name: "A/B Test Hypothesis",
+    desc: "An AI tool that generates a hypothesis for A/B testing based on the provided experiment details.",
+    category: "User Experience",
+    icon: "https://cdn-icons-png.flaticon.com/128/2542/2542099.png",
+    aiprompt: "Generate a hypothesis for A/B testing based on the provided experiment details and user experience goals. Provide the result in a rich text editor format.",
+    slug: "Generate-AB-Test-Hypothesis",
+    form: [
+        {
+            label: "Enter experiment details",
+            field: "textarea",
+            name: "experimentDetails",
+            required: true
+        },
+        {
+            label: "Enter user experience goals",
+            field: "textarea",
+            name: "uxGoals",
+        }
+    ]
+},
+{
+    name: "UX Design Critique",
+    desc: "An AI tool that provides a critique of UX design based on usability principles.",
+    category: "User Experience",
+    icon: "https://cdn-icons-png.flaticon.com/128/3064/3064437.png",
+    aiprompt: "Provide a critique of the provided UX design based on usability principles and design effectiveness. Provide the result in a rich text editor format.",
+    slug: "Generate-UX-Design-Critique",
+    form: [
+        {
+            label: "Enter UX design",
+            field: "textarea",
+            name: "uxDesign",
+            required: true
+        },
+        {
+            label: "Enter usability principles",
+            field: "textarea",
+            name: "usabilityPrinciples",
+        }
+    ]
+},
+{
+    name: "User Journey Map",
+    desc: "An AI tool that generates a user journey map based on user personas and user experience goals.",
+    category: "User Experience",
+    icon: "https://cdn-icons-png.flaticon.com/128/1239/1239396.png",
+    aiprompt: "Generate a user journey map based on the provided user personas and user experience goals. Provide the result in a diagram editor format.",
+    slug: "Generate-User-Journey-Map",
+    form: [
+        {
+            label: "Enter user personas",
+            field: "textarea",
+            name: "userPersonas",
+            required: true
+        },
+        {
+            label: "Enter user experience goals",
+            field: "textarea",
+            name: "uxGoals",
+        }
+    ]
+},
+{
+    name: "Event Invitation Generator",
+    desc: "An AI tool that generates event invitations based on the event details.",
+    category: "Event Management",
+    icon: "https://cdn-icons-png.flaticon.com/128/875/875548.png",
+    aiprompt: "Generate an event invitation based on the provided event details and theme. Provide the result in a rich text editor format.",
+    slug: "Generate-Event-Invitation",
+    form: [
+        {
+            label: "Enter event name",
+            field: "input",
+            name: "eventName",
+            required: true
+        },
+        {
+            label: "Enter event date and time",
+            field: "input",
+            name: "eventDateTime",
+        },
+        {
+            label: "Enter event location",
+            field: "input",
+            name: "eventLocation",
+        },
+        {
+            label: "Enter theme or style",
+            field: "input",
+            name: "eventTheme",
+        }
+    ]
+},
+{
+    name: "Podcast Script Generator",
+    desc: "An AI tool that generates a script for podcasts based on the topic and target audience.",
+    category: "Podcasting",
+    icon: "https://cdn-icons-png.flaticon.com/128/3673/3673892.png",
+    aiprompt: "Generate a podcast script based on the provided topic and target audience. Provide the result in a rich text editor format.",
+    slug: "Generate-Podcast-Script",
+    form: [
+        {
+            label: "Enter podcast topic",
+            field: "input",
+            name: "podcastTopic",
+            required: true
+        },
+        {
+            label: "Enter target audience",
+            field: "input",
+            name: "audience",
+        },
+        {
+            label: "Enter desired duration",
+            field: "input",
+            name: "duration",
+        }
+    ]
+},
+{
+    name: "Sales Pitch Generator",
+    desc: "An AI tool that creates compelling sales pitches for products or services.",
+    category: "Sales",
+    icon: "https://cdn-icons-png.flaticon.com/128/3201/3201827.png",
+    aiprompt: "Generate a sales pitch based on the provided product/service details and target market. Provide the result in a rich text editor format.",
+    slug: "Generate-Sales-Pitch",
+    form: [
+        {
+            label: "Enter product/service name",
+            field: "input",
+            name: "productName",
+            required: true
+        },
+        {
+            label: "Enter product/service features",
+            field: "textarea",
+            name: "features",
+        },
+        {
+            label: "Enter target market",
+            field: "input",
+            name: "targetMarket",
+        },
+        {
+            label: "Enter desired pitch length",
+            field: "input",
+            name: "pitchLength",
+        }
+    ]
+},
+{
+    name: "Job Description Generator",
+    desc: "An AI tool that creates job descriptions based on the role and company details.",
+    category: "Human Resources",
+    icon: "https://cdn-icons-png.flaticon.com/128/892/892781.png",
+    aiprompt: "Generate a job description based on the provided role and company details. Provide the result in a rich text editor format.",
+    slug: "Generate-Job-Description",
+    form: [
+        {
+            label: "Enter role name",
+            field: "input",
+            name: "roleName",
+            required: true
+        },
+        {
+            label: "Enter company name",
+            field: "input",
+            name: "companyName",
+        },
+        {
+            label: "Enter role responsibilities",
+            field: "textarea",
+            name: "responsibilities",
+        },
+        {
+            label: "Enter required qualifications",
+            field: "textarea",
+            name: "qualifications",
+        }
+    ]
+},
+{
+    name: "Customer Testimonial Generator",
+    desc: "An AI tool that generates customer testimonials based on feedback.",
+    category: "Customer Service",
+    icon: "https://cdn-icons-png.flaticon.com/128/2859/2859375.png",
+    aiprompt: "Generate a customer testimonial based on the provided feedback and product/service details. Provide the result in a rich text editor format.",
+    slug: "Generate-Customer-Testimonial",
+    form: [
+        {
+            label: "Enter customer feedback",
+            field: "textarea",
+            name: "feedback",
+            required: true
+        },
+        {
+            label: "Enter product/service name",
+            field: "input",
+            name: "productName",
+        },
+        {
+            label: "Enter customer name (optional)",
+            field: "input",
+            name: "customerName",
+        }
+    ]
+},
+{
+    name: "Recipe Generator",
+    desc: "An AI tool that generates recipes based on available ingredients.",
+    category: "Food & Beverage",
+    icon: "https://cdn-icons-png.flaticon.com/128/2921/2921828.png",
+    aiprompt: "Generate a recipe based on the provided ingredients and desired cuisine. Provide the result in a rich text editor format.",
+    slug: "Generate-Recipe",
+    form: [
+        {
+            label: "Enter available ingredients",
+            field: "textarea",
+            name: "ingredients",
+            required: true
+        },
+        {
+            label: "Enter desired cuisine",
+            field: "input",
+            name: "cuisine",
+        },
+        {
+            label: "Enter serving size",
+            field: "input",
+            name: "servingSize",
+        }
+    ]
+},
+{
+    name: "Daily Planner Generator",
+    desc: "An AI tool that generates daily plans based on tasks and goals.",
+    category: "Productivity",
+    icon: "https://cdn-icons-png.flaticon.com/128/2945/2945364.png",
+    aiprompt: "Generate a daily planner based on the provided tasks and goals. Provide the result in a rich text editor format.",
+    slug: "Generate-Daily-Planner",
+    form: [
+        {
+            label: "Enter tasks",
+            field: "textarea",
+            name: "tasks",
+            required: true
+        },
+        {
+            label: "Enter daily goals",
+            field: "textarea",
+            name: "goals",
+        },
+        {
+            label: "Enter time availability",
+            field: "input",
+            name: "timeAvailability",
+        }
+    ]
+},
+{
+    name: "Meditation Script Generator",
+    desc: "An AI tool that creates meditation scripts based on themes and objectives.",
+    category: "Health & Wellness",
+    icon: "https://cdn-icons-png.flaticon.com/128/2173/2173852.png",
+    aiprompt: "Generate a meditation script based on the provided themes and objectives. Provide the result in a rich text editor format.",
+    slug: "Generate-Meditation-Script",
+    form: [
+        {
+            label: "Enter meditation theme",
+            field: "input",
+            name: "theme",
+            required: true
+        },
+        {
+            label: "Enter meditation objective",
+            field: "textarea",
+            name: "objective",
+        },
+        {
+            label: "Enter desired duration",
+            field: "input",
+            name: "duration",
+        }
+    ]
+},
+{
+    name: "Workshop Agenda Generator",
+    desc: "An AI tool that generates a detailed workshop agenda based on the topic and participants.",
+    category: "Event Planning",
+    icon: "https://cdn-icons-png.flaticon.com/128/3114/3114193.png",
+    aiprompt: "Generate a workshop agenda based on the provided topic and participants. Provide the result in a rich text editor format.",
+    slug: "Generate-Workshop-Agenda",
+    form: [
+        {
+            label: "Enter workshop topic",
+            field: "input",
+            name: "topic",
+            required: true
+        },
+        {
+            label: "Enter participant details",
+            field: "textarea",
+            name: "participants",
+        },
+        {
+            label: "Enter desired duration",
+            field: "input",
+            name: "duration",
+        }
+    ]
+},
+{
+    name: "Affiliate Marketing Copy",
+    desc: "An AI tool that generates marketing copy for affiliate products.",
+    category: "Affiliate Marketing",
+    icon: "https://cdn-icons-png.flaticon.com/128/2529/2529956.png",
+    aiprompt: "Generate marketing copy for the provided affiliate product based on the target audience and product features. Provide the result in a rich text editor format.",
+    slug: "Generate-Affiliate-Marketing-Copy",
+    form: [
+        {
+            label: "Enter product name",
+            field: "input",
+            name: "productName",
+            required: true
+        },
+        {
+            label: "Enter product features",
+            field: "textarea",
+            name: "features",
+        },
+        {
+            label: "Enter target audience",
+            field: "input",
+            name: "audience",
+        },
+        {
+            label: "Enter desired word count",
+            field: "input",
+            name: "wordCount",
+        }
+    ]
+},
+{
+    name: "Training Module Generator",
+    desc: "An AI tool that generates training modules based on the subject matter.",
+    category: "Education",
+    icon: "https://cdn-icons-png.flaticon.com/128/3287/3287136.png",
+    aiprompt: "Generate a training module based on the provided subject matter and learning objectives. Provide the result in a rich text editor format.",
+    slug: "Generate-Training-Module",
+    form: [
+        {
+            label: "Enter subject matter",
+            field: "input",
+            name: "subjectMatter",
+            required: true
+        },
+        {
+            label: "Enter learning objectives",
+            field: "textarea",
+            name: "objectives",
+        },
+        {
+            label: "Enter desired duration",
+            field: "input",
+            name: "duration",
+        }
+    ]
+},
+{
+    name: "Social Media Calendar",
+    desc: "An AI tool that generates a social media content calendar.",
+    category: "Social Media Marketing",
+    icon: "https://cdn-icons-png.flaticon.com/128/1384/1384063.png",
+    aiprompt: "Generate a social media content calendar based on the provided content strategy and target audience. Provide the result in a rich text editor format.",
+    slug: "Generate-Social-Media-Calendar",
+    form: [
+        {
+            label: "Enter content strategy",
+            field: "textarea",
+            name: "contentStrategy",
+            required: true
+        },
+        {
+            label: "Enter target audience",
+            field: "input",
+            name: "audience",
+        },
+        {
+            label: "Enter time frame (e.g., weekly, monthly)",
+            field: "input",
+            name: "timeFrame",
+        }
+    ]
+},
+{
+    name: "Press Release Generator",
+    desc: "An AI tool that generates press releases based on the event or announcement.",
+    category: "Public Relations",
+    icon: "https://cdn-icons-png.flaticon.com/128/875/875526.png",
+    aiprompt: "Generate a press release based on the provided event or announcement details. Provide the result in a rich text editor format.",
+    slug: "Generate-Press-Release",
+    form: [
+        {
+            label: "Enter event or announcement details",
+            field: "textarea",
+            name: "eventDetails",
+            required: true
+        },
+        {
+            label: "Enter company name",
+            field: "input",
+            name: "companyName",
+        },
+        {
+            label: "Enter contact information",
+            field: "input",
+            name: "contactInfo",
+        }
+    ]
+},
+{
+    name: "Fashion Lookbook Generator",
+    desc: "An AI tool that generates fashion lookbooks based on the season and style.",
+    category: "Fashion",
+    icon: "https://cdn-icons-png.flaticon.com/128/4387/4387197.png",
+    aiprompt: "Generate a fashion lookbook based on the provided season and style preferences. Provide the result in a rich text editor format.",
+    slug: "Generate-Fashion-Lookbook",
+    form: [
+        {
+            label: "Enter season",
+            field: "input",
+            name: "season",
+            required: true
+        },
+        {
+            label: "Enter style preferences",
+            field: "textarea",
+            name: "stylePreferences",
+        },
+        {
+            label: "Enter target audience",
+            field: "input",
+            name: "audience",
+        }
+    ]
+},
+{
+    name: "Real Estate Listing Description",
+    desc: "An AI tool that generates descriptions for real estate listings.",
+    category: "Real Estate",
+    icon: "https://cdn-icons-png.flaticon.com/128/893/893255.png",
+    aiprompt: "Generate a real estate listing description based on the provided property details and target market. Provide the result in a rich text editor format.",
+    slug: "Generate-Real-Estate-Listing-Description",
+    form: [
+        {
+            label: "Enter property details",
+            field: "textarea",
+            name: "propertyDetails",
+            required: true
+        },
+        {
+            label: "Enter target market",
+            field: "input",
+            name: "targetMarket",
+        },
+        {
+            label: "Enter desired word count",
+            field: "input",
+            name: "wordCount",
+        }
+    ]
+},
+{
+    name: "Financial Report Generator",
+    desc: "An AI tool that generates financial reports based on the provided data.",
+    category: "Finance",
+    icon: "https://cdn-icons-png.flaticon.com/128/2635/2635728.png",
+    aiprompt: "Generate a financial report based on the provided financial data and report type. Provide the result in a rich text editor format.",
+    slug: "Generate-Financial-Report",
+    form: [
+        {
+            label: "Enter financial data",
+            field: "textarea",
+            name: "financialData",
+            required: true
+        },
+        {
+            label: "Enter report type (e.g., quarterly, annual)",
+            field: "input",
+            name: "reportType",
+        },
+        {
+            label: "Enter desired word count",
+            field: "input",
+            name: "wordCount",
+        }
+    ]
+},
+{
+    name: "Personalized Gift Ideas",
+    desc: "An AI tool that generates personalized gift ideas based on recipient details.",
+    category: "Gift Giving",
+    icon: "https://cdn-icons-png.flaticon.com/128/2342/2342066.png",
+    aiprompt: "Generate personalized gift ideas based on the provided recipient details and occasion. Provide the result in a rich text editor format.",
+    slug: "Generate-Personalized-Gift-Ideas",
+    form: [
+        {
+            label: "Enter recipient details (age, interests, etc.)",
+            field: "textarea",
+            name: "recipientDetails",
+            required: true
+        },
+        {
+            label: "Enter occasion",
+            field: "input",
+            name: "occasion",
+        },
+        {
+            label: "Enter budget",
+            field: "input",
+            name: "budget",
+        }
+    ]
+},
+{
+    name: "Resume Builder",
+    desc: "An AI tool that generates a resume based on user input.",
+    category: "Career Development",
+    icon: "https://cdn-icons-png.flaticon.com/128/4712/4712312.png",
+    aiprompt: "Generate a resume based on the provided user input and job role. Provide the result in a rich text editor format.",
+    slug: "Generate-Resume",
+    form: [
+        {
+            label: "Enter personal information",
+            field: "textarea",
+            name: "personalInfo",
+            required: true
+        },
+        {
+            label: "Enter job role",
+            field: "input",
+            name: "jobRole",
+        },
+        {
+            label: "Enter work experience",
+            field: "textarea",
+            name: "workExperience",
+        },
+        {
+            label: "Enter education details",
+            field: "textarea",
+            name: "education",
+        }
+    ]
+},
+{
+    name: "Email Campaign Generator",
+    desc: "An AI tool that generates email campaigns based on the marketing strategy.",
+    category: "Email Marketing",
+    icon: "https://cdn-icons-png.flaticon.com/128/732/732200.png",
+    aiprompt: "Generate an email campaign based on the provided marketing strategy and target audience. Provide the result in a rich text editor format.",
+    slug: "Generate-Email-Campaign",
+    form: [
+        {
+            label: "Enter marketing strategy",
+            field: "textarea",
+            name: "marketingStrategy",
+            required: true
+        },
+        {
+            label: "Enter target audience",
+            field: "input",
+            name: "audience",
+        },
+        {
+            label: "Enter campaign goal",
+            field: "input",
+            name: "campaignGoal",
+        }
+    ]
+},
+{
+    name: "Market Research Report",
+    desc: "An AI tool that generates market research reports based on the provided data.",
+    category: "Market Research",
+    icon: "https://cdn-icons-png.flaticon.com/128/3050/3050217.png",
+    aiprompt: "Generate a market research report based on the provided data and industry insights. Provide the result in a rich text editor format.",
+    slug: "Generate-Market-Research-Report",
+    form: [
+        {
+            label: "Enter research data",
+            field: "textarea",
+            name: "researchData",
+            required: true
+        },
+        {
+            label: "Enter industry insights",
+            field: "textarea",
+            name: "industryInsights",
+        },
+        {
+            label: "Enter report type (e.g., SWOT analysis, trend analysis)",
+            field: "input",
+            name: "reportType",
+        }
+    ]
+},
+{
+    name: "Virtual Tour Script",
+    desc: "An AI tool that generates scripts for virtual tours based on the location or property.",
+    category: "Tourism",
+    icon: "https://cdn-icons-png.flaticon.com/128/2944/2944790.png",
+    aiprompt: "Generate a virtual tour script based on the provided location or property details. Provide the result in a rich text editor format.",
+    slug: "Generate-Virtual-Tour-Script",
+    form: [
+        {
+            label: "Enter location or property details",
+            field: "textarea",
+            name: "propertyDetails",
+            required: true
+        },
+        {
+            label: "Enter target audience",
+            field: "input",
+            name: "audience",
+        },
+        {
+            label: "Enter desired tour duration",
+            field: "input",
+            name: "tourDuration",
+        }
+    ]
+},
 ];
+
+export default Templates;

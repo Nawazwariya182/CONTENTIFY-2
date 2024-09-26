@@ -8,7 +8,7 @@ const inter = Inter({ subsets: ["latin"] });
 export const metadata: Metadata = {
   title: "ContentiFy",
   description: "Created by NW",
-  // icons: '/logo.svg'
+  icons: '/logo1.svg'
 };
 
 export default function RootLayout({
@@ -17,6 +17,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
+
     <ClerkProvider>
     <html lang="en">
       <head>

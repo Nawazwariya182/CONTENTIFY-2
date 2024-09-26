@@ -2,12 +2,15 @@ import { Button } from "@/components/ui/button";
 import { BarChartIcon, BoltIcon, BriefcaseIcon, FacebookIcon, InstagramIcon, LaptopIcon, LinkedinIcon, PaletteIcon, PencilIcon, TwitterIcon, YoutubeIcon } from "lucide-react";
 import Image from "next/image";
 import Link from 'next/link'
+import Footer from "./dashboard/_component/Footer";
 
 export default function Home() {
   return (
-<div className="flex flex-col min-h-[100dvh] font-p
-">
-      <header className="bg-primary text-primary-foreground py-12 md:py-20">
+<div className="flex flex-col min-h-[100dvh] font-p"style={{ cursor: 'url(/curs.png), auto' }}>
+      <header className="text-primary-foreground py-12 md:py-20" style={{ 
+      background: 'url("/Back.svg") no-repeat center center', 
+      backgroundSize: 'cover'
+    }}>
         <div className="container px-4 md:px-6">
           <div className="grid gap-6 lg:grid-cols-2 lg:items-center">
             <div className="space-y-4">
@@ -22,7 +25,7 @@ export default function Home() {
                 <Link href={'/dashboard'}>
                 <Button
                   className="inline-flex items-center justify-center rounded-md bg-primary-foreground px-6 py-3 text-sm font-medium text-primary transition-colors hover:bg-gray-900 hover:text-white focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
-                >
+                  style={{ cursor: 'url(/poin.png), auto' }}>
                   Get Started
                 </Button>
                 </Link>
@@ -30,7 +33,7 @@ export default function Home() {
             </div>
             <div className="flex justify-center">
               <img
-                src="/logo.svg"
+                src="/logo1.svg"
                 width="500"
                 height="500"
                 alt="Hero"
@@ -94,7 +97,7 @@ export default function Home() {
           </div>
         </section>
       </main>
-      <div className="bg-muted text-muted-foreground py-6 w-full shrink-0">
+      {/* <div className="bg-muted text-muted-foreground py-6 w-full shrink-0">
         <div className="container px-4 md:px-6 flex flex-col md:flex-row items-center justify-between gap-4">
           <p className="text-sm">&copy; 2024 AI Content Creator. All rights reserved.</p>
           <div className="flex items-center gap-4">
@@ -116,7 +119,8 @@ export default function Home() {
               </Link>
             </div>
           </div>
-        </div>
+        </div> */}
+        <Footer/>
       </div>
   
   );

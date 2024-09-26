@@ -7,8 +7,9 @@ import React from 'react'
 import UsageTrack from './UsageTrack'
 import { Menu } from '@headlessui/react'
 import { ChevronDownIcon } from '@heroicons/react/20/solid'
+import { Search } from 'lucide-react'
 
-function Header() {
+function Header({onSearchInput}:any) {
   const path = usePathname()
 
   return (
@@ -19,7 +20,9 @@ function Header() {
         <div className='block md:hidden'>
           <Menu as="div" className="relative">
             <Menu.Button className="flex items-center py-3 px-4 text-sm font-medium text-gray-800 focus:outline-none">
-              <Image src={'/logo.svg'} width={50} height={50} alt='Logo'  />
+              <Link href={"/dashboard"}>
+              <Image src={'/logo.svg'} width={50} height={50} alt='Logo' style={{ cursor: 'url(/poin.png), auto' }} />
+              </Link>
               {/* <ChevronDownIcon className="h-5 w-5 ml-2" /> */}
             </Menu.Button>
             <Menu.Items className="absolute left-0 top-full mt-2 w-48 bg-white shadow-md rounded-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
@@ -39,36 +42,39 @@ function Header() {
               </Menu.Item>
               <Menu.Item>
                 {({ active }) => (
-                  <Link href="/dashboard/settings">
-                    <div className={`block px-4 py-2 text-sm ${active ? 'bg-gray-100' : ''}`}>Setting</div>
+                  <Link href="/dashboard/How">
+                    <div className={`block px-4 py-2 text-sm ${active ? 'bg-gray-100' : ''}`}>How it Works?</div>
                   </Link>
                 )}
               </Menu.Item>
             </Menu.Items>
           </Menu>
+          
         </div>
         
         {/* Static Logo for Medium and Large Screens */}
         <div className='hidden md:block'>
-          <Image src={'/logo.svg'} width={50} height={50} alt='Logo' />
+          <Link href={"/dashboard"}>
+          <Image src={'/logo.svg'} width={50} height={50} alt='Logo' style={{ cursor: 'url(/poin.png), auto' }}/>
+          </Link>
         </div>
       </div>
 
       {/* Desktop Menu */}
-      <ul className='hidden md:flex gap-6 items-center z-10'>
-        <Link href={"/dashboard"}>
-          <li className={`hover:text-primary hover:font-bold transition-all cursor-pointer ${path === '/dashboard' ? 'text-primary font-extrabold' : ''}`}>Home</li>
-        </Link>
-        <Link href={"/dashboard/History"}>
-          <li className={`hover:text-primary hover:font-bold transition-all cursor-pointer ${path === '/dashboard/History' ? 'text-primary font-extrabold' : ''}`}>History</li>
-        </Link>
-        <Link href={"/dashboard/settings"}>
-          <li className={`hover:text-primary hover:font-bold transition-all cursor-pointer ${path === '/dashboard/settings/security' ? 'text-primary font-extrabold' : '/dashboard/settings' ? 'text-primary font-extrabold' : '' }`}>Setting</li>
-        </Link>
-      </ul>
 
       {/* User Button */}
-      <div className='flex-shrink-0 z-100'>
+      <div className='flex gap-6 z-100'>
+      <ul className='hidden md:flex gap-6 items-center z-10'>
+        <Link href={"/dashboard"}>
+          <li className={`hover:text-primary hover:font-bold transition-all cursor-pointer ${path === '/dashboard' ? 'text-primary font-extrabold' : ''}`}style={{ cursor: 'url(/poin.png), auto' }}>Home</li>
+        </Link>
+        <Link href={"/dashboard/History"}>
+          <li className={`hover:text-primary hover:font-bold transition-all cursor-pointer ${path === '/dashboard/History' ? 'text-primary font-extrabold' : ''}`}style={{ cursor: 'url(/poin.png), auto' }}>History</li>
+        </Link>
+        <Link href={"/dashboard/How"}>
+          <li className={`hover:text-primary hover:font-bold transition-all cursor-pointer ${path === '/dashboard/How' ? 'text-primary font-extrabold': ''}`}style={{ cursor: 'url(/poin.png), auto' }}>How it Works?</li>
+        </Link>
+      </ul>
         <UserButton />
       </div>
 
