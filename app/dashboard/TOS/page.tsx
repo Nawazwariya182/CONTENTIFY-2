@@ -4,7 +4,7 @@ export default function Component() {
   return (
     <div className="flex flex-col min-h-[100dvh] bg-background">
       <main className="container mx-auto py-12 px-4 sm:px-6 lg:px-8">
-        <h1 className="text-3xl font-bold mb-8">Terms of Service</h1>
+        <h1 className="text-3xl font-bold mb-8 text-acc">Terms of Service</h1>
         <div className="grid grid-cols-1 md:grid-cols-[200px_1fr] gap-8">
           <nav className="bg-muted rounded-lg p-4 sticky top-4">
             <h2 className="text-lg font-medium mb-4">Table of Contents</h2>

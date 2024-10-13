@@ -9,7 +9,7 @@ export default function Component() {
         <section className="w-full py-12 md:py-24 lg:py-32">
           <div className="container grid max-w-5xl gap-12 px-4 md:px-6">
             <div className="space-y-2 flex flex-col text-center">
-              <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">Meet the Team</h2>
+              <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">Meet the <span className="text-acc">Team</span></h2>
               <p className="max-w-[700px] flex text-center text-muted-foreground md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
                 Our dedicated team is here to help you with all your needs.
               </p>
@@ -24,13 +24,13 @@ export default function Component() {
                   <h4 className="text-lg font-medium">Nawaz Wariya</h4>
                   <p className="text-sm text-muted-foreground">CEO, Manager & Senior Developer</p>
                   <div className="flex items-center justify-center gap-2">
-                    <Link href="#" className="text-muted-foreground hover:text-primary" prefetch={false}>
+                    <Link href="#" className="text-muted-foreground hover:text-prim" prefetch={false}>
                       <LinkedinIcon className="h-5 w-5" />
                     </Link>
-                    <Link href="#" className="text-muted-foreground hover:text-primary" prefetch={false}>
+                    <Link href="#" className="text-muted-foreground hover:text-prim" prefetch={false}>
                       <TwitterIcon className="h-5 w-5" />
                     </Link>
-                    <Link href="#" className="text-muted-foreground hover:text-primary" prefetch={false}>
+                    <Link href="#" className="text-muted-foreground hover:text-prim" prefetch={false}>
                       <GitlabIcon className="h-5 w-5" />
                     </Link>
                   </div>
@@ -45,13 +45,13 @@ export default function Component() {
                   <h4 className="text-lg font-medium">Shaikh Tabish</h4>
                   <p className="text-sm text-muted-foreground">CTO</p>
                   <div className="flex items-center justify-center gap-2">
-                    <Link href="#" className="text-muted-foreground hover:text-primary" prefetch={false}>
+                    <Link href="#" className="text-muted-foreground hover:text-prim" prefetch={false}>
                       <LinkedinIcon className="h-5 w-5" />
                     </Link>
-                    <Link href="#" className="text-muted-foreground hover:text-primary" prefetch={false}>
+                    <Link href="#" className="text-muted-foreground hover:text-prim" prefetch={false}>
                       <TwitterIcon className="h-5 w-5" />
                     </Link>
-                    <Link href="#" className="text-muted-foreground hover:text-primary" prefetch={false}>
+                    <Link href="#" className="text-muted-foreground hover:text-prim" prefetch={false}>
                       <GitlabIcon className="h-5 w-5" />
                     </Link>
                   </div>
@@ -66,13 +66,13 @@ export default function Component() {
                   <h4 className="text-lg font-medium">Zaid Shaikh</h4>
                   <p className="text-sm text-muted-foreground">Lead Designer & Content Creator</p>
                   <div className="flex items-center justify-center gap-2">
-                    <Link href="#" className="text-muted-foreground hover:text-primary" prefetch={false}>
+                    <Link href="#" className="text-muted-foreground hover:text-prim" prefetch={false}>
                       <LinkedinIcon className="h-5 w-5" />
                     </Link>
-                    <Link href="#" className="text-muted-foreground hover:text-primary" prefetch={false}>
+                    <Link href="#" className="text-muted-foreground hover:text-prim" prefetch={false}>
                       <TwitterIcon className="h-5 w-5" />
                     </Link>
-                    <Link href="#" className="text-muted-foreground hover:text-primary" prefetch={false}>
+                    <Link href="#" className="text-muted-foreground hover:text-prim" prefetch={false}>
                       <GitlabIcon className="h-5 w-5" />
                     </Link>
                   </div>
@@ -87,13 +87,13 @@ export default function Component() {
                   <h4 className="text-lg font-medium">Mustafa Shaikh</h4>
                   <p className="text-sm text-muted-foreground">Market Manager</p>
                   <div className="flex items-center justify-center gap-2">
-                    <Link href="#" className="text-muted-foreground hover:text-primary" prefetch={false}>
+                    <Link href="#" className="text-muted-foreground hover:text-prim" prefetch={false}>
                       <LinkedinIcon className="h-5 w-5" />
                     </Link>
-                    <Link href="#" className="text-muted-foreground hover:text-primary" prefetch={false}>
+                    <Link href="#" className="text-muted-foreground hover:text-prim" prefetch={false}>
                       <TwitterIcon className="h-5 w-5" />
                     </Link>
-                    <Link href="#" className="text-muted-foreground hover:text-primary" prefetch={false}>
+                    <Link href="#" className="text-muted-foreground hover:text-prim" prefetch={false}>
                       <GitlabIcon className="h-5 w-5" />
                     </Link>
                   </div>

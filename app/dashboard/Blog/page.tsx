@@ -96,7 +96,7 @@ export default function Component() {
         </div>
         <div className="w-full md:w-80 space-y-8">
           <div className="space-y-4">
-            <h3 className="text-lg font-semibold">Categories</h3>
+            <h3 className="text-lg font-semibold text-acc">Categories</h3>
             <div className="grid gap-2">
               <Link href="#" className="text-sm font-medium hover:underline underline-offset-4" prefetch={false}style={{ cursor: 'url(/poin.png), auto' }}>
                 AI and Machine Learning

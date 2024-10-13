@@ -7,7 +7,7 @@ const config = {
     './components/**/*.{ts,tsx}',
     './app/**/*.{ts,tsx}',
     './src/**/*.{ts,tsx}',
-	],
+  ],
   prefix: "",
   theme: {
     container: {
@@ -52,6 +52,12 @@ const config = {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
         },
+        // Your custom colors
+        'text': '#050315',
+        'back': '#fbfbfe',
+        'prim': '#2f27ce',
+        'second': '#dedcff',
+        'acc': '#514BFA',
       },
       borderRadius: {
         lg: "var(--radius)",

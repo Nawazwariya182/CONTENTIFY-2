@@ -6,7 +6,7 @@ import { ClerkProvider } from "@clerk/nextjs";
 function Dashboard(){
     const [UserSearchInput,SetUserSearchinput]= useState<string>()
 return (
-        <div>
+        <div className="overflow-y-auto">
             {
                 
             }

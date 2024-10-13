@@ -1,127 +1,166 @@
 import { Button } from "@/components/ui/button";
-import { BarChartIcon, BoltIcon, BriefcaseIcon, FacebookIcon, InstagramIcon, LaptopIcon, LinkedinIcon, PaletteIcon, PencilIcon, TwitterIcon, YoutubeIcon } from "lucide-react";
+import { Card, CardContent } from "@/components/ui/card";
+import { BarChartIcon, BoltIcon, BriefcaseIcon, InstagramIcon, LaptopIcon, LinkedinIcon, PaletteIcon, PencilIcon, YoutubeIcon } from "lucide-react";
 import Image from "next/image";
-import Link from 'next/link'
-import Footer from "./dashboard/_component/Footer";
+import Link from "next/link";
 
 export default function Home() {
   return (
-<div className="flex flex-col min-h-[100dvh] font-p"style={{ cursor: 'url(/curs.png), auto' }}>
-      <header className="text-primary-foreground py-12 md:py-20" style={{ 
-      background: 'url("/Back.svg") no-repeat center center', 
-      backgroundSize: 'cover'
-    }}>
-        <div className="container px-4 md:px-6">
-          <div className="grid gap-6 lg:grid-cols-2 lg:items-center">
-            <div className="space-y-4">
-              <h1 className="text-4xl font-bold tracking-tight sm:text-5xl md:text-6xl">
-                Unleash Your Creativity with AI
-              </h1>
-              <p className="max-w-[600px] text-lg text-primary-foreground/80">
-                Discover the power of AI-driven content creation. Our platform helps you generate high-quality, engaging
-                content with ease.
-              </p>
-              <div>
-                <Link href={'/dashboard'}>
-                <Button
-                  className="inline-flex items-center justify-center rounded-md bg-primary-foreground px-6 py-3 text-sm font-medium text-primary transition-colors hover:bg-gray-900 hover:text-white focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
-                  style={{ cursor: 'url(/poin.png), auto' }}>
-                  Get Started
-                </Button>
-                </Link>
-              </div>
-            </div>
-            <div className="flex justify-center">
-              <img
-                src="/logo1.svg"
-                width="500"
-                height="500"
-                alt="Hero"
-                className="max-w-full rounded-lg object-cover p-20"
-                style={{ aspectRatio: "50/50", objectFit: "cover" }}
-              />
-            </div>
-          </div>
+    <div className="flex flex-col min-h-screen font-sans bg-back">
+      <header className="bg-back text-text py-4">
+        <div className="container mx-auto px-4 flex items-center justify-between">
+          <Link href="/" className="flex items-center space-x-2">
+            <Image src="/logo.svg" alt="AI Content Creator Logo" width={40} height={40} />
+            <span className="text-xl font-bold">AI Content Creator</span>
+          </Link>
+          <nav>
+            <ul className="flex space-x-4">
+              {["Home", "Features", "About", "Services", "Gallery"].map((item) => (
+                <li key={item}>
+                  <Link href={`#${item.toLowerCase()}`} className="hover:text-acc transition-colors">
+                    {item}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </nav>
         </div>
       </header>
+
       <main className="flex-1">
-        <section className="py-12 md:py-20">
-          <div className="container px-4 md:px-6">
-            <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
-              <div className="grid gap-4">
-                <PencilIcon className="h-8 w-8 text-primary" />
-                <h3 className="text-xl font-bold">Content Generation</h3>
-                <p className="text-muted-foreground">
-                  Effortlessly generate high-quality content for your projects, from blog posts to social media updates.
+        <section className="py-20 bg-back text-text">
+          <div className="container mx-auto px-4">
+            <div className="grid gap-8 lg:grid-cols-2 lg:items-center">
+              <div className="space-y-6">
+                <h1 className="text-5xl font-bold tracking-tight">
+                  AI-Powered Content
+                  <span className="block text-prim">with a Creative Twist</span>
+                </h1>
+                <p className="max-w-[600px] text-lg text-text/80">
+                  Step into a world of innovation and creativity as we invite you to embark on an unforgettable journey through AI-driven content creation.
                 </p>
+                <div className="flex space-x-4">
+                  <Link href={'/dashboard'}>
+                    <Button className="bg-prim text-back hover:bg-white hover:text-acc hover:border-1 hover:border-acc transition-colors">
+                      Get Started
+                    </Button>
+                  </Link >
+                  <Link href={'/dashboard/How'}>
+                  <Button variant="outline" className="text-acc border-acc hover:bg-acc hover:text-back">
+                    Learn More
+                  </Button>
+                  </Link>
+                </div>
               </div>
-              <div className="grid gap-4">
-                <PaletteIcon className="h-8 w-8 text-primary" />
-                <h3 className="text-xl font-bold">Creative Ideation</h3>
-                <p className="text-muted-foreground">
-                  Unlock your creative potential with our AI-powered ideation tools, helping you brainstorm and explore
-                  new content ideas.
-                </p>
-              </div>
-              <div className="grid gap-4">
-                <BoltIcon className="h-8 w-8 text-primary" />
-                <h3 className="text-xl font-bold">Intelligent Optimization</h3>
-                <p className="text-muted-foreground">
-                  Leverage our advanced AI algorithms to optimize your content for maximum engagement and performance.
-                </p>
-              </div>
-              <div className="grid gap-4">
-                <LaptopIcon className="h-8 w-8 text-primary" />
-                <h3 className="text-xl font-bold">Seamless Workflow</h3>
-                <p className="text-muted-foreground">
-                  Integrate our platform seamlessly into your existing content creation workflow, saving you time and
-                  effort.
-                </p>
-              </div>
-              <div className="grid gap-4">
-                <BriefcaseIcon className="h-8 w-8 text-primary" />
-                <h3 className="text-xl font-bold">Enterprise-Grade Security</h3>
-                <p className="text-muted-foreground">
-                  Rest assured that your content and data are secure with our enterprise-level security measures.
-                </p>
-              </div>
-              <div className="grid gap-4">
-                <BarChartIcon className="h-8 w-8 text-primary" />
-                <h3 className="text-xl font-bold">Robust Analytics</h3>
-                <p className="text-muted-foreground">
-                  Gain valuable insights into your content performance with our comprehensive analytics and reporting
-                  tools.
-                </p>
+              <div className="mt-10 lg:mt-0 relative">
+                <Image
+                  src="/g1.webp"
+                  alt="AI Content Creation"
+                  width={600}
+                  height={400}
+                  className="rounded-lg shadow-xl"
+                />
+                <div className="absolute top-4 right-4 bg-acc text-back px-4 py-2 rounded-full font-bold">
+                  AI Powered
+                </div>
               </div>
             </div>
           </div>
         </section>
-      </main>
-      {/* <div className="bg-muted text-muted-foreground py-6 w-full shrink-0">
-        <div className="container px-4 md:px-6 flex flex-col md:flex-row items-center justify-between gap-4">
-          <p className="text-sm">&copy; 2024 AI Content Creator. All rights reserved.</p>
-          <div className="flex items-center gap-4">
-            <Link href="#" className="text-sm hover:underline" >
-              Privacy Policy
-            </Link>
-            <Link href="#" className="text-sm hover:underline" >
-              Terms of Service
-            </Link>
 
-              <Link href="#" aria-label="Twitter" >
-                <InstagramIcon className="h-5 w-5" />
+        <section id="features" className="py-20 bg-white">
+          <div className="container mx-auto px-4">
+            <h2 className="text-3xl font-bold text-center mb-12 text-text">Our Features</h2>
+            <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+              {[
+                { icon: PencilIcon, title: "Content Generation", description: "Effortlessly generate high-quality content for your projects." },
+                { icon: PaletteIcon, title: "Creative Ideation", description: "Unlock your creative potential with our AI-powered ideation tools." },
+                { icon: BoltIcon, title: "Intelligent Optimization", description: "Optimize your content for maximum engagement and performance." },
+                { icon: LaptopIcon, title: "Seamless Workflow", description: "Integrate our platform seamlessly into your existing workflow." },
+                { icon: BriefcaseIcon, title: "Enterprise-Grade Security", description: "Ensure your content and data are secure with our measures." },
+                { icon: BarChartIcon, title: "Robust Analytics", description: "Gain valuable insights into your content performance." },
+              ].map((feature, index) => (
+                <Card key={index} className="bg-second border-none transition-all hover:shadow-lg">
+                  <CardContent className="p-6">
+                    <feature.icon className="h-12 w-12 text-acc mb-4" />
+                    <h3 className="text-xl font-bold text-text mb-2">{feature.title}</h3>
+                    <p className="text-text/80">{feature.description}</p>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        <section id="about" className="py-20 bg-back text-text">
+          <div className="container mx-auto px-4">
+            <div className="grid gap-8 lg:grid-cols-2 items-center">
+              <div>
+                <h2 className="text-3xl font-bold mb-6">About AI Content Creator</h2>
+                <p className="text-lg mb-6">
+                  We're revolutionizing content creation with cutting-edge AI technology. Our platform empowers creators,
+                  marketers, and businesses to produce high-quality content faster and more efficiently than ever before.
+                </p>
+                <Button className="bg-prim text-back hover:text-acc hover:bg-white transition-colors">
+                  Learn More
+                </Button>
+              </div>
+              <div className="mt-10 lg:mt-0">
+                <Image
+                  src="/g.webp"
+                  alt="AI Content Creator team"
+                  width={600}
+                  height={400}
+                  className="rounded-lg shadow-xl"
+                />
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section id="gallery" className="py-20 bg-second">
+          <div className="container mx-auto px-4">
+            <h2 className="text-3xl font-bold text-center mb-12 text-text">Our Gallery</h2>
+            <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+              {["Calc", "HTD", "QueryX", "RPS", "Invitation", "Contentify"].map((item) => (
+                <div key={item} className="relative group overflow-hidden rounded-lg">
+                  <Image
+                    src={`/${item}.png`}
+                    alt={`Gallery Image ${item}`}
+                    width={400}
+                    height={300}
+                    className="object-cover w-full h-full transition-transform duration-300 group-hover:scale-110"
+                  />
+                  <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                    <Button className="bg-prim text-back hover:text-acc  hover:bg-white">
+                      View Project
+                    </Button>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+      </main>
+
+      <footer className="bg-back text-text py-8">
+        <div className="container mx-auto px-4">
+          <div className="flex flex-col md:flex-row justify-between items-center">
+            <div className="mb-4 md:mb-0">
+              <Image src="/logo.svg" alt="AI Content Creator Logo" width={40} height={40} />
+              <p className="mt-2">&copy; 2024 AI Content Creator. All rights reserved.</p>
+            </div>
+            <div className="flex space-x-4">
+              <Link href="https://www.instagram.com/contentify_ai/profilecard/?igsh=MWp1b2kwZ2N3eWRsYQ==" aria-label="Instagram">
+                <InstagramIcon className="h-6 w-6 hover:text-acc" />
               </Link>
-              <Link href="#" aria-label="Facebook" >
-                <YoutubeIcon className="h-5 w-5" />
-              </Link>
-              <Link href="#" aria-label="LinkedIn" >
-                <LinkedinIcon className="h-5 w-5" />
+              <Link href="https://youtube.com/@contentify-ai?si=WIfo6UW8kfiIy1oJ" aria-label="YouTube">
+                <YoutubeIcon className="h-6 w-6 hover:text-acc" />
               </Link>
             </div>
           </div>
-        </div> */}
-        <Footer/>
-      </div>
-  
+        </div>
+      </footer>
+    </div>
   );
 }

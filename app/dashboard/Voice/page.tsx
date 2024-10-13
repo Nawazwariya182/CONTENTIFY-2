@@ -6,7 +6,7 @@ import { Loader2Icon, Mic, MicOff, VolumeX, Volume2 } from "lucide-react"
 import { Editor } from '@toast-ui/react-editor'
 import '@toast-ui/editor/dist/toastui-editor.css'
 import { toast } from 'react-hot-toast'
-import { chatSession } from '@/utils/AIModel'
+import { generateCombinedText } from '@/utils/Gpt-4o'
 
 // Add these type declarations at the top of your file
 interface SpeechRecognition extends EventTarget {
@@ -113,8 +113,7 @@ export default function VoiceAIContentGenerator() {
   const generateAIContent = async (transcript: string) => {
     setLoading(true)
     try {
-      const result = await chatSession.sendMessage(transcript)
-      const aiResponse = await result?.response.text()
+      const aiResponse = await generateCombinedText(transcript)
       setAiOutput(aiResponse)
       toast.success("Content generated successfully!")
     } catch (error) {
@@ -145,11 +144,11 @@ export default function VoiceAIContentGenerator() {
   return (
     <div className="p-4 md:p-10 bg-gradient-to-br from-gray-50 to-gray-100 min-h-screen">
       <div className="max-w-4xl mx-auto bg-white rounded-lg shadow-lg p-6 border border-gray-200">
-        <h2 className="font-bold text-2xl mb-6 text-primary">Voice AI Content Generator</h2>
+        <h2 className="font-bold text-2xl mb-6 text-prim">Voice AI Content Generator</h2>
         <div className="mb-4 space-x-4">
           <Button
             onClick={handleListen}
-            className={`${isListening ? 'bg-red-500 hover:bg-red-600' : 'bg-primary hover:bg-primary-dark'} text-white transition-colors duration-300`}
+            className={`${isListening ? 'bg-red-500 hover:bg-red-600' : 'bg-prim hover:bg-acc'} text-back transition-colors duration-300`}
             disabled={loading}
           >
             {isListening ? <MicOff className="mr-2 h-4 w-4" /> : <Mic className="mr-2 h-4 w-4" />}
@@ -157,7 +156,7 @@ export default function VoiceAIContentGenerator() {
           </Button>
           <Button
             onClick={handleSpeak}
-            className={`${isSpeaking ? 'bg-red-500 hover:bg-red-600' : 'bg-primary hover:bg-primary-dark'} text-white transition-colors duration-300`}
+            className={`${isSpeaking ? 'bg-red-500 hover:bg-red-600' : 'bg-prim hover:bg-acc'} text-back transition-colors duration-300`}
             disabled={loading || !aiOutput}
           >
             {isSpeaking ? <VolumeX className="mr-2 h-4 w-4" /> : <Volume2 className="mr-2 h-4 w-4" />}

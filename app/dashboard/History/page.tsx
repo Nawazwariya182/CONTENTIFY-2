@@ -1,112 +1,124 @@
-'use client'; // This component should be client-side
+'use client'
 
-import React, { useEffect, useState } from 'react';
-import { Button } from '@/components/ui/button';
-import { Loader } from 'lucide-react';
+import React, { useEffect, useState } from 'react'
+import { Button } from '@/components/ui/button'
+import { Card, CardContent } from '@/components/ui/card'
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
+import { Loader, ClipboardCopy } from 'lucide-react'
+import { toast } from '@/components/ui/use-toast'
 
-// Define the props for TemplateCard
-interface TemplateCardProps {
-  name: string;
-  desc: string;
-}
-
-// Simplified TemplateCard component with props typing
-const TemplateCard: React.FC<TemplateCardProps> = ({ name, desc }) => (
-  <div className="p-2 border border-gray-200 rounded-md">
-    <p className="font-bold">{name}</p>
-    <p>{desc}</p>
-  </div>
-);
-
-export interface HISTORY {
-  airesponse: string;
-  createby: string;
-  createdAt: string;
-  formdata: string;
-  id: number;
-  templateslug: string;
+export interface HistoryItem {
+  id: number
+  templateslug: string
+  airesponse: string
+  createby: string
+  createdAt: string
+  formdata: string
 }
 
 const History: React.FC = () => {
-  const [historyData, setHistoryData] = useState<HISTORY[]>([]);
-  const [error, setError] = useState<string | null>(null);
+  const [historyData, setHistoryData] = useState<HistoryItem[]>([])
+  const [isLoading, setIsLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch('/api/history');
+        const response = await fetch('/api/history')
         if (!response.ok) {
-          throw new Error('Network response was not ok');
+          throw new Error('Failed to fetch history data')
         }
-        const data = await response.json();
-        console.log('Fetched data:', data); // Confirm data structure here
-        setHistoryData(data);
+        const data = await response.json()
+        setHistoryData(data)
       } catch (error) {
-        setError('Error fetching data');
-        console.error('Error fetching data:', error);
+        setError('Error fetching data. Please try again later.')
+        console.error('Error fetching data:', error)
+      } finally {
+        setIsLoading(false)
       }
-    };
+    }
 
-    fetchData();
-  }, []);
+    fetchData()
+  }, [])
 
   const cleanAIResponse = (response: string) => {
-    // Replace unwanted characters and limit the response length
-    const cleanedResponse = response.replace(/[#`*]/g, '').trim();
-    return cleanedResponse.length > 100 ? `${cleanedResponse.slice(0, 100)}...` : cleanedResponse;
-  };
+    const cleanedResponse = response.replace(/[#`*]/g, '').trim()
+    return cleanedResponse.length > 100 ? `${cleanedResponse.slice(0, 100)}...` : cleanedResponse
+  }
+
+  const copyToClipboard = (text: string) => {
+    navigator.clipboard.writeText(text)
+    toast({
+      title: "Copied to clipboard",
+      description: "The AI response has been copied to your clipboard.",
+    })
+  }
 
   return (
-    <div className="p-4 bg-gray-100 min-h-screen">
-      <h1 className="text-2xl font-bold mb-4">History</h1>
-      <p className="mb-6 text-sm">Search your previously generated AI content</p>
-      {error && <p className="text-red-500 text-sm">{error}</p>}
-      <div className="overflow-x-auto">
-        <table className="min-w-full bg-white shadow-md rounded-lg overflow-hidden">
-          <thead className="bg-secondary">
-            <tr>
-              <th className="py-2 px-4 text-primary text-sm">Template</th>
-              <th className="py-2 px-4 text-primary text-sm">AI Resp</th>
-              <th className="py-2 px-4 text-primary text-sm">Words</th>
-              <th className="py-2 px-4 text-primary text-sm">Copy</th>
-            </tr>
-          </thead>
-          <tbody>
-            {historyData.length > 0 ? (
-              historyData.map((item) => (
-                <tr key={item.id} className="border-t">
-                  <td className="py-2 px-4 text-sm">
-                    <div className="flex items-center">
-                      <span className='text-primary font-bold'>{item.templateslug}</span>
-                    </div>
-                  </td>
-                  <td className="py-2 px-4 text-sm">{cleanAIResponse(item.airesponse)}</td>
-                  <td className="py-2 px-4 text-sm">{item.airesponse ? item.airesponse.split(' ').length : 'N/A'}</td>
-                  <td className="py-2 px-4 text-sm">
-                    <Button
-                      className="text-white py-1 px-3 rounded text-sm"
-                      style={{ cursor: 'url(/poin.png), auto' }}
-                      onClick={() => item.airesponse && navigator.clipboard.writeText(item.airesponse)}
-                    >
-                      Copy
-                    </Button>
-                  </td>
-                </tr>
-              ))
-            ) : (
-              <tr>
-                <td colSpan={4} className="py-4 px-4 text-center">
-                  <div className="flex items-center justify-center w-full h-full">
-                    <Loader />
-                  </div>
-                </td>
-              </tr>
-            )}
-          </tbody>
-        </table>
-      </div>
-    </div>
-  );
-};
+    <div className="p-4 bg-back min-h-screen text-text">
+      <Card className="mb-6">
+        <CardContent className="pt-6">
+          <h1 className="text-2xl font-bold mb-2">History</h1>
+          <p className="text-sm text-text/70">Search your previously generated AI content</p>
+        </CardContent>
+      </Card>
 
-export default History;
+      {error && (
+        <Card className="mb-6 bg-red-100">
+          <CardContent className="py-3 text-red-700">{error}</CardContent>
+        </Card>
+      )}
+
+      <Card>
+        <CardContent className="p-0">
+          <Table>
+            <TableHeader className="bg-second">
+              <TableRow>
+                <TableHead className="text-acc font-semibold">Template</TableHead>
+                <TableHead className="text-text font-semibold">AI Response</TableHead>
+                <TableHead className="text-text font-semibold">Words</TableHead>
+                <TableHead className="text-text font-semibold">Actions</TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              {isLoading ? (
+                <TableRow>
+                  <TableCell colSpan={4} className="h-24 text-center">
+                    <Loader className="mx-auto animate-spin" />
+                  </TableCell>
+                </TableRow>
+              ) : historyData.length > 0 ? (
+                historyData.map((item) => (
+                  <TableRow key={item.id}>
+                    <TableCell className="font-medium text-prim">{item.templateslug}</TableCell>
+                    <TableCell>{cleanAIResponse(item.airesponse)}</TableCell>
+                    <TableCell>{item.airesponse.split(' ').length}</TableCell>
+                    <TableCell>
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        className="bg-prim text-back hover:bg-acc hover:text-back"
+                        onClick={() => copyToClipboard(item.airesponse)}
+                      >
+                        <ClipboardCopy className="w-4 h-4 mr-2" />
+                        Copy
+                      </Button>
+                    </TableCell>
+                  </TableRow>
+                ))
+              ) : (
+                <TableRow>
+                  <TableCell colSpan={4} className="h-24 text-center">
+                    No history data available.
+                  </TableCell>
+                </TableRow>
+              )}
+            </TableBody>
+          </Table>
+        </CardContent>
+      </Card>
+    </div>
+  )
+}
+
+export default History

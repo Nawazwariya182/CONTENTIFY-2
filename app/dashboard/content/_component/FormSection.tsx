@@ -1,11 +1,11 @@
-'use client'
-import React, { useState } from 'react'
+'use client';
+import React, { useState } from 'react';
 import TEMPLATE from '../../_component/TemplateListSection'; // Correct import statement
-import Image from 'next/image'
-import { Input } from '@/components/ui/input'
-import { Textarea } from '@/components/ui/textarea'
-import { Button } from '@/components/ui/button'
-import { Loader2Icon } from 'lucide-react'
+import Image from 'next/image';
+import { Input } from '@/components/ui/input';
+import { Textarea } from '@/components/ui/textarea';
+import { Button } from '@/components/ui/button';
+import { Loader2Icon } from 'lucide-react';
 
 interface FormItem {
   label: string;
@@ -41,9 +41,9 @@ function FormSection({ selectedtemplate, userFormInput, loading, currentUsage }:
   };
 
   return (
-    <div className='p-5 shadow-md border rounded-md font-p bg-secondary'>
+    <div className='p-5 shadow-md border rounded-md font-p bg-white'>
       <Image src={selectedtemplate?.icon || '/default-icon.png'} alt='icon' width={60} height={60} />
-      <h2 className='font-bold text-2xl mb-2 text-primary'>{selectedtemplate?.name}</h2>
+      <h2 className='font-bold text-2xl mb-2 text-prim'>{selectedtemplate?.name}</h2>
       <p className='text-gray-600 text-sm'>{selectedtemplate?.desc}</p>
       <form className='mt-6' onSubmit={onSubmit}>
         {selectedtemplate?.form?.map((item: FormItem, index: number) => (
@@ -58,10 +58,10 @@ function FormSection({ selectedtemplate, userFormInput, loading, currentUsage }:
         ))}
         <Button
           type='submit'
-          className='w-full py-6 bg-primary text-white hover:bg-white hover:text-black hover:border-2 hover:border-black transition-all'style={{ cursor: 'url(/poin.png), auto' }}
+          className='w-full py-6 bg-prim hover:bg-back hover:text-acc hover:border-2 hover:border-back transition-all' style={{ cursor: 'url(/poin.png), auto' }}
           disabled={loading || currentUsage > limit}
         >
-          {loading && <Loader2Icon className='animate-spin text-primary' />}
+          {loading && <Loader2Icon className='animate-spin text-prim' />}
           Create content
         </Button>
       </form>
@@ -69,4 +69,4 @@ function FormSection({ selectedtemplate, userFormInput, loading, currentUsage }:
   );
 }
 
-export default FormSection
+export default FormSection;

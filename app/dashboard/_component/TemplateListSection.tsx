@@ -42,7 +42,7 @@
 // export default TemplateListSection
 import Templates from '@/app/(data)/Templates';
 import React, { useEffect, useState } from 'react';
-import { TemplateCard, TEMPLATE, ImageGeneratorTemplate, CustomGeneratorTemplate, Voice } from './TemplateCard';
+import { TemplateCard, TEMPLATE, ImageGeneratorTemplate, CustomGeneratorTemplate, Voice, Translate, Entity, Summary } from './TemplateCard';
 
 function TemplateListSection({ UserSearchInput }: any) {
   const [TemplatesList, SetTemplateList] = useState<TEMPLATE[]>(Templates);
@@ -63,6 +63,9 @@ function TemplateListSection({ UserSearchInput }: any) {
     <ImageGeneratorTemplate/>
     <CustomGeneratorTemplate/>
     <Voice/>
+    <Translate/>
+    <Entity/>
+    {/* <Summary/> */}
     {/* <VideoGeneratorTemplate/> */}
       {TemplatesList.map((item: TEMPLATE, index: number) => (
         <TemplateCard key={index} {...item} />

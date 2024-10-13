@@ -18,7 +18,7 @@ function Layout({
     return (
         <TotalUsageContext.Provider value={{ totalUsage, setTotalUsage }}>
             <UpdateContext.Provider value={{ UpdateCredit, setUpdateCredit }}>
-                <div className={`bg-white h-screen ${styles.customCursor}`}style={{ cursor: 'url(/curs.png), auto' }}>
+                <div className={`bg-white h-screen overflow-y-auto ${styles.customCursor}`}style={{ cursor: 'url(/curs.png), auto' }}>
                     {/* <div className='md:w-60 hidden md:block fixed'>
                         <SideNav/>
                     </div> */}

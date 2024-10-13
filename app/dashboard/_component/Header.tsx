@@ -1,88 +1,112 @@
 'use client'
+
 import { UserButton } from '@clerk/nextjs'
 import Image from 'next/image'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import React from 'react'
+import React, { useState, useRef, useEffect } from 'react'
 import UsageTrack from './UsageTrack'
-import { Menu } from '@headlessui/react'
-import { ChevronDownIcon } from '@heroicons/react/20/solid'
-import { Search } from 'lucide-react'
+import { Button } from "@/components/ui/button"
+import { Separator } from "@/components/ui/separator"
+import { Menu, Home, History, HelpCircle } from "lucide-react"
 
-function Header({onSearchInput}:any) {
+function Header() {
   const path = usePathname()
+  const [isOpen, setIsOpen] = useState(false)
+  const dropdownRef = useRef<HTMLDivElement>(null)
+
+  const menuItems = [
+    { href: "/dashboard", label: "Home", icon: Home },
+    { href: "/dashboard/History", label: "History", icon: History },
+    { href: "/dashboard/How", label: "How", icon: HelpCircle },
+  ]
+
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+        setIsOpen(false)
+      }
+    }
+
+    document.addEventListener("mousedown", handleClickOutside)
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside)
+    }
+  }, [])
 
   return (
-    <div className='relative flex p-4 items-center justify-between bg-secondary shadow-sm'>
-      {/* Logo and Dropdown for Small Devices */}
-      <div className='relative flex-shrink-0 z-10'>
-        {/* Dropdown Menu for Small Screens */}
-        <div className='block md:hidden'>
-          <Menu as="div" className="relative">
-            <Menu.Button className="flex items-center py-3 px-4 text-sm font-medium text-gray-800 focus:outline-none">
-              <Link href={"/dashboard"}>
-              <Image src={'/logo.svg'} width={50} height={50} alt='Logo' style={{ cursor: 'url(/poin.png), auto' }} />
-              </Link>
-              {/* <ChevronDownIcon className="h-5 w-5 ml-2" /> */}
-            </Menu.Button>
-            <Menu.Items className="absolute left-0 top-full mt-2 w-48 bg-white shadow-md rounded-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
-              <Menu.Item>
-                {({ active }) => (
-                  <Link href="/dashboard">
-                    <div className={`block px-4 py-2 text-sm ${active ? 'bg-gray-100' : ''}`}>Home</div>
-                  </Link>
-                )}
-              </Menu.Item>
-              <Menu.Item>
-                {({ active }) => (
-                  <Link href="/dashboard/History">
-                    <div className={`block px-4 py-2 text-sm ${active ? 'bg-gray-100' : ''}`}>History</div>
-                  </Link>
-                )}
-              </Menu.Item>
-              <Menu.Item>
-                {({ active }) => (
-                  <Link href="/dashboard/How">
-                    <div className={`block px-4 py-2 text-sm ${active ? 'bg-gray-100' : ''}`}>How it Works?</div>
-                  </Link>
-                )}
-              </Menu.Item>
-            </Menu.Items>
-          </Menu>
-          
+    <>
+      <header className='sticky top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60'>
+        <div className='container flex h-16 max-w-screen-2xl items-center justify-between'>
+          <div className='flex items-center space-x-4'>
+            <Link href="/dashboard" className='flex items-center space-x-2'>
+              <Image src='/logo.svg' width={40} height={40} alt='Logo' className="rounded-full" />
+              <span className='hidden font-bold text-xl sm:inline-block'>AI Content Creator</span>
+            </Link>
+          </div>
+
+          <nav className='hidden md:flex items-center space-x-1'>
+            {menuItems.map((item) => (
+              <Button
+                key={item.href}
+                variant={path === item.href ? "secondary" : "ghost"}
+                className="h-9 px-4"
+                asChild
+              >
+                <Link href={item.href}>
+                  <item.icon className="mr-2 h-4 w-4" />
+                  {item.label}
+                </Link>
+              </Button>
+            ))}
+          </nav>
+
+          <div className='flex items-center space-x-4'>
+            <UserButton
+              appearance={{
+                elements: {
+                  avatarBox: 'h-9 w-9'
+                }
+              }}
+            />
+            <div className="relative md:hidden" ref={dropdownRef}>
+              <Button
+                variant="outline"
+                size="icon"
+                onClick={() => setIsOpen(!isOpen)}
+                aria-label="Toggle menu"
+              >
+                <Menu className="h-6 w-6" />
+              </Button>
+              {isOpen && (
+                <div className="absolute right-0 mt-2 w-48 rounded-md shadow-lg bg-background border border-border">
+                  <div className="py-1" role="menu" aria-orientation="vertical" aria-labelledby="options-menu">
+                    {menuItems.map((item) => (
+                      <Link
+                        key={item.href}
+                        href={item.href}
+                        className={`${
+                          path === item.href ? 'bg-secondary' : ''
+                        } flex items-center px-4 py-2 text-sm text-foreground hover:bg-secondary transition-colors`}
+                        onClick={() => setIsOpen(false)}
+                      >
+                        <item.icon className="mr-2 h-4 w-4" />
+                        {item.label}
+                      </Link>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </div>
+          </div>
         </div>
-        
-        {/* Static Logo for Medium and Large Screens */}
-        <div className='hidden md:block'>
-          <Link href={"/dashboard"}>
-          <Image src={'/logo.svg'} width={50} height={50} alt='Logo' style={{ cursor: 'url(/poin.png), auto' }}/>
-          </Link>
-        </div>
-      </div>
+      </header>
 
-      {/* Desktop Menu */}
-
-      {/* User Button */}
-      <div className='flex gap-6 z-100'>
-      <ul className='hidden md:flex gap-6 items-center z-10'>
-        <Link href={"/dashboard"}>
-          <li className={`hover:text-primary hover:font-bold transition-all cursor-pointer ${path === '/dashboard' ? 'text-primary font-extrabold' : ''}`}style={{ cursor: 'url(/poin.png), auto' }}>Home</li>
-        </Link>
-        <Link href={"/dashboard/History"}>
-          <li className={`hover:text-primary hover:font-bold transition-all cursor-pointer ${path === '/dashboard/History' ? 'text-primary font-extrabold' : ''}`}style={{ cursor: 'url(/poin.png), auto' }}>History</li>
-        </Link>
-        <Link href={"/dashboard/How"}>
-          <li className={`hover:text-primary hover:font-bold transition-all cursor-pointer ${path === '/dashboard/How' ? 'text-primary font-extrabold': ''}`}style={{ cursor: 'url(/poin.png), auto' }}>How it Works?</li>
-        </Link>
-      </ul>
-        <UserButton />
-      </div>
-
-      {/* Usage Track - Move to Front */}
-      <div className='fixed bottom-16 right-1 w-50 h-20 z-30'>
+      {/* UsageTrack Component positioned at bottom-right corner of the whole screen */}
+      <div className='fixed bottom-4 right-4 sm:block z-50'>
         <UsageTrack />
       </div>
-    </div>
+    </>
   )
 }
 

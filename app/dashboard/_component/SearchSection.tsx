@@ -1,21 +1,56 @@
-import { Search } from 'lucide-react'
-import React from 'react'
+import React, { useState } from 'react';
+import { Search } from 'lucide-react';
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
-function SearchSection({onSearchInput}:any) {
-  return (
-    <div className='p-10 bg-gradient-to-br from-lime-100 to-lime-700 flex flex-col justify-center items-center text-white'>
-        <h2 className='text-3xl font-bold font-p text-primary'>Browse Through All Template</h2>
-        <p>What would you like to create today?</p>
-        <div className='w-full flex justify-center'>
-            <div className='flex gap-2 items-center border rounded-md bg-white my-5 w-[60%] h-10 pl-5'>
-                <Search className='text-primary'/>            
-                <input type="text" placeholder='Search' 
-                onChange={(event)=>onSearchInput(event.target.value)}
-                className='bg-transparent w-full outline-none text-black pl-3'/>
-            </div>
-        </div>
-    </div>
-  )
+interface SearchSectionProps {
+  onSearchInput: (value: string) => void;
+  onCategorySelect: (category: string) => void;
+  categories: string[];
 }
 
-export default SearchSection
+function SearchSection({ onSearchInput, onCategorySelect, categories }: SearchSectionProps) {
+  const [searchTerm, setSearchTerm] = useState('');
+
+  const handleSearch = () => {
+    onSearchInput(searchTerm);
+  };
+
+  return (
+    <div className='p-8 sm:p-12 bg-second flex flex-col justify-center items-center'>
+      <h2 className='text-3xl sm:text-4xl font-bold mb-4 text-prim text-center'>
+        Explore AI-Powered Templates
+      </h2>
+      <p className='text-lg mb-6 text-text text-center max-w-2xl'>
+        Discover the perfect template for your next project. What would you like to create today?
+      </p>
+      <div className='w-full max-w-4xl flex flex-col sm:flex-row gap-4 justify-center items-center'>
+        <div className='relative w-full sm:w-2/3'>
+          <Input
+            type="text"
+            placeholder='Search templates...'
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            className='pl-10 pr-4 py-2 w-full text-text border-acc focus:ring-back focus:border-back'
+          />
+          <Search className='absolute left-3 top-1/2 transform -translate-y-1/2 text-acc' />
+        </div>
+        <Button
+          onClick={handleSearch}
+          className="w-full sm:w-auto bg-prim hover:bg-back text-back hover:text-acc hover:border-2 hover:border-acc" 
+        >
+          Search
+        </Button>
+      </div>
+    </div>
+  );
+}
+
+export default SearchSection;
