@@ -59,7 +59,7 @@ function TemplateListSection({ UserSearchInput }: any) {
   }, [UserSearchInput]);
 
   return (
-    <div className='z-0 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5 p-10 bg-white'>
+    <div className='z-0 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5 p-10 bg-white'>
     <ImageGeneratorTemplate/>
     <CustomGeneratorTemplate/>
     <Voice/>

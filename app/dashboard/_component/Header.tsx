@@ -86,8 +86,8 @@ function Header() {
                         key={item.href}
                         href={item.href}
                         className={`${
-                          path === item.href ? 'bg-secondary' : ''
-                        } flex items-center px-4 py-2 text-sm text-foreground hover:bg-secondary transition-colors`}
+                          path === item.href ? 'bg-second' : ''
+                        } flex items-center px-4 py-2 text-sm text-foreground hover:bg-second transition-colors`}
                         onClick={() => setIsOpen(false)}
                       >
                         <item.icon className="mr-2 h-4 w-4" />

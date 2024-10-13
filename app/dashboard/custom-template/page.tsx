@@ -27,7 +27,7 @@ interface AIContentGeneratorProps {
   }
 }
 
-export default function AIContentGenerator({ selectedTemplate }: AIContentGeneratorProps) {
+ function AIContentGenerator({ selectedTemplate }: AIContentGeneratorProps) {
   const [prompt, setPrompt] = useState('')
   const [loading, setLoading] = useState(false)
   const [aiOutput, setAiOutput] = useState('')
@@ -186,3 +186,5 @@ export default function AIContentGenerator({ selectedTemplate }: AIContentGenera
     </div>
   )
 }
+
+export default AIContentGenerator

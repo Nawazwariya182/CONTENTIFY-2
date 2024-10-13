@@ -13,7 +13,7 @@ export default function Home() {
             <Image src="/logo.svg" alt="AI Content Creator Logo" width={40} height={40} />
             <span className="text-xl font-bold">AI Content Creator</span>
           </Link>
-          <nav>
+          <nav className="hidden sm:block">
             <ul className="flex space-x-4">
               {["Home", "Features", "About", "Services", "Gallery"].map((item) => (
                 <li key={item}>
