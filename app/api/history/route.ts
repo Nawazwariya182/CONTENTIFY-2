@@ -5,6 +5,9 @@ import { aioutput } from '@/utils/schema';
 import { desc, eq } from 'drizzle-orm';
 import { currentUser } from '@clerk/nextjs/server'; // Adjust import based on actual use
 
+// Force this API route to be dynamic
+export const dynamic = 'force-dynamic';
+
 export async function GET() {
   try {
     const user = await currentUser();
@@ -16,7 +19,13 @@ export async function GET() {
     const email = user.emailAddresses[0].emailAddress;
     console.log(`Authenticated user email: ${email}`);
 
-    const data = await db.select().from(aioutput).where(eq(aioutput.createby, email)).orderBy(desc(aioutput.createdat)).execute();
+    const data = await db
+      .select()
+      .from(aioutput)
+      .where(eq(aioutput.createby, email))
+      .orderBy(desc(aioutput.createdat))
+      .execute();
+      
     console.log('Fetched data:', data);
 
     return NextResponse.json(data);
