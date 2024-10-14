@@ -149,7 +149,7 @@ export default function EntityLinkingComponent() {
   return (
     <div className="min-h-screen bg-gray-100 flex items-center justify-center p-4">
       <div className="w-full max-w-4xl bg-white rounded-lg shadow-xl overflow-hidden">
-        <div className="bg-gray-800 text-white p-6">
+        <div className="bg-prim text-white p-6">
           <h2 className="text-3xl font-bold mb-2">AI Entity Linker</h2>
           <p className="text-sm opacity-80">Extract entities and find their Wikipedia links</p>
         </div>
@@ -165,6 +165,7 @@ export default function EntityLinkingComponent() {
               placeholder="Enter text to extract entities from..."
               rows={6}
               className="w-full p-4 border-2 border-gray-300 rounded-lg resize-none text-lg"
+              style={{ cursor: 'url(/type.png), auto' }}
             />
           </div>
           <div className="flex justify-center">
@@ -172,6 +173,7 @@ export default function EntityLinkingComponent() {
               onClick={handleExtractEntities}
               disabled={isProcessing || !inputText.trim()}
               className="px-8 py-2 bg-blue-600 text-white rounded-full hover:bg-blue-700 transition-colors"
+              style={{ cursor: 'url(/poin.png), auto' }}
             >
               {isProcessing ? (
                 <>
@@ -196,6 +198,7 @@ export default function EntityLinkingComponent() {
                         target="_blank"
                         rel="noopener noreferrer"
                         className="text-blue-600 hover:underline"
+                        style={{ cursor: 'url(/poin.png), auto' }}
                       >
                         Wikipedia Link
                       </a>

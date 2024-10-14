@@ -61,7 +61,7 @@ function OutputSection({ aioutput }: Props) {
             onClick={() => navigator.clipboard.writeText(aioutput)}
             style={{ cursor: 'url(/poin.png), auto' }}
           >
-            <Copy className="w-4 h-4 text-back" />
+            <Copy className="w-4 h-4 text-back hover:text-prim" />
             Copy
           </Button>
           {/* <Button

@@ -99,6 +99,7 @@ const History: React.FC = () => {
                         size="sm"
                         className="bg-prim text-back hover:bg-acc hover:text-back"
                         onClick={() => copyToClipboard(item.airesponse)}
+                        style={{ cursor: 'url(/poin.png), auto' }}
                       >
                         <ClipboardCopy className="w-4 h-4 mr-2" />
                         Copy

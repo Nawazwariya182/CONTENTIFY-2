@@ -1,6 +1,6 @@
 import React from 'react';
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
-import { FacebookIcon, GitlabIcon, InstagramIcon, LinkedinIcon, TwitterIcon } from "lucide-react";
+import { FacebookIcon, GitlabIcon, InstagramIcon, LinkedinIcon, TwitterIcon, YoutubeIcon } from "lucide-react";
 import Link from "next/link";
 
 function Footer() {
@@ -10,7 +10,7 @@ function Footer() {
         <div className="grid gap-1">
           <h3 className="font-semibold text-prim">Social</h3>
           <Link
-            href="#"
+            href="https://www.facebook.com/share/uMBuVXpYKB4qzjyK/"
             className="flex items-center gap-2 text-muted-foreground hover:text-prim"
             prefetch={false}
             style={{ cursor: 'url(/poin.png), auto' }}
@@ -19,7 +19,7 @@ function Footer() {
             Facebook
           </Link>
           <Link
-            href="#"
+            href="https://www.instagram.com/contentify_ai/profilecard/?igsh=MWp1b2kwZ2N3eWRsYQ=="
             className="flex items-center gap-2 text-muted-foreground hover:text-prim"
             prefetch={false}
             style={{ cursor: 'url(/poin.png), auto' }}
@@ -31,7 +31,7 @@ function Footer() {
         <div className='grid gap-1'>
           <h3 className="font-semibold text-prim">Social</h3>
           <Link
-            href="#"
+            href="https://x.com/Contentify_ai?t=CVwuWLEFfQFczzvHm69RIQ&s=08"
             className="flex items-center gap-2 text-muted-foreground hover:text-prim"
             prefetch={false}
             style={{ cursor: 'url(/poin.png), auto' }}
@@ -40,13 +40,13 @@ function Footer() {
             Twitter
           </Link>
           <Link
-            href="#"
+            href="https://youtube.com/@contentify-ai?si=WIfo6UW8kfiIy1oJ"
             className="flex items-center gap-2 text-muted-foreground hover:text-prim"
             prefetch={false}
             style={{ cursor: 'url(/poin.png), auto' }}
           >
-            <LinkedinIcon className="h-5 w-5 text-acc" />
-            LinkedIn
+            <YoutubeIcon className="h-5 w-5 text-acc" />
+            Youtube
           </Link>
         </div>
         <div className="grid gap-1">

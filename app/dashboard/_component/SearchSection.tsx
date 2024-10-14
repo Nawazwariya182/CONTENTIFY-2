@@ -13,14 +13,18 @@ import {
 interface SearchSectionProps {
   onSearchInput: (value: string) => void;
   onCategorySelect: (category: string) => void;
-  categories: string[];
+  categories: string[]; // Array of category strings
 }
 
 function SearchSection({ onSearchInput, onCategorySelect, categories }: SearchSectionProps) {
   const [searchTerm, setSearchTerm] = useState('');
+  const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
 
   const handleSearch = () => {
     onSearchInput(searchTerm);
+    if (selectedCategory) {
+      onCategorySelect(selectedCategory);
+    }
   };
 
   return (
@@ -39,12 +43,15 @@ function SearchSection({ onSearchInput, onCategorySelect, categories }: SearchSe
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
             className='pl-10 pr-4 py-2 w-full text-text border-acc focus:ring-back focus:border-back'
+            style={{ cursor: 'url(/type.png), auto' }}
           />
           <Search className='absolute left-3 top-1/2 transform -translate-y-1/2 text-acc' />
         </div>
+
         <Button
           onClick={handleSearch}
           className="w-full sm:w-auto bg-prim hover:bg-back text-back hover:text-acc hover:border-2 hover:border-acc" 
+          style={{ cursor: 'url(/poin.png), auto' }}
         >
           Search
         </Button>

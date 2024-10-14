@@ -6,18 +6,18 @@ import Link from "next/link";
 
 export default function Home() {
   return (
-    <div className="flex flex-col min-h-screen font-sans bg-back">
+    <div className="flex flex-col min-h-screen font-sans bg-back" style={{ cursor: 'url(/curs.png), auto' }}>
       <header className="bg-back text-text py-4">
         <div className="container mx-auto px-4 flex items-center justify-between">
           <Link href="/" className="flex items-center space-x-2">
-            <Image src="/logo.svg" alt="AI Content Creator Logo" width={40} height={40} />
-            <span className="text-xl font-bold">AI Content Creator</span>
+            <Image src="/logo.svg" alt="AI Content Creator Logo" width={40} height={40} style={{ cursor: 'url(/poin.png), auto' }}/>
+            <span className="text-xl font-bold" style={{ cursor: 'url(/poin.png), auto' }}>AI Content Creator</span>
           </Link>
           <nav className="hidden sm:block">
             <ul className="flex space-x-4">
               {["Home", "Features", "About", "Services", "Gallery"].map((item) => (
                 <li key={item}>
-                  <Link href={`#${item.toLowerCase()}`} className="hover:text-acc transition-colors">
+                  <Link href={`#${item.toLowerCase()}`} className="hover:text-acc transition-colors" style={{ cursor: 'url(/poin.png), auto' }}>
                     {item}
                   </Link>
                 </li>
@@ -41,12 +41,12 @@ export default function Home() {
                 </p>
                 <div className="flex space-x-4">
                   <Link href={'/dashboard'}>
-                    <Button className="bg-prim text-back hover:bg-white hover:text-acc hover:border-1 hover:border-acc transition-colors">
+                    <Button className="bg-prim text-back border-2 hover:bg-white hover:text-acc  border-prim transition-colors" style={{ cursor: 'url(/poin.png), auto' }}>
                       Get Started
                     </Button>
                   </Link >
                   <Link href={'/dashboard/How'}>
-                  <Button variant="outline" className="text-acc border-acc hover:bg-acc hover:text-back">
+                  <Button variant="outline" className="text-acc border-acc hover:bg-acc hover:text-back" style={{ cursor: 'url(/poin.png), auto' }}>
                     Learn More
                   </Button>
                   </Link>
@@ -54,7 +54,7 @@ export default function Home() {
               </div>
               <div className="mt-10 lg:mt-0 relative">
                 <Image
-                  src="/g1.webp"
+                  src="/g4.jpeg"
                   alt="AI Content Creation"
                   width={600}
                   height={400}
@@ -101,7 +101,7 @@ export default function Home() {
                   We're revolutionizing content creation with cutting-edge AI technology. Our platform empowers creators,
                   marketers, and businesses to produce high-quality content faster and more efficiently than ever before.
                 </p>
-                <Button className="bg-prim text-back hover:text-acc hover:bg-white transition-colors">
+                <Button className="bg-prim text-back hover:text-acc border-2 border-prim hover:bg-white transition-colors" style={{ cursor: 'url(/poin.png), auto' }}>
                   Learn More
                 </Button>
               </div>
@@ -132,7 +132,7 @@ export default function Home() {
                     className="object-cover w-full h-full transition-transform duration-300 group-hover:scale-110"
                   />
                   <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                    <Button className="bg-prim text-back hover:text-acc  hover:bg-white">
+                    <Button className="bg-prim text-back border-2 border-prim hover:text-acc hover:bg-white" style={{ cursor: 'url(/poin.png), auto' }}>
                       View Project
                     </Button>
                   </div>
@@ -151,10 +151,10 @@ export default function Home() {
               <p className="mt-2">&copy; 2024 AI Content Creator. All rights reserved.</p>
             </div>
             <div className="flex space-x-4">
-              <Link href="https://www.instagram.com/contentify_ai/profilecard/?igsh=MWp1b2kwZ2N3eWRsYQ==" aria-label="Instagram">
+              <Link href="https://www.instagram.com/contentify_ai/profilecard/?igsh=MWp1b2kwZ2N3eWRsYQ==" aria-label="Instagram"style={{ cursor: 'url(/poin.png), auto' }}>
                 <InstagramIcon className="h-6 w-6 hover:text-acc" />
               </Link>
-              <Link href="https://youtube.com/@contentify-ai?si=WIfo6UW8kfiIy1oJ" aria-label="YouTube">
+              <Link href="https://youtube.com/@contentify-ai?si=WIfo6UW8kfiIy1oJ" aria-label="YouTube"style={{ cursor: 'url(/poin.png), auto' }}>
                 <YoutubeIcon className="h-6 w-6 hover:text-acc" />
               </Link>
             </div>

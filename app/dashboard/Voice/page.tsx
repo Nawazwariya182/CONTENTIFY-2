@@ -150,6 +150,7 @@ export default function VoiceAIContentGenerator() {
             onClick={handleListen}
             className={`${isListening ? 'bg-red-500 hover:bg-red-600' : 'bg-prim hover:bg-acc'} text-back transition-colors duration-300`}
             disabled={loading}
+            style={{ cursor: 'url(/poin.png), auto' }}
           >
             {isListening ? <MicOff className="mr-2 h-4 w-4" /> : <Mic className="mr-2 h-4 w-4" />}
             {isListening ? 'Stop Listening' : 'Start Listening'}
@@ -158,6 +159,7 @@ export default function VoiceAIContentGenerator() {
             onClick={handleSpeak}
             className={`${isSpeaking ? 'bg-red-500 hover:bg-red-600' : 'bg-prim hover:bg-acc'} text-back transition-colors duration-300`}
             disabled={loading || !aiOutput}
+            style={{ cursor: 'url(/poin.png), auto' }}
           >
             {isSpeaking ? <VolumeX className="mr-2 h-4 w-4" /> : <Volume2 className="mr-2 h-4 w-4" />}
             {isSpeaking ? 'Stop Speaking' : 'Speak Output'}

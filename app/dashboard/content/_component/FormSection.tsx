@@ -50,16 +50,17 @@ function FormSection({ selectedtemplate, userFormInput, loading, currentUsage }:
           <div key={index} className='my-2 flex flex-col gap-2 mb-7'>
             <label className='font-medium'>{item.label}</label>
             {item.field === 'input' ? (
-              <Input name={item.name} required={item?.required} onChange={handleInputChange} />
+              <Input name={item.name} required={item?.required} onChange={handleInputChange} style={{ cursor: 'url(/type.png), auto' }} />
             ) : item.field === 'textarea' ? (
-              <Textarea name={item.name} required={item?.required} onChange={handleInputChange} />
+              <Textarea name={item.name} required={item?.required} onChange={handleInputChange} style={{ cursor: 'url(/type.png), auto' }}/>
             ) : null}
           </div>
         ))}
         <Button
           type='submit'
-          className='w-full py-6 bg-prim hover:bg-back hover:text-acc hover:border-2 hover:border-back transition-all' style={{ cursor: 'url(/poin.png), auto' }}
+          className='w-full py-6 bg-prim hover:bg-back hover:text-acc hover:border-2 hover:border-prim transition-all' style={{ cursor: 'url(/poin.png), auto' }}
           disabled={loading || currentUsage > limit}
+          
         >
           {loading && <Loader2Icon className='animate-spin text-prim' />}
           Create content

@@ -34,7 +34,7 @@ export default function Component() {
     <div className="grid md:grid-cols-2 gap-8 w-full max-w-6xl mx-auto py-12 px-4">
       <div className="flex flex-col gap-6">
         <Link href={"/dashboard"}>
-          <Button className="bg-prim text-back hover:bg-white hover:text-text hover:border-2 hover:border-acc transition-all w-20">
+          <Button className="bg-prim text-back hover:bg-white hover:text-text hover:border-2 hover:border-acc transition-all w-20" style={{ cursor: 'url(/poin.png), auto' }}>
             <ArrowLeft /> Back
           </Button>
         </Link>
@@ -52,20 +52,21 @@ export default function Component() {
               rows={1}
               value={prompt}
               onChange={(e) => setPrompt(e.target.value)}
+              style={{ cursor: 'url(/type.png), auto' }}
             />
           </div>
           <div className="grid gap-2">
             <Label htmlFor="size">Size</Label>
-            <Select value={size} onValueChange={(value) => setSize(value)}>
-              <SelectTrigger className="w-full">
+            <Select value={size} onValueChange={(value) => setSize(value)} >
+              <SelectTrigger className="w-full" style={{ cursor: 'url(/poin.png), auto' }}>
                 <SelectValue placeholder="Select size" />
               </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="1024x1024">1024x1024</SelectItem>
+              <SelectContent >
+                <SelectItem value="1024x1024" style={{ cursor: 'url(/curs.png), auto' }}>1024x1024</SelectItem>
               </SelectContent>
             </Select>
           </div>
-          <Button type="submit" className="w-full flex items-center justify-center bg-prim hover:bg-back hover:text-acc hover:border-2 hover:border-back" disabled={loading}>
+          <Button type="submit" className="w-full flex items-center justify-center bg-prim hover:bg-back hover:text-acc hover:border-2 hover:border-prim" disabled={loading} style={{ cursor: 'url(/poin.png), auto' }}>
             {loading ? (
               <>
                 <Loader2Icon className="animate-spin text-text mr-2 font-bold" />

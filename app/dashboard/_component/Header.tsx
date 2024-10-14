@@ -39,7 +39,7 @@ function Header() {
       <header className='sticky top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60'>
         <div className='container flex h-16 max-w-screen-2xl items-center justify-between'>
           <div className='flex items-center space-x-4'>
-            <Link href="/dashboard" className='flex items-center space-x-2'>
+            <Link href="/dashboard" className='flex items-center space-x-2' style={{ cursor: 'url(/poin.png), auto' }}>
               <Image src='/logo.svg' width={40} height={40} alt='Logo' className="rounded-full" />
               <span className='hidden font-bold text-xl sm:inline-block'>AI Content Creator</span>
             </Link>
@@ -52,8 +52,9 @@ function Header() {
                 variant={path === item.href ? "secondary" : "ghost"}
                 className="h-9 px-4"
                 asChild
+                style={{ cursor: 'url(/poin.png), auto' }}
               >
-                <Link href={item.href}>
+                <Link href={item.href} >
                   <item.icon className="mr-2 h-4 w-4" />
                   {item.label}
                 </Link>
@@ -61,7 +62,7 @@ function Header() {
             ))}
           </nav>
 
-          <div className='flex items-center space-x-4'>
+          <div className='flex items-center space-x-4' style={{ cursor: 'url(/poin.png), auto' }}>
             <UserButton
               appearance={{
                 elements: {
@@ -89,6 +90,7 @@ function Header() {
                           path === item.href ? 'bg-second' : ''
                         } flex items-center px-4 py-2 text-sm text-foreground hover:bg-second transition-colors`}
                         onClick={() => setIsOpen(false)}
+                        style={{ cursor: 'url(/poin.png), auto' }}
                       >
                         <item.icon className="mr-2 h-4 w-4" />
                         {item.label}

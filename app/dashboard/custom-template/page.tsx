@@ -129,11 +129,12 @@ interface AIContentGeneratorProps {
                   className="w-full p-2 border border-second rounded-md focus:ring-prim focus:border-prim"
                   rows={3}
                   placeholder="Type your prompt here..."
+                  style={{ cursor: 'url(/type.png), auto' }}
                 />
               </div>
               <Button
                 type="submit"
-                className="w-full py-2 bg-prim hover:bg-back hover:text-acc hover:border-2 hover:border-back transition-colors duration-300"
+                className="w-full py-2 bg-prim hover:bg-back hover:text-acc hover:border-2 hover:border-prim transition-colors duration-300"
                 style={{ cursor: 'url(/poin.png), auto' }}
                 disabled={loading || TotalUsage > limit}
               >

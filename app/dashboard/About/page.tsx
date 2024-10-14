@@ -19,7 +19,7 @@ export default function Component() {
                 content with ease.
               </p>
               <div>
-                <Button className="bg-prim text-back hover:bg-acc">Get Started</Button>
+                <Button className="bg-prim text-back border-2 border-prim hover:bg-acc" style={{ cursor: 'url(/poin.png), auto' }}>Get Started</Button>
               </div>
             </div>
             <div className="flex justify-center">
@@ -113,7 +113,7 @@ export default function Component() {
                 <p className="max-w-[600px] text-text md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
                   Join thousands of content creators who are already using Contentify to streamline their workflow and create amazing content.
                 </p>
-                <Button className="bg-prim text-back hover:bg-acc">Start Your Free Trial</Button>
+                <Button className="bg-prim text-back hover:bg-acc" style={{ cursor: 'url(/poin.png), auto' }}>Start Your Free Trial</Button>
               </div>
               <div className="flex justify-center">
                 <Image

@@ -24,13 +24,13 @@ export default function Component() {
                   <h4 className="text-lg font-medium">Nawaz Wariya</h4>
                   <p className="text-sm text-muted-foreground">CEO, Manager & Senior Developer</p>
                   <div className="flex items-center justify-center gap-2">
-                    <Link href="#" className="text-muted-foreground hover:text-prim" prefetch={false}>
+                    <Link href="#" className="text-muted-foreground hover:text-prim" prefetch={false} style={{ cursor: 'url(/poin.png), auto' }}>
                       <LinkedinIcon className="h-5 w-5" />
                     </Link>
-                    <Link href="#" className="text-muted-foreground hover:text-prim" prefetch={false}>
+                    <Link href="#" className="text-muted-foreground hover:text-prim" prefetch={false} style={{ cursor: 'url(/poin.png), auto' }}>
                       <TwitterIcon className="h-5 w-5" />
                     </Link>
-                    <Link href="#" className="text-muted-foreground hover:text-prim" prefetch={false}>
+                    <Link href="#" className="text-muted-foreground hover:text-prim" prefetch={false} style={{ cursor: 'url(/poin.png), auto' }}>
                       <GitlabIcon className="h-5 w-5" />
                     </Link>
                   </div>
@@ -45,13 +45,13 @@ export default function Component() {
                   <h4 className="text-lg font-medium">Shaikh Tabish</h4>
                   <p className="text-sm text-muted-foreground">CTO</p>
                   <div className="flex items-center justify-center gap-2">
-                    <Link href="#" className="text-muted-foreground hover:text-prim" prefetch={false}>
+                    <Link href="#" className="text-muted-foreground hover:text-prim" prefetch={false} style={{ cursor: 'url(/poin.png), auto' }}>
                       <LinkedinIcon className="h-5 w-5" />
                     </Link>
-                    <Link href="#" className="text-muted-foreground hover:text-prim" prefetch={false}>
+                    <Link href="#" className="text-muted-foreground hover:text-prim" prefetch={false} style={{ cursor: 'url(/poin.png), auto' }}>
                       <TwitterIcon className="h-5 w-5" />
                     </Link>
-                    <Link href="#" className="text-muted-foreground hover:text-prim" prefetch={false}>
+                    <Link href="#" className="text-muted-foreground hover:text-prim" prefetch={false} style={{ cursor: 'url(/poin.png), auto' }}>
                       <GitlabIcon className="h-5 w-5" />
                     </Link>
                   </div>
@@ -66,13 +66,13 @@ export default function Component() {
                   <h4 className="text-lg font-medium">Zaid Shaikh</h4>
                   <p className="text-sm text-muted-foreground">Lead Designer & Content Creator</p>
                   <div className="flex items-center justify-center gap-2">
-                    <Link href="#" className="text-muted-foreground hover:text-prim" prefetch={false}>
+                    <Link href="#" className="text-muted-foreground hover:text-prim" prefetch={false} style={{ cursor: 'url(/poin.png), auto' }}>
                       <LinkedinIcon className="h-5 w-5" />
                     </Link>
-                    <Link href="#" className="text-muted-foreground hover:text-prim" prefetch={false}>
+                    <Link href="#" className="text-muted-foreground hover:text-prim" prefetch={false} style={{ cursor: 'url(/poin.png), auto' }}>
                       <TwitterIcon className="h-5 w-5" />
                     </Link>
-                    <Link href="#" className="text-muted-foreground hover:text-prim" prefetch={false}>
+                    <Link href="#" className="text-muted-foreground hover:text-prim" prefetch={false} style={{ cursor: 'url(/poin.png), auto' }}>
                       <GitlabIcon className="h-5 w-5" />
                     </Link>
                   </div>
@@ -87,13 +87,13 @@ export default function Component() {
                   <h4 className="text-lg font-medium">Mustafa Shaikh</h4>
                   <p className="text-sm text-muted-foreground">Market Manager</p>
                   <div className="flex items-center justify-center gap-2">
-                    <Link href="#" className="text-muted-foreground hover:text-prim" prefetch={false}>
+                    <Link href="#" className="text-muted-foreground hover:text-prim" prefetch={false} style={{ cursor: 'url(/poin.png), auto' }}>
                       <LinkedinIcon className="h-5 w-5" />
                     </Link>
-                    <Link href="#" className="text-muted-foreground hover:text-prim" prefetch={false}>
+                    <Link href="#" className="text-muted-foreground hover:text-prim" prefetch={false} style={{ cursor: 'url(/poin.png), auto' }}>
                       <TwitterIcon className="h-5 w-5" />
                     </Link>
-                    <Link href="#" className="text-muted-foreground hover:text-prim" prefetch={false}>
+                    <Link href="#" className="text-muted-foreground hover:text-prim" prefetch={false} style={{ cursor: 'url(/poin.png), auto' }}>
                       <GitlabIcon className="h-5 w-5" />
                     </Link>
                   </div>

@@ -115,25 +115,25 @@ export default function TranslatorComponent() {
         <div className="p-6 space-y-6">
           <div className="flex items-center space-x-4">
             <Select value={sourceLanguage} onValueChange={setSourceLanguage} disabled={isTranslating}>
-              <SelectTrigger className="flex-1">
+              <SelectTrigger className="flex-1" style={{ cursor: 'url(/poin.png), auto' }}>
                 <SelectValue placeholder="Source Language" />
               </SelectTrigger>
               <SelectContent>
                 {languages.map((lang) => (
-                  <SelectItem key={lang.value} value={lang.value}>{lang.label}</SelectItem>
+                  <SelectItem key={lang.value} value={lang.value} style={{ cursor: 'url(/poin.png), auto' }}>{lang.label}</SelectItem>
                 ))}
               </SelectContent>
             </Select>
-            <Button variant="outline" size="icon" onClick={swapLanguages} disabled={isTranslating}>
+            <Button variant="outline" size="icon" onClick={swapLanguages} disabled={isTranslating} style={{ cursor: 'url(/poin.png), auto' }}>
               <ArrowRightLeft className="h-4 w-4" />
             </Button>
             <Select value={targetLanguage} onValueChange={setTargetLanguage} disabled={isTranslating}>
-              <SelectTrigger className="flex-1">
+              <SelectTrigger className="flex-1"style={{ cursor: 'url(/poin.png), auto' }}>
                 <SelectValue placeholder="Target Language" />
               </SelectTrigger>
               <SelectContent>
                 {languages.map((lang) => (
-                  <SelectItem key={lang.value} value={lang.value}>{lang.label}</SelectItem>
+                  <SelectItem key={lang.value} value={lang.value}style={{ cursor: 'url(/poin.png), auto' }}>{lang.label}</SelectItem>
                 ))}
               </SelectContent>
             </Select>
@@ -146,6 +146,7 @@ export default function TranslatorComponent() {
               rows={6}
               disabled={isTranslating}
               className="w-full p-4 border-2 border-acc rounded-lg resize-none text-lg"
+              style={{ cursor: 'url(/type.png), auto' }}
             />
             <Button
               variant="outline"
@@ -153,6 +154,7 @@ export default function TranslatorComponent() {
               onClick={() => isSpeaking ? stopSpeaking() : speakText(sourceText, sourceLanguage)}
               disabled={!sourceText}
               className="absolute bottom-2 right-2"
+              style={{ cursor: 'url(/poin.png), auto' }}
             >
               {isSpeaking ? <VolumeX className="h-4 w-4 text-acc" /> : <Volume2 className="h-4 w-4 text-acc" />}
             </Button>
@@ -162,6 +164,7 @@ export default function TranslatorComponent() {
               onClick={handleTranslate}
               disabled={isTranslating || !sourceText.trim()}
               className="px-8 py-2 bg-prim text-white rounded-full hover:bg-acc transition-colors"
+              style={{ cursor: 'url(/poin.png), auto' }}
             >
               {isTranslating ? (
                 <>
@@ -180,6 +183,7 @@ export default function TranslatorComponent() {
                 readOnly
                 rows={6}
                 className="w-full p-4 border-2 border-acc rounded-lg bg-gray-50 resize-none text-lg"
+                style={{ cursor: 'url(/type.png), auto' }}
               />
               <Button
                 variant="outline"
@@ -187,6 +191,7 @@ export default function TranslatorComponent() {
                 onClick={() => isSpeaking ? stopSpeaking() : speakText(translatedText, targetLanguage)}
                 disabled={!translatedText}
                 className="absolute bottom-2 right-2"
+                style={{ cursor: 'url(/poin.png), auto' }}
               >
                 {isSpeaking ? <VolumeX className="h-4 w-4 text-acc" /> : <Volume2 className="h-4 w-4 text-acc" />}
               </Button>
@@ -196,6 +201,7 @@ export default function TranslatorComponent() {
         <div 
           className="bg-gray-100 p-2 flex justify-center cursor-pointer"
           onClick={() => setIsExpanded(!isExpanded)}
+          style={{ cursor: 'url(/poin.png), auto' }}
         >
           {isExpanded ? (
             <ChevronUp className="h-6 w-6 text-acc" />

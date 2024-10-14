@@ -20,7 +20,7 @@ export default function Component() {
             </div>
           </div>
           <Image
-            src="/g1.webp"
+            src="/g4.jpeg"
             alt="AI Content Generation"
             width={600}
             height={400}

@@ -57,7 +57,7 @@ const UsageTrack: React.FC = () => {
   };
 
   return (
-    <div className='m-5 z-1000 border-2 border-text rounded-xl'>
+    <div className='m-5 z-1000 border-2 border-text rounded-xl' style={{ cursor: 'url(/poin.png), auto' }}>
       <div className='bg-prim text-white rounded-lg p-3 font-p'>
         <h2 className='font-medium'>Credits</h2>
         <div className='h-2 bg-second/25 w-full rounded-full'>
