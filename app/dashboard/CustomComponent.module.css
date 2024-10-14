@@ -1,9 +1,0 @@
-
-.customCursor {
-  cursor: url('/curs.png'), auto;
-}
-
-/* Pointer cursor for clickable elements */
-.customPointerCursor {
-  cursor: url('/cursors/pointer-cursor.png'), pointer;
-}

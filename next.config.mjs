@@ -7,11 +7,21 @@ const nextConfig = {
   images: {
     domains: ['cdn-icons-png.flaticon.com']
   },
-  webpack: (config) => {
+  webpack: (config, { isServer }) => {
+    if (!isServer) {
+      config.resolve.fallback = {
+        ...config.resolve.fallback,
+        fs: false,
+        net: false,
+        tls: false,
+      };
+    }
+
     config.module.rules.push({
       test: /\.css$/,
       use: ['style-loader', 'css-loader'],
     });
+
     return config;
   },
   env: {
