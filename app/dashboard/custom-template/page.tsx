@@ -19,15 +19,15 @@ import { toast } from 'react-hot-toast'
 
 interface AIContentGeneratorProps {
   selectedTemplate?: {
-    icon: string;
-    name: string;
-    desc: string;
-    slug: string;
-    aiprompt: string;
-  }
+    icon?: string;  // Mark properties as optional using ?
+    name?: string;
+    desc?: string;
+    slug?: string;
+    aiprompt?: string;
+  };
 }
 
- function AIContentGenerator({ selectedTemplate }: AIContentGeneratorProps) {
+const AIContentGenerator: React.FC<AIContentGeneratorProps> = ({ selectedTemplate }) => {
   const [prompt, setPrompt] = useState('')
   const [loading, setLoading] = useState(false)
   const [aiOutput, setAiOutput] = useState('')
@@ -53,7 +53,7 @@ interface AIContentGeneratorProps {
     setLoading(true)
 
     try {
-      const finalPrompt = selectedTemplate 
+      const finalPrompt = selectedTemplate
         ? `${prompt}, ${selectedTemplate.aiprompt}`
         : prompt
       const aiResponse = await generateCombinedText(finalPrompt)
@@ -111,21 +111,33 @@ interface AIContentGeneratorProps {
         <div className="lg:col-span-1">
           <div className="bg-white shadow-lg p-6 border border-second">
             <div className="flex items-center gap-4 mb-6">
-              <Image src={selectedTemplate?.icon || 'https://cdn-icons-png.flaticon.com/128/13963/13963247.png'} alt="icon" width={60} height={60} className="rounded-sm" />
+              <Image
+                src={selectedTemplate?.icon || 'https://cdn-icons-png.flaticon.com/128/13963/13963247.png'}
+                alt="icon"
+                width={60}
+                height={60}
+                className="rounded-sm"
+              />
               <div>
-                <h2 className="font-bold text-2xl mb-1 text-prim">{selectedTemplate?.name || 'Custom Template'}</h2>
-                <p className="text-text text-sm">{selectedTemplate?.desc || 'Create your own template'}</p>
+                <h2 className="font-bold text-2xl mb-1 text-prim">
+                  {selectedTemplate?.name || 'Custom Template'}
+                </h2>
+                <p className="text-text text-sm">
+                  {selectedTemplate?.desc || 'Create your own template'}
+                </p>
               </div>
             </div>
             <form onSubmit={generateAIContent} className="space-y-4">
               <div>
-                <label htmlFor="prompt" className="block text-sm font-medium text-text mb-1">Enter Your Prompt</label>
-                <Textarea 
+                <label htmlFor="prompt" className="block text-sm font-medium text-text mb-1">
+                  Enter Your Prompt
+                </label>
+                <Textarea
                   id="prompt"
-                  name="prompt" 
+                  name="prompt"
                   value={prompt}
                   onChange={(e) => setPrompt(e.target.value)}
-                  required 
+                  required
                   className="w-full p-2 border border-second rounded-md focus:ring-prim focus:border-prim"
                   rows={3}
                   placeholder="Type your prompt here..."
