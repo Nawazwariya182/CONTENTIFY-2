@@ -31,6 +31,7 @@
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
     "docx": "^8.5.0",
+    "dotenv": "^16.4.5",
     "drizzle-orm": "^0.32.0",
     "file-saver": "^2.0.5",
     "framer-motion": "^11.11.4",
