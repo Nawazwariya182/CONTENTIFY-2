@@ -1,8 +1,16 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-    images:{
-        domains:['cdn-icons-png.flaticon.com']
-    }
-};
-
-export default nextConfig;
+    reactStrictMode: true,
+    images: {
+      domains: ['cdn-icons-png.flaticon.com']
+    },
+    webpack: (config) => {
+      config.module.rules.push({
+        test: /\.css$/,
+        use: ['style-loader', 'css-loader'],
+      });
+      return config;
+    },
+  };
+  
+  export default nextConfig;
