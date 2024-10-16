@@ -1,7 +1,7 @@
 import { GoogleGenerativeAI } from "@google/generative-ai";
 
 const AIXPLAIN_API_KEY = process.env.NEXT_PUBLIC_AIXPLAIN_API_KEY || '';
-const AIXPLAIN_MODEL_ID = '669a63646eb56306647e1091'; 
+const AIXPLAIN_MODEL_ID = '6646261c6eb563165658bbb1'; 
 const GEMINI_API_KEY = process.env.NEXT_PUBLIC_GOOGLE_GEMINI_API_KEY || '';
 
 const genAI = new GoogleGenerativeAI(GEMINI_API_KEY);
@@ -42,6 +42,7 @@ async function getAIxplainOutput(prompt: string): Promise<string> {
         if (results.completed) {
           clearInterval(pollInterval);
           resolve(results.data);
+          console.log(results)
         }
       } catch (error) {
         clearInterval(pollInterval);
@@ -64,6 +65,7 @@ export async function generateCombinedText(prompt: string): Promise<string> {
   try {
     const aixplainOutput = await getAIxplainOutput(prompt);
     const finalOutput = await extendWithGemini(aixplainOutput, prompt);
+    console.log(finalOutput)
     return finalOutput;
   } catch (error) {
     console.error("Error in combined text generation:", error);

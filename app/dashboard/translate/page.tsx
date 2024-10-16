@@ -8,50 +8,50 @@ import { Loader2Icon, ArrowRightLeft, Volume2, VolumeX, ChevronDown, ChevronUp }
 import { toast } from 'react-hot-toast'
 import { translateText } from '@/utils/trans'
 
-export default function TranslatorComponent() {
-  // Move languages array inside the component
-  const languages = [
-    { value: 'en', label: 'English' },
-    { value: 'es', label: 'Spanish' },
-    { value: 'zh', label: 'Chinese (Simplified)' },
-    { value: 'hi', label: 'Hindi' },
-    { value: 'ar', label: 'Arabic' },
-    { value: 'pt', label: 'Portuguese' },
-    { value: 'bn', label: 'Bengali' },
-    { value: 'ru', label: 'Russian' },
-    { value: 'ja', label: 'Japanese' },
-    { value: 'pa', label: 'Punjabi' },
-    { value: 'de', label: 'German' },
-    { value: 'jv', label: 'Javanese' },
-    { value: 'ko', label: 'Korean' },
-    { value: 'fr', label: 'French' },
-    { value: 'te', label: 'Telugu' },
-    { value: 'mr', label: 'Marathi' },
-    { value: 'tr', label: 'Turkish' },
-    { value: 'ta', label: 'Tamil' },
-    { value: 'vi', label: 'Vietnamese' },
-    { value: 'ur', label: 'Urdu' },
-    { value: 'it', label: 'Italian' },
-    { value: 'th', label: 'Thai' },
-    { value: 'gu', label: 'Gujarati' },
-    { value: 'pl', label: 'Polish' },
-    { value: 'uk', label: 'Ukrainian' },
-    { value: 'fa', label: 'Persian' },
-    { value: 'ro', label: 'Romanian' },
-    { value: 'nl', label: 'Dutch' },
-    { value: 'el', label: 'Greek' },
-    { value: 'sv', label: 'Swedish' },
-    { value: 'cs', label: 'Czech' },
-    { value: 'hu', label: 'Hungarian' },
-    { value: 'he', label: 'Hebrew' },
-    { value: 'id', label: 'Indonesian' },
-    { value: 'ms', label: 'Malay' },
-    { value: 'da', label: 'Danish' },
-    { value: 'fi', label: 'Finnish' },
-    { value: 'no', label: 'Norwegian' },
-    { value: 'sk', label: 'Slovak' }
-  ]
+export const languages = [
+  { value: 'en', label: 'English' },
+  { value: 'es', label: 'Spanish' },
+  { value: 'zh', label: 'Chinese (Simplified)' },
+  { value: 'hi', label: 'Hindi' },
+  { value: 'ar', label: 'Arabic' },
+  { value: 'pt', label: 'Portuguese' },
+  { value: 'bn', label: 'Bengali' },
+  { value: 'ru', label: 'Russian' },
+  { value: 'ja', label: 'Japanese' },
+  { value: 'pa', label: 'Punjabi' },
+  { value: 'de', label: 'German' },
+  { value: 'jv', label: 'Javanese' },
+  { value: 'ko', label: 'Korean' },
+  { value: 'fr', label: 'French' },
+  { value: 'te', label: 'Telugu' },
+  { value: 'mr', label: 'Marathi' },
+  { value: 'tr', label: 'Turkish' },
+  { value: 'ta', label: 'Tamil' },
+  { value: 'vi', label: 'Vietnamese' },
+  { value: 'ur', label: 'Urdu' },
+  { value: 'it', label: 'Italian' },
+  { value: 'th', label: 'Thai' },
+  { value: 'gu', label: 'Gujarati' },
+  { value: 'pl', label: 'Polish' },
+  { value: 'uk', label: 'Ukrainian' },
+  { value: 'fa', label: 'Persian' },
+  { value: 'ro', label: 'Romanian' },
+  { value: 'nl', label: 'Dutch' },
+  { value: 'el', label: 'Greek' },
+  { value: 'sv', label: 'Swedish' },
+  { value: 'cs', label: 'Czech' },
+  { value: 'hu', label: 'Hungarian' },
+  { value: 'he', label: 'Hebrew' },
+  { value: 'id', label: 'Indonesian' },
+  { value: 'ms', label: 'Malay' },
+  { value: 'da', label: 'Danish' },
+  { value: 'fi', label: 'Finnish' },
+  { value: 'no', label: 'Norwegian' },
+  { value: 'sk', label: 'Slovak' },
+  { value: 'sa', label: 'Sanskrit' }
+]
 
+export default function TranslatorComponent() {
   const [sourceText, setSourceText] = useState('')
   const [translatedText, setTranslatedText] = useState('')
   const [sourceLanguage, setSourceLanguage] = useState('en')
@@ -116,25 +116,25 @@ export default function TranslatorComponent() {
         <div className="p-6 space-y-6">
           <div className="flex items-center space-x-4">
             <Select value={sourceLanguage} onValueChange={setSourceLanguage} disabled={isTranslating}>
-              <SelectTrigger className="flex-1">
+              <SelectTrigger className="flex-1" style={{ cursor: 'url(/poin.png), auto' }}>
                 <SelectValue placeholder="Source Language" />
               </SelectTrigger>
               <SelectContent>
                 {languages.map((lang) => (
-                  <SelectItem key={lang.value} value={lang.value}>{lang.label}</SelectItem>
+                  <SelectItem key={lang.value} value={lang.value} style={{ cursor: 'url(/poin.png), auto' }}>{lang.label}</SelectItem>
                 ))}
               </SelectContent>
             </Select>
-            <Button variant="outline" size="icon" onClick={swapLanguages} disabled={isTranslating}>
+            <Button variant="outline" size="icon" onClick={swapLanguages} disabled={isTranslating} style={{ cursor: 'url(/poin.png), auto' }}>
               <ArrowRightLeft className="h-4 w-4" />
             </Button>
             <Select value={targetLanguage} onValueChange={setTargetLanguage} disabled={isTranslating}>
-              <SelectTrigger className="flex-1">
+              <SelectTrigger className="flex-1"style={{ cursor: 'url(/poin.png), auto' }}>
                 <SelectValue placeholder="Target Language" />
               </SelectTrigger>
               <SelectContent>
                 {languages.map((lang) => (
-                  <SelectItem key={lang.value} value={lang.value}>{lang.label}</SelectItem>
+                  <SelectItem key={lang.value} value={lang.value}style={{ cursor: 'url(/poin.png), auto' }}>{lang.label}</SelectItem>
                 ))}
               </SelectContent>
             </Select>
@@ -147,6 +147,7 @@ export default function TranslatorComponent() {
               rows={6}
               disabled={isTranslating}
               className="w-full p-4 border-2 border-acc rounded-lg resize-none text-lg"
+              style={{ cursor: 'url(/type.png), auto' }}
             />
             <Button
               variant="outline"
@@ -154,6 +155,7 @@ export default function TranslatorComponent() {
               onClick={() => isSpeaking ? stopSpeaking() : speakText(sourceText, sourceLanguage)}
               disabled={!sourceText}
               className="absolute bottom-2 right-2"
+              style={{ cursor: 'url(/poin.png), auto' }}
             >
               {isSpeaking ? <VolumeX className="h-4 w-4 text-acc" /> : <Volume2 className="h-4 w-4 text-acc" />}
             </Button>
@@ -163,6 +165,7 @@ export default function TranslatorComponent() {
               onClick={handleTranslate}
               disabled={isTranslating || !sourceText.trim()}
               className="px-8 py-2 bg-prim text-white rounded-full hover:bg-acc transition-colors"
+              style={{ cursor: 'url(/poin.png), auto' }}
             >
               {isTranslating ? (
                 <>
@@ -181,6 +184,7 @@ export default function TranslatorComponent() {
                 readOnly
                 rows={6}
                 className="w-full p-4 border-2 border-acc rounded-lg bg-gray-50 resize-none text-lg"
+                style={{ cursor: 'url(/type.png), auto' }}
               />
               <Button
                 variant="outline"
@@ -188,11 +192,23 @@ export default function TranslatorComponent() {
                 onClick={() => isSpeaking ? stopSpeaking() : speakText(translatedText, targetLanguage)}
                 disabled={!translatedText}
                 className="absolute bottom-2 right-2"
+                style={{ cursor: 'url(/poin.png), auto' }}
               >
                 {isSpeaking ? <VolumeX className="h-4 w-4 text-acc" /> : <Volume2 className="h-4 w-4 text-acc" />}
               </Button>
             </div>
           </div>
+        </div>
+        <div 
+          className="bg-gray-100 p-2 flex justify-center cursor-pointer"
+          onClick={() => setIsExpanded(!isExpanded)}
+          style={{ cursor: 'url(/poin.png), auto' }}
+        >
+          {isExpanded ? (
+            <ChevronUp className="h-6 w-6 text-acc" />
+          ) : (
+            <ChevronDown className="h-6 w-6 text-acc" />
+          )}
         </div>
       </div>
     </div>

@@ -1,23 +1,19 @@
 'use client';
 
 import React, { useEffect, useRef } from 'react';
-import dynamic from 'next/dynamic';
+import '@toast-ui/editor/dist/toastui-editor.css';
+import { Editor } from '@toast-ui/react-editor';
 import { Button } from '@/components/ui/button';
 import { Copy, FileDown } from 'lucide-react';
+import { Document, Packer, Paragraph } from 'docx';
 import { saveAs } from 'file-saver';
-
-const Editor = dynamic(() => import('@toast-ui/react-editor').then((mod) => mod.Editor), {
-  ssr: false,
-});
-
-import '@toast-ui/editor/dist/toastui-editor.css';
 
 interface Props {
   aioutput: string;
 }
 
 function OutputSection({ aioutput }: Props) {
-  const editorRef = useRef<any>(null);
+  const editorRef = useRef<Editor>(null);
 
   useEffect(() => {
     const editorInstance = editorRef.current?.getInstance();
@@ -25,23 +21,21 @@ function OutputSection({ aioutput }: Props) {
   }, [aioutput]);
 
   const exportDOCX = () => {
-    import('docx').then(({ Document, Packer, Paragraph }) => {
-      const doc = new Document({
-        sections: [
-          {
-            properties: {},
-            children: [
-              new Paragraph({
-                text: editorRef.current?.getInstance().getMarkdown() || '',
-              }),
-            ],
-          },
-        ],
-      });
+    const doc = new Document({
+      sections: [
+        {
+          properties: {},
+          children: [
+            new Paragraph({
+              text: editorRef.current?.getInstance().getMarkdown() || '',
+            }),
+          ],
+        },
+      ],
+    });
 
-      Packer.toBlob(doc).then((blob: any) => {
-        saveAs(blob, 'document.docx');
-      });
+    Packer.toBlob(doc).then((blob: any) => {
+      saveAs(blob, 'document.docx');
     });
   };
 
@@ -70,6 +64,30 @@ function OutputSection({ aioutput }: Props) {
             <Copy className="w-4 h-4 text-back hover:text-prim" />
             Copy
           </Button>
+          {/* <Button
+            className="bg-prim text-back hover:bg-white hover:text-prim  hover:border-prim hover:border-2 transition-all flex gap-2"
+            onClick={exportDOCX}
+            style={{ cursor: 'url(/poin.png), auto' }}
+          >
+            <FileDown className="w-4 h-4" text-back />
+            DOCX
+          </Button>
+          <Button
+            className="bg-prim textbackc hover:bg-white hover:text-prim hover:border-prim hover:border-2 transition-all flex gap-2"
+            onClick={exportHTML}
+            style={{ cursor: 'url(/poin.png), auto' }}
+          >
+            <FileDown className="w-4 h-4 text-back" />
+            HTML
+          </Button>
+          <Button
+            className="bg-prim textbackc hover:bg-white hover:text-prim hover:border-prim hover:border-2 transition-all flex gap-2"
+            onClick={exportTXT}
+            style={{ cursor: 'url(/poin.png), auto' }}
+          >
+            <FileDown className="w-4 h-4 text-back" />
+            TXT
+          </Button> */}
         </div>
       </div>
       <div className="font-p">

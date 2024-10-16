@@ -1,18 +1,14 @@
 'use client'
 
 import React, { useState, useRef, useEffect } from 'react'
-import dynamic from 'next/dynamic'
 import { Button } from "@/components/ui/button"
 import { Loader2Icon, Mic, MicOff, VolumeX, Volume2 } from "lucide-react"
+import { Editor } from '@toast-ui/react-editor'
+import '@toast-ui/editor/dist/toastui-editor.css'
 import { toast } from 'react-hot-toast'
 import { generateCombinedText } from '@/utils/Gpt-4o'
 
-const Editor = dynamic(() => import('@toast-ui/react-editor').then((mod) => mod.Editor), {
-  ssr: false,
-})
-
-import '@toast-ui/editor/dist/toastui-editor.css'
-
+// Add these type declarations at the top of your file
 interface SpeechRecognition extends EventTarget {
   continuous: boolean;
   interimResults: boolean;
@@ -49,7 +45,7 @@ export default function VoiceAIContentGenerator() {
   const [isSpeaking, setIsSpeaking] = useState(false)
   const [loading, setLoading] = useState(false)
   const [aiOutput, setAiOutput] = useState('')
-  const editorRef = useRef<any>(null)
+  const editorRef = useRef<Editor>(null)
   const recognitionRef = useRef<SpeechRecognition | null>(null)
   const synthRef = useRef<SpeechSynthesis | null>(null)
 

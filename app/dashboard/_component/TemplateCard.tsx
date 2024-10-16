@@ -178,3 +178,44 @@ export const Summary: React.FC = () => {
     </CardWrapper>
   );
 };
+
+export const Food: React.FC = () => {
+  return (
+    <CardWrapper href="/dashboard/food">
+      <div className='flex justify-between items-start mb-4'>
+        <Image src="https://cdn-icons-png.flaticon.com/128/2414/2414398.png" alt='Voice Generator Icon' width={50} height={50} className="rounded-sm" />
+        <div className='flex items-center'>
+          <Pin className="w-6 h-6 text-prim mr-2" />
+          <span className='bg-prim text-back px-2 py-1 rounded-full text-xs font-semibold'>
+            Food
+          </span>
+        </div>
+      </div>
+      <div>
+        <h2 className='font-bold text-xl mb-2 text-prim'>Food Recommendation</h2>
+        <p className='text-black line-clamp-3 text-sm'>Get Recommended food to eat based on your mood.</p>
+      </div>
+    </CardWrapper>
+  );
+};
+
+export const Disease: React.FC = () => {
+  return (
+    <CardWrapper href="/dashboard/disease">
+      <div className='flex justify-between items-start mb-4'>
+        <Image src="https://cdn-icons-png.flaticon.com/128/2968/2968727.png" alt='Voice Generator Icon' width={50} height={50} className="rounded-sm" />
+        <div className='flex items-center'>
+          <Pin className="w-6 h-6 text-prim mr-2" />
+          <span className='bg-prim text-back px-2 py-1 rounded-full text-xs font-semibold'>
+            Health
+          </span>
+        </div>
+      </div>
+      <div>
+        <h2 className='font-bold text-xl mb-2 text-prim'>Disease Prediction</h2>
+        <p className='text-black line-clamp-3 text-sm'>Predict the Disease using ai So you can be Cautious.</p>
+      </div>
+    </CardWrapper>
+  );
+};
+
