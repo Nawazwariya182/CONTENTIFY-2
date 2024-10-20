@@ -1,65 +1,90 @@
 'use client'
 
-import React, { useState, useRef } from 'react'
+import React, { useState, useRef, useContext, useEffect } from 'react'
 import { Button } from "@/components/ui/button"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Textarea } from "@/components/ui/textarea"
 import { Loader2Icon, ArrowRightLeft, Volume2, VolumeX, ChevronDown, ChevronUp } from "lucide-react"
 import { toast } from 'react-hot-toast'
-import { translateText } from '@/utils/trans'
+import { translateText, detectLanguage } from '@/utils/trans'
+import { TotalUsageContext } from '@/app/(context)/TotalUsageContext'
+import { UpdateContext } from '@/app/(context)/UpdateContext'
+import { useUser } from '@clerk/nextjs'
+import { db } from '@/utils/db'
+import { translate } from '@/utils/schema'
 
-export const languages = [
-  { value: 'en', label: 'English' },
-  { value: 'es', label: 'Spanish' },
-  { value: 'zh', label: 'Chinese (Simplified)' },
-  { value: 'hi', label: 'Hindi' },
-  { value: 'ar', label: 'Arabic' },
-  { value: 'pt', label: 'Portuguese' },
-  { value: 'bn', label: 'Bengali' },
-  { value: 'ru', label: 'Russian' },
-  { value: 'ja', label: 'Japanese' },
-  { value: 'pa', label: 'Punjabi' },
-  { value: 'de', label: 'German' },
-  { value: 'jv', label: 'Javanese' },
-  { value: 'ko', label: 'Korean' },
-  { value: 'fr', label: 'French' },
-  { value: 'te', label: 'Telugu' },
-  { value: 'mr', label: 'Marathi' },
-  { value: 'tr', label: 'Turkish' },
-  { value: 'ta', label: 'Tamil' },
-  { value: 'vi', label: 'Vietnamese' },
-  { value: 'ur', label: 'Urdu' },
-  { value: 'it', label: 'Italian' },
-  { value: 'th', label: 'Thai' },
-  { value: 'gu', label: 'Gujarati' },
-  { value: 'pl', label: 'Polish' },
-  { value: 'uk', label: 'Ukrainian' },
-  { value: 'fa', label: 'Persian' },
-  { value: 'ro', label: 'Romanian' },
-  { value: 'nl', label: 'Dutch' },
-  { value: 'el', label: 'Greek' },
-  { value: 'sv', label: 'Swedish' },
-  { value: 'cs', label: 'Czech' },
-  { value: 'hu', label: 'Hungarian' },
-  { value: 'he', label: 'Hebrew' },
-  { value: 'id', label: 'Indonesian' },
-  { value: 'ms', label: 'Malay' },
-  { value: 'da', label: 'Danish' },
-  { value: 'fi', label: 'Finnish' },
-  { value: 'no', label: 'Norwegian' },
-  { value: 'sk', label: 'Slovak' },
-  { value: 'sa', label: 'Sanskrit' }
+const tones = [
+  { value: 'professional', label: 'Professional' },
+  { value: 'casual', label: 'Casual' },
+  { value: 'formal', label: 'Formal' },
+  { value: 'friendly', label: 'Friendly' },
+  { value: 'technical', label: 'Technical' },
 ]
 
-export default function TranslatorComponent() {
+export const languages = [
+  { value: 'ar', label: 'Arabic' },
+  { value: 'bn', label: 'Bengali' },
+  { value: 'zh', label: 'Chinese (Simplified)' },
+  { value: 'cs', label: 'Czech' },
+  { value: 'da', label: 'Danish' },
+  { value: 'nl', label: 'Dutch' },
+  { value: 'en', label: 'English' },
+  { value: 'fi', label: 'Finnish' },
+  { value: 'fr', label: 'French' },
+  { value: 'de', label: 'German' },
+  { value: 'el', label: 'Greek' },
+  { value: 'gu', label: 'Gujarati' },
+  { value: 'he', label: 'Hebrew' },
+  { value: 'hi', label: 'Hindi' },
+  { value: 'hu', label: 'Hungarian' },
+  { value: 'id', label: 'Indonesian' },
+  { value: 'it', label: 'Italian' },
+  { value: 'ja', label: 'Japanese' },
+  { value: 'jv', label: 'Javanese' },
+  { value: 'ko', label: 'Korean' },
+  { value: 'ms', label: 'Malay' },
+  { value: 'mr', label: 'Marathi' },
+  { value: 'no', label: 'Norwegian' },
+  { value: 'fa', label: 'Persian' },
+  { value: 'pl', label: 'Polish' },
+  { value: 'pt', label: 'Portuguese' },
+  { value: 'pa', label: 'Punjabi' },
+  { value: 'ro', label: 'Romanian' },
+  { value: 'ru', label: 'Russian' },
+  { value: 'sa', label: 'Sanskrit' },
+  { value: 'sk', label: 'Slovak' },
+  { value: 'es', label: 'Spanish' },
+  { value: 'sv', label: 'Swedish' },
+  { value: 'ta', label: 'Tamil' },
+  { value: 'te', label: 'Telugu' },
+  { value: 'th', label: 'Thai' },
+  { value: 'tr', label: 'Turkish' },
+  { value: 'uk', label: 'Ukrainian' },
+  { value: 'ur', label: 'Urdu' },
+  { value: 'vi', label: 'Vietnamese' },
+].sort((a, b) => a.label.localeCompare(b.label))
+
+export default function EnhancedTranslatorComponent() {
   const [sourceText, setSourceText] = useState('')
-  const [translatedText, setTranslatedText] = useState('')
-  const [sourceLanguage, setSourceLanguage] = useState('en')
-  const [targetLanguage, setTargetLanguage] = useState('es')
+  const [translatedText1, setTranslatedText1] = useState('')
+  const [translatedText2, setTranslatedText2] = useState('')
+  const [sourceLanguage, setSourceLanguage] = useState('')
+  const [targetLanguage1, setTargetLanguage1] = useState('en')
+  const [targetLanguage2, setTargetLanguage2] = useState('')
+  const [tone, setTone] = useState('professional')
   const [isTranslating, setIsTranslating] = useState(false)
   const [isSpeaking, setIsSpeaking] = useState(false)
   const [isExpanded, setIsExpanded] = useState(false)
   const speechSynthesisRef = useRef<SpeechSynthesis | null>(null)
+  const { totalUsage, setTotalUsage } = useContext(TotalUsageContext)
+  const { setupdatecredit } = useContext(UpdateContext)
+  const { user } = useUser()
+
+  useEffect(() => {
+    if (sourceText) {
+      detectLanguage(sourceText).then(setSourceLanguage)
+    }
+  }, [sourceText])
 
   const handleTranslate = async () => {
     if (!sourceText.trim()) {
@@ -67,11 +92,32 @@ export default function TranslatorComponent() {
       return
     }
 
+    const creditsNeeded = targetLanguage2 ? Math.floor(Math.random() * (400 - 100 + 1) + 100) : Math.floor(Math.random() * (200 - 50 + 1) + 50)
+
+    if (totalUsage + creditsNeeded > 100000) {
+      toast.error("Not enough credits for translation")
+      return
+    }
+
     setIsTranslating(true)
     try {
-      const result = await translateText(sourceText, sourceLanguage, targetLanguage)
-      setTranslatedText(result)
+      const [result1, result2] = await Promise.all([
+        translateText(sourceText, sourceLanguage, targetLanguage1, tone),
+        targetLanguage2 ? translateText(sourceText, sourceLanguage, targetLanguage2, tone) : Promise.resolve('')
+      ])
+
+      setTranslatedText1(result1)
+      setTranslatedText2(result2)
       setIsExpanded(true)
+      
+      await saveTranslationToDB(sourceText, sourceLanguage, [
+        { language: targetLanguage1, text: result1 },
+        ...(targetLanguage2 ? [{ language: targetLanguage2, text: result2 }] : [])
+      ])
+
+      // setTotalUsage(prevUsage => prevUsage + creditsNeeded)
+      setupdatecredit?.(Date.now())
+      
       toast.success("Translation completed")
     } catch (error) {
       console.error("Translation error:", error)
@@ -81,11 +127,21 @@ export default function TranslatorComponent() {
     }
   }
 
-  const swapLanguages = () => {
-    setSourceLanguage(targetLanguage)
-    setTargetLanguage(sourceLanguage)
-    setSourceText(translatedText)
-    setTranslatedText(sourceText)
+  const saveTranslationToDB = async (sourceText: string, sourceLanguage: string, translations: { language: string, text: string }[]) => {
+    if (!user?.id) return
+
+    try {
+      await db.insert(translate).values({
+        userId: user.id,
+        sourceText,
+        sourceLanguage,
+        translations: JSON.stringify(translations),
+        tone,
+        createdAt: new Date().toISOString(),
+      })
+    } catch (error) {
+      console.error("Error saving translation to DB:", error)
+    }
   }
 
   const speakText = (text: string, lang: string) => {
@@ -107,17 +163,27 @@ export default function TranslatorComponent() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-100 flex items-center justify-center p-4">
-      <div className="w-full max-w-4xl bg-white rounded-lg shadow-xl overflow-hidden">
-        <div className="bg-prim text-white p-6">
-          <h2 className="text-3xl font-bold mb-2">AI Translator</h2>
-          <p className="text-sm opacity-80">Bridging languages with advanced AI</p>
+    <div className="min-h-screen bg-gradient-to-b from-gray-100 to-gray-200 flex items-center justify-center p-4">
+      <div className="w-full max-w-4xl bg-white rounded-lg shadow-2xl overflow-hidden">
+        <div className="bg-gradient-to-r from-blue-600 to-purple-600 text-white p-6">
+          <h2 className="text-3xl font-bold mb-2"> AI Translator</h2>
+          <p className="text-sm opacity-80">Bridging languages with advanced AI and customizable tones</p>
         </div>
         <div className="p-6 space-y-6">
-          <div className="flex items-center space-x-4">
+          <div className="flex flex-wrap items-center gap-4">
             <Select value={sourceLanguage} onValueChange={setSourceLanguage} disabled={isTranslating}>
-              <SelectTrigger className="flex-1" style={{ cursor: 'url(/poin.png), auto' }}>
-                <SelectValue placeholder="Source Language" />
+              <SelectTrigger className="w-[200px]" style={{ cursor: 'url(/poin.png), auto' }}>
+                <SelectValue placeholder="Detected Language" />
+              </SelectTrigger>
+              <SelectContent>
+                {languages.map((lang) => (
+                  <SelectItem key={lang.value} value={lang.value}style={{ cursor: 'url(/poin.png), auto' }}>{lang.label}</SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+            <Select value={targetLanguage1} onValueChange={setTargetLanguage1} disabled={isTranslating}>
+              <SelectTrigger className="w-[200px]" style={{ cursor: 'url(/poin.png), auto' }}>
+                <SelectValue placeholder="Target Language 1" />
               </SelectTrigger>
               <SelectContent>
                 {languages.map((lang) => (
@@ -125,16 +191,24 @@ export default function TranslatorComponent() {
                 ))}
               </SelectContent>
             </Select>
-            <Button variant="outline" size="icon" onClick={swapLanguages} disabled={isTranslating} style={{ cursor: 'url(/poin.png), auto' }}>
-              <ArrowRightLeft className="h-4 w-4" />
-            </Button>
-            <Select value={targetLanguage} onValueChange={setTargetLanguage} disabled={isTranslating}>
-              <SelectTrigger className="flex-1"style={{ cursor: 'url(/poin.png), auto' }}>
-                <SelectValue placeholder="Target Language" />
+            <Select value={targetLanguage2} onValueChange={setTargetLanguage2} disabled={isTranslating}>
+              <SelectTrigger className="w-[200px]"style={{ cursor: 'url(/poin.png), auto' }}>
+                <SelectValue placeholder="Target Language 2 (Optional)" />
               </SelectTrigger>
               <SelectContent>
+                <SelectItem value="none">None</SelectItem>
                 {languages.map((lang) => (
-                  <SelectItem key={lang.value} value={lang.value}style={{ cursor: 'url(/poin.png), auto' }}>{lang.label}</SelectItem>
+                  <SelectItem key={lang.value} value={lang.value} style={{ cursor: 'url(/poin.png), auto' }}>{lang.label}</SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+            <Select value={tone} onValueChange={setTone} disabled={isTranslating}>
+              <SelectTrigger className="w-[200px]"style={{ cursor: 'url(/poin.png), auto' }}>
+                <SelectValue placeholder="Select Tone" />
+              </SelectTrigger>
+              <SelectContent>
+                {tones.map((t) => (
+                  <SelectItem key={t.value} value={t.value}style={{ cursor: 'url(/poin.png), auto' }}>{t.label}</SelectItem>
                 ))}
               </SelectContent>
             </Select>
@@ -146,8 +220,8 @@ export default function TranslatorComponent() {
               placeholder="Enter text to translate"
               rows={6}
               disabled={isTranslating}
-              className="w-full p-4 border-2 border-acc rounded-lg resize-none text-lg"
               style={{ cursor: 'url(/type.png), auto' }}
+              className="w-full p-4 border-2 border-gray-300 rounded-lg resize-none text-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
             />
             <Button
               variant="outline"
@@ -157,15 +231,15 @@ export default function TranslatorComponent() {
               className="absolute bottom-2 right-2"
               style={{ cursor: 'url(/poin.png), auto' }}
             >
-              {isSpeaking ? <VolumeX className="h-4 w-4 text-acc" /> : <Volume2 className="h-4 w-4 text-acc" />}
+              {isSpeaking ? <VolumeX className="h-4 w-4 text-gray-500" style={{ cursor: 'url(/poin.png), auto' }}/> : <Volume2 className="h-4 w-4 text-gray-500" style={{ cursor: 'url(/poin.png), auto' }}/>}
             </Button>
           </div>
           <div className="flex justify-center">
             <Button
               onClick={handleTranslate}
               disabled={isTranslating || !sourceText.trim()}
-              className="px-8 py-2 bg-prim text-white rounded-full hover:bg-acc transition-colors"
               style={{ cursor: 'url(/poin.png), auto' }}
+              className="px-8 py-2 bg-gradient-to-r from-blue-500 to-purple-500 text-white rounded-full hover:from-blue-600 hover:to-purple-600 transition-all duration-300 transform hover:scale-105"
             >
               {isTranslating ? (
                 <>
@@ -177,39 +251,62 @@ export default function TranslatorComponent() {
               )}
             </Button>
           </div>
-          <div className={`overflow-hidden transition-all duration-300 ease-in-out ${isExpanded ? 'max-h-96' : 'max-h-0'}`}>
-            <div className="relative mt-4">
-              <Textarea
-                value={translatedText}
-                readOnly
-                rows={6}
-                className="w-full p-4 border-2 border-acc rounded-lg bg-gray-50 resize-none text-lg"
-                style={{ cursor: 'url(/type.png), auto' }}
-              />
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={() => isSpeaking ? stopSpeaking() : speakText(translatedText, targetLanguage)}
-                disabled={!translatedText}
-                className="absolute bottom-2 right-2"
-                style={{ cursor: 'url(/poin.png), auto' }}
-              >
-                {isSpeaking ? <VolumeX className="h-4 w-4 text-acc" /> : <Volume2 className="h-4 w-4 text-acc" />}
-              </Button>
+          <div className={`overflow-hidden transition-all duration-300 ease-in-out ${isExpanded ? 'max-h-[1000px]' : 'max-h-0'}`}>
+            <div className="space-y-4">
+              <div className="relative">
+                <Textarea
+                  value={translatedText1}
+                  readOnly
+                  rows={6}
+                  style={{ cursor: 'url(/type.png), auto' }}
+                  className="w-full p-4 border-2 border-gray-300 rounded-lg bg-gray-50 resize-none text-lg"
+                />
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => isSpeaking ? stopSpeaking() : speakText(translatedText1, targetLanguage1)}
+                  disabled={!translatedText1}
+                  style={{ cursor: 'url(/poin.png), auto' }}
+                  className="absolute bottom-2 right-2"
+                >
+                  {isSpeaking ? <VolumeX className="h-4 w-4 text-gray-500"style={{ cursor: 'url(/poin.png), auto' }} /> : <Volume2 className="h-4 w-4 text-gray-500" style={{ cursor: 'url(/poin.png), auto' }}/>}
+                </Button>
+              </div>
+              {targetLanguage2 && (
+                <div className="relative">
+                  <Textarea
+                    value={translatedText2}
+                    readOnly
+                    rows={6}
+                    className="w-full p-4 border-2 border-gray-300 rounded-lg bg-gray-50 resize-none text-lg"
+                    style={{ cursor: 'url(/type.png), auto' }}
+                  />
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => isSpeaking ? stopSpeaking() : speakText(translatedText2, targetLanguage2)}
+                    disabled={!translatedText2}
+                    className="absolute bottom-2 right-2"
+                    style={{ cursor: 'url(/poin.png), auto' }}
+                  >
+                    {isSpeaking ? <VolumeX className="h-4 w-4 text-gray-500"style={{ cursor: 'url(/poin.png), auto' }} /> : <Volume2 className="h-4 w-4 text-gray-500" style={{ cursor: 'url(/poin.png), auto' }}/>}
+                  </Button>
+                </div>
+              )}
             </div>
           </div>
         </div>
         <div 
-          className="bg-gray-100 p-2 flex justify-center cursor-pointer"
+          className="bg-gray-100 p-2 flex justify-center cursor-pointer hover:bg-gray-200 transition-colors duration-200"
           onClick={() => setIsExpanded(!isExpanded)}
-          style={{ cursor: 'url(/poin.png), auto' }}
         >
           {isExpanded ? (
-            <ChevronUp className="h-6 w-6 text-acc" />
+            <ChevronUp className="h-6 w-6 text-gray-600" style={{ cursor: 'url(/poin.png), auto' }}/>
           ) : (
-            <ChevronDown className="h-6 w-6 text-acc" />
+            <ChevronDown className="h-6 w-6 text-gray-600" style={{ cursor: 'url(/poin.png), auto' }} />
           )}
         </div>
+      
       </div>
     </div>
   )

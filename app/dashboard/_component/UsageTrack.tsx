@@ -66,7 +66,7 @@ const UsageTrack: React.FC = () => {
             style={{ width: `${(totalUsage / 100000) * 100}%` }}
           />
         </div>
-        <h2 className='text-xs my-2'>{totalUsage}/100000 Credits</h2>
+        <h2 className='text-xs my-2'>{totalUsage}/100000 Creditsa</h2>
       </div>
     </div>
   );

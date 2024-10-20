@@ -1,6 +1,6 @@
 const AIXPLAIN_API_KEY = process.env.NEXT_PUBLIC_AIXPLAIN_API_KEY_3 || '';
 const AIXPLAIN_TRANSLATE_MODEL_ID = '66aa869f6eb56342c26057e1';
-const AIXPLAIN_DETECT_MODEL_ID = '66aa869f6eb56342c26057e2'; // Replace with the actual model ID for language detection
+const AIXPLAIN_DETECT_MODEL_ID = '66aa869f6eb56342c26057e2';
 
 interface TranslationResponse {
   data: string;
@@ -12,7 +12,7 @@ interface DetectionResponse {
   completed: boolean;
 }
 
-export async function translateText(text: string, sourceLanguage: string, targetLanguage: string): Promise<string> {
+export async function translateText(text: string, sourceLanguage: string, targetLanguage: string, tone: string): Promise<string> {
   try {
     const response = await fetch(`https://models.aixplain.com/api/v1/execute/${AIXPLAIN_TRANSLATE_MODEL_ID}`, {
       method: 'POST',
@@ -20,6 +20,7 @@ export async function translateText(text: string, sourceLanguage: string, target
         text: text,
         sourcelanguage: sourceLanguage,
         targetlanguage: targetLanguage,
+        tone: tone, // Add the tone parameter
       }),
       headers: {
         'x-api-key': AIXPLAIN_API_KEY,
@@ -80,7 +81,7 @@ export async function detectLanguage(text: string): Promise<string> {
     });
 
     if (!response.ok) {
-      throw new Error(`AIxplain API error: ${response.statusText}`);
+      // throw new Error(`AIxplain API error: ${response.statusText}`);
     }
 
     const results = await response.json();
@@ -98,7 +99,7 @@ export async function detectLanguage(text: string): Promise<string> {
           });
 
           if (!statusResponse.ok) {
-            throw new Error(`AIxplain status API error: ${statusResponse.statusText}`);
+            // throw new Error(`AIxplain status API error: ${statusResponse.statusText}`);/
           }
 
           const results: DetectionResponse = await statusResponse.json();

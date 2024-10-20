@@ -78,6 +78,7 @@ export default function FoodSuggestionUI() {
                 onChange={(e) => setRestaurant(prev => ({ ...prev, name: e.target.value }))}
                 placeholder="Enter restaurant name"
                 required
+                style={{ cursor: 'url(/type.png), auto' }}
               />
             </div>
             <div className="space-y-2">
@@ -88,6 +89,7 @@ export default function FoodSuggestionUI() {
                 onChange={(e) => setRestaurant(prev => ({ ...prev, area: e.target.value }))}
                 placeholder="Enter restaurant area"
                 required
+                style={{ cursor: 'url(/type.png), auto' }}
               />
             </div>
           </div>
@@ -100,6 +102,7 @@ export default function FoodSuggestionUI() {
                 onChange={(e) => setRestaurant(prev => ({ ...prev, cuisineType: e.target.value }))}
                 placeholder="Enter cuisine type"
                 required
+                style={{ cursor: 'url(/type.png), auto' }}
               />
             </div>
             <div className="space-y-2">
@@ -113,6 +116,7 @@ export default function FoodSuggestionUI() {
                   value={numberOfPeople}
                   onChange={(e) => setNumberOfPeople(parseInt(e.target.value))}
                   required
+                  style={{ cursor: 'url(/type.png), auto' }}
                 />
               </div>
             </div>
@@ -123,6 +127,7 @@ export default function FoodSuggestionUI() {
               className=''
               checked={hasPurchased}
               onCheckedChange={(checked) => setHasPurchased(checked as boolean)}
+              style={{ cursor: 'url(/poin.png), auto' }}
             />
             <Label htmlFor="has-purchased">I have already purchased food</Label>
           </div>
@@ -135,16 +140,17 @@ export default function FoodSuggestionUI() {
                   value={newOrderedItem}
                   onChange={(e) => setNewOrderedItem(e.target.value)}
                   placeholder="Enter ordered item"
+                  style={{ cursor: 'url(/type.png), auto' }}
                 />
-                <Button type="button" onClick={addOrderedItem} size="icon" className='bg-acc hover:bg-prim'>
+                <Button type="button" onClick={addOrderedItem} size="icon" className='bg-acc hover:bg-prim' style={{ cursor: 'url(/poin.png), auto' }}>
                   <Plus className="h-4 w-4" />
                 </Button>
               </div>
               <ul className="mt-2 space-y-1">
                 {orderedItems.map((item, index) => (
-                  <li key={index} className="flex items-center justify-between bg-second text-secondary-foreground rounded-md px-2 py-1">
+                  <li key={index} className="flex items-center justify-between bg-second text-secondary-foreground rounded-md px-2 py-1" style={{ cursor: 'url(/poin.png), auto' }}>
                     <span>{item}</span>
-                    <Button variant="ghost" size="sm" onClick={() => removeOrderedItem(index)}>
+                    <Button variant="ghost" size="sm" onClick={() => removeOrderedItem(index)} style={{ cursor: 'url(/poin.png), auto' }}>
                       <X className="h-4 w-4" />
                     </Button>
                   </li>
@@ -152,7 +158,7 @@ export default function FoodSuggestionUI() {
               </ul>
             </div>
           )}
-          <Button type="submit" disabled={isLoading} className="w-full bg-prim hover:bg-acc">
+          <Button type="submit" disabled={isLoading} className="w-full bg-prim hover:bg-acc" style={{ cursor: 'url(/poin.png), auto' }}>
             {isLoading ? (
               <>
                 <Loader2 className="mr-2 h-4 w-4 animate-spin" />
@@ -175,9 +181,9 @@ export default function FoodSuggestionUI() {
         {(dishes.length > 0 || accompaniments.length > 0 || combinations.length > 0) && (
           <Tabs defaultValue="dishes" className="w-full">
             <TabsList className="grid w-full grid-cols-3">
-              <TabsTrigger value="dishes">Dishes</TabsTrigger>
-              <TabsTrigger value="accompaniments">Accompaniments</TabsTrigger>
-              <TabsTrigger value="combinations">Combinations</TabsTrigger>
+              <TabsTrigger value="dishes" style={{ cursor: 'url(/poin.png), auto' }}>Dishes</TabsTrigger>
+              <TabsTrigger value="accompaniments" style={{ cursor: 'url(/poin.png), auto' }}>Accompaniments</TabsTrigger>
+              <TabsTrigger value="combinations" style={{ cursor: 'url(/poin.png), auto' }}>Combinations</TabsTrigger>
             </TabsList>
             <TabsContent value="dishes">
               <h3 className="text-lg font-semibold mb-2">Suggested Dishes:</h3>

@@ -41,7 +41,7 @@ function Header() {
           <div className='flex items-center space-x-4'>
             <Link href="/dashboard" className='flex items-center space-x-2' style={{ cursor: 'url(/poin.png), auto' }}>
               <Image src='/logo.svg' width={40} height={40} alt='Logo' className="rounded-full" />
-              <span className='hidden font-bold text-xl sm:inline-block'>AI Content Creator</span>
+              <span className='hidden font-bold text-xl sm:inline-block'>Contentify</span>
             </Link>
           </div>
 

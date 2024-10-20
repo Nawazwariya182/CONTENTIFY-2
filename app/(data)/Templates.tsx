@@ -123,22 +123,6 @@ const Templates: TEMPLATE[] = [
         ]
     },
     {
-        name: "SEO Meta Description",
-        desc: "An AI tool that generates SEO meta descriptions based on the provided content.",
-        category: "SEO",
-        icon: "https://cdn-icons-png.flaticon.com/128/6515/6515170.png",
-        aiprompt: "Generate an SEO-friendly meta description based on the given content. Provide the result in a rich text editor format.",
-        slug: "Generate-SEO-Meta-Description",
-        form: [
-            {
-                label: "Enter content",
-                field: "textarea",
-                name: "content",
-                required: true
-            }
-        ]
-    },
-    {
         name: "Landing Page Copy",
         desc: "An AI tool that generates landing page copy based on the provided product or service details.",
         category: "Marketing",
@@ -234,72 +218,6 @@ const Templates: TEMPLATE[] = [
                 label: "Enter podcast outline",
                 field: "textarea",
                 name: "outline",
-                required: true
-            }
-        ]
-    },
-    {
-        name: "Press Release",
-        desc: "An AI tool that generates press releases based on the provided information.",
-        category: "Public Relations",
-        icon: "https://cdn-icons-png.flaticon.com/128/5395/5395809.png",
-        aiprompt: "Generate a professional press release based on the given information. Provide the result in a rich text editor format.",
-        slug: "Generate-Press-Release",
-        form: [
-            {
-                label: "Enter press release topic",
-                field: "input",
-                name: "topic",
-                required: true
-            },
-            {
-                label: "Enter key points",
-                field: "textarea",
-                name: "keyPoints",
-                required: true
-            }
-        ]
-    },
-    {
-        name: "White Paper",
-        desc: "An AI tool that generates white papers based on the provided information.",
-        category: "Business",
-        icon: "https://cdn-icons-png.flaticon.com/128/2377/2377960.png",
-        aiprompt: "Generate a comprehensive white paper based on the given topic and key points. Provide the result in a rich text editor format.",
-        slug: "Generate-White-Paper",
-        form: [
-            {
-                label: "Enter white paper topic",
-                field: "input",
-                name: "topic",
-                required: true
-            },
-            {
-                label: "Enter key points",
-                field: "textarea",
-                name: "keyPoints",
-                required: true
-            }
-        ]
-    },
-    {
-        name: "Case Study",
-        desc: "An AI tool that generates case studies based on the provided information.",
-        category: "Business",
-        icon: "https://cdn-icons-png.flaticon.com/128/5738/5738486.png",
-        aiprompt: "Generate a detailed case study based on the given topic and key points. Provide the result in a rich text editor format.",
-        slug: "Generate-Case-Study",
-        form: [
-            {
-                label: "Enter case study topic",
-                field: "input",
-                name: "topic",
-                required: true
-            },
-            {
-                label: "Enter key points",
-                field: "textarea",
-                name: "keyPoints",
                 required: true
             }
         ]
@@ -539,35 +457,7 @@ const Templates: TEMPLATE[] = [
                 required: true
             }
         ]
-    },
-    {
-        name: "Employee Handbook",
-        desc: "An AI tool that generates employee handbooks based on the provided company policies and guidelines.",
-        category: "Human Resources",
-        icon: "https://cdn-icons-png.flaticon.com/128/15325/15325623.png",
-        aiprompt: "Generate a comprehensive employee handbook based on the given company policies and guidelines. Provide the result in a rich text editor format.",
-        slug: "Generate-Employee-Handbook",
-        form: [
-            {
-                label: "Enter company name",
-                field: "input",
-                name: "companyName",
-                required: true
-            },
-            {
-                label: "Enter company policies",
-                field: "textarea",
-                name: "policies",
-                required: true
-            },
-            {
-                label: "Enter company guidelines",
-                field: "textarea",
-                name: "guidelines",
-                required: true
-            }
-        ]
-    },
+    },    
     {
         name: "Meeting Agenda",
         desc: "An AI tool that generates meeting agendas based on the provided details.",
@@ -663,28 +553,6 @@ const Templates: TEMPLATE[] = [
         ]
     },
     {
-        name: "FAQ",
-        desc: "An AI tool that generates FAQs based on the provided product or service details.",
-        category: "Customer Service",
-        icon: "https://cdn-icons-png.flaticon.com/128/2618/2618540.png",
-        aiprompt: "Generate a comprehensive FAQ section based on the given product or service details. Provide the result in a rich text editor format.",
-        slug: "Generate-FAQ",
-        form: [
-            {
-                label: "Enter product/service name",
-                field: "input",
-                name: "productServiceName",
-                required: true
-            },
-            {
-                label: "Enter frequently asked questions",
-                field: "textarea",
-                name: "faqs",
-                required: true
-            }
-        ]
-    },
-    {
         name: "Slogan",
         desc: "An AI tool that generates slogans based on the provided brand name and key message.",
         category: "Branding",
@@ -735,34 +603,6 @@ const Templates: TEMPLATE[] = [
         ]
     },
     {
-        name: "User Manual",
-        desc: "An AI tool that generates user manuals based on the provided product details.",
-        category: "Technical Writing",
-        icon: "https://cdn-icons-png.flaticon.com/128/5194/5194529.png",
-        aiprompt: "Generate a comprehensive user manual based on the given product details. Provide the result in a rich text editor format.",
-        slug: "Generate-User-Manual",
-        form: [
-            {
-                label: "Enter product name",
-                field: "input",
-                name: "productName",
-                required: true
-            },
-            {
-                label: "Enter product features",
-                field: "textarea",
-                name: "features",
-                required: true
-            },
-            {
-                label: "Enter product instructions",
-                field: "textarea",
-                name: "instructions",
-                required: true
-            }
-        ]
-    },
-    {
         name: "Technical Specification",
         desc: "An AI tool that generates technical specifications based on the provided product details.",
         category: "Technical Writing",
@@ -780,34 +620,6 @@ const Templates: TEMPLATE[] = [
                 label: "Enter technical details",
                 field: "textarea",
                 name: "technicalDetails",
-                required: true
-            }
-        ]
-    },
-    {
-        name: "Sales Pitch",
-        desc: "An AI tool that generates sales pitches based on the provided product or service details.",
-        category: "Sales",
-        icon: "https://cdn-icons-png.flaticon.com/128/11131/11131688.png",
-        aiprompt: "Generate a persuasive sales pitch based on the given product or service details. Provide the result in a rich text editor format.",
-        slug: "Generate-Sales-Pitch",
-        form: [
-            {
-                label: "Enter product/service name",
-                field: "input",
-                name: "productServiceName",
-                required: true
-            },
-            {
-                label: "Enter key benefits",
-                field: "textarea",
-                name: "benefits",
-                required: true
-            },
-            {
-                label: "Enter target audience",
-                field: "input",
-                name: "audience",
                 required: true
             }
         ]
@@ -891,28 +703,6 @@ const Templates: TEMPLATE[] = [
         ]
     },
     {
-        name: "Channel Name Generator",
-        desc: "An AI tool that suggests unique names for YouTube channels based on preferences and niche.",
-        category: "YouTube",
-        icon: "https://cdn-icons-png.flaticon.com/128/12531/12531345.png",
-        aiprompt: "Generate a catchy and unique name suggestion for a YouTube channel based on your preferences and niche. Provide the result in a rich text editor format.",
-        slug: "Generate-Channel-Name",
-        form: [
-            {
-                label: "Enter preferences (e.g., fun, educational)",
-                field: "input",
-                name: "preferences",
-                required: true
-            },
-            {
-                label: "Enter niche or topic",
-                field: "input",
-                name: "niche",
-                required: true
-            }
-        ]
-    },
-    {
         name: "Video Description Generator",
         desc: "An AI tool that generates video descriptions based on the video title and key points.",
         category: "YouTube",
@@ -935,27 +725,6 @@ const Templates: TEMPLATE[] = [
         ]
     },
     {
-        name: "Thumbnail Design Suggestions",
-        desc: "An AI tool that suggests thumbnail designs for YouTube videos based on video content and style preferences.",
-        category: "YouTube",
-        icon: "https://cdn-icons-png.flaticon.com/128/4906/4906362.png",
-        aiprompt: "Suggest thumbnail designs for a YouTube video based on its content and your style preferences. Provide the result in a rich text editor format.",
-        slug: "Generate-Thumbnail-Design",
-        form: [
-            {
-                label: "Enter video content",
-                field: "textarea",
-                name: "videoContent",
-                required: true
-            },
-            {
-                label: "Enter style preferences",
-                field: "textarea",
-                name: "stylePreferences"
-            }
-        ]
-    },
-    {
         name: "Social Media Video Idea",
         desc: "An AI tool that generates ideas for social media video content based on specified topics.",
         category: "YouTube",
@@ -967,98 +736,6 @@ const Templates: TEMPLATE[] = [
                 label: "Enter topics of interest",
                 field: "textarea",
                 name: "topics",
-                required: true
-            }
-        ]
-    },
-    {
-        name: "Live Streaming Topic Generator",
-        desc: "An AI tool that generates topics for live streaming sessions based on audience interests.",
-        category: "YouTube",
-        icon: "https://cdn-icons-png.flaticon.com/128/2177/2177994.png",
-        aiprompt: "Generate engaging topics for live streaming sessions based on audience interests. Provide the result in a rich text editor format.",
-        slug: "Generate-Live-Streaming-Topic",
-        form: [
-            {
-                label: "Enter audience interests",
-                field: "textarea",
-                name: "audienceInterests",
-                required: true
-            }
-        ]
-    },
-    {
-        name: "YouTube Video SEO Tips",
-        desc: "An AI tool that provides SEO tips for optimizing YouTube videos based on content and target audience.",
-        category: "YouTube",
-        icon: "https://cdn-icons-png.flaticon.com/128/1077/1077186.png",
-        aiprompt: "Provide SEO tips for optimizing YouTube videos based on content and target audience. Provide the result in a rich text editor format.",
-        slug: "Generate-YouTube-SEO-Tips",
-        form: [
-            {
-                label: "Enter video content",
-                field: "textarea",
-                name: "videoContent",
-                required: true
-            },
-            {
-                label: "Enter target audience",
-                field: "textarea",
-                name: "targetAudience",
-                required: true
-            }
-        ]
-    },
-    {
-        name: "Podcast Episode Title Generator",
-        desc: "An AI tool that generates titles for podcast episodes based on specified themes or topics.",
-        category: "Others",
-        icon: "https://cdn-icons-png.flaticon.com/128/12301/12301185.png",
-        aiprompt: "Generate catchy titles for podcast episodes based on specified themes or topics. Provide the result in a rich text editor format.",
-        slug: "Generate-Podcast-Episode-Title",
-        form: [
-            {
-                label: "Enter themes or topics",
-                field: "textarea",
-                name: "themes",
-                required: true
-            }
-        ]
-    },
-    {
-        name: "Blog Post Idea Generator",
-        desc: "An AI tool that generates ideas for blog posts based on selected categories or keywords.",
-        category: "Others",
-        icon: "https://cdn-icons-png.flaticon.com/128/3131/3131473.png",
-        aiprompt: "Generate creative ideas for blog posts based on selected categories or keywords. Provide the result in a rich text editor format.",
-        slug: "Generate-Blog-Post-Idea",
-        form: [
-            {
-                label: "Enter categories or keywords",
-                field: "textarea",
-                name: "categories",
-                required: true
-            }
-        ]
-    },
-    {
-        name: "Resume Writing Tips",
-        desc: "An AI tool that provides tips for writing effective resumes based on career goals and experiences.",
-        category: "Others",
-        icon: "https://cdn-icons-png.flaticon.com/128/4115/4115804.png",
-        aiprompt: "Provide tips for writing effective resumes based on career goals and experiences. Provide the result in a rich text editor format.",
-        slug: "Generate-Resume-Writing-Tips",
-        form: [
-            {
-                label: "Enter career goals",
-                field: "textarea",
-                name: "careerGoals",
-                required: true
-            },
-            {
-                label: "Enter relevant experiences",
-                field: "textarea",
-                name: "experiences",
                 required: true
             }
         ]

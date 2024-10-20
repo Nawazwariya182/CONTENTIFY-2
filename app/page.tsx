@@ -11,7 +11,7 @@ export default function Home() {
         <div className="container mx-auto px-4 flex items-center justify-between">
           <Link href="/" className="flex items-center space-x-2">
             <Image src="/logo.svg" alt="AI Content Creator Logo" width={40} height={40} style={{ cursor: 'url(/poin.png), auto' }}/>
-            <span className="text-xl font-bold" style={{ cursor: 'url(/poin.png), auto' }}>AI Content Creator</span>
+            <span className="text-xl font-bold" style={{ cursor: 'url(/poin.png), auto' }}>Contentify</span>
           </Link>
           <nav className="hidden sm:block">
             <ul className="flex space-x-4">
