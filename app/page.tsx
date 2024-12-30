@@ -15,7 +15,7 @@ export default function Home() {
           </Link>
           <nav className="hidden sm:block">
             <ul className="flex space-x-4">
-              {["Home", "Features", "About", "Services", "Gallery"].map((item) => (
+              {["Home", "Features", "About", "Services"].map((item) => (
                 <li key={item}>
                   <Link href={`#${item.toLowerCase()}`} className="hover:text-acc transition-colors" style={{ cursor: 'url(/poin.png), auto' }}>
                     {item}

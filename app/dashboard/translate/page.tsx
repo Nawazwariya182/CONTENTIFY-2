@@ -22,7 +22,7 @@ const tones = [
   { value: 'technical', label: 'Technical' },
 ]
 
-export const languages = [
+const languages = [
   { value: 'ar', label: 'Arabic' },
   { value: 'bn', label: 'Bengali' },
   { value: 'zh', label: 'Chinese (Simplified)' },
@@ -65,7 +65,7 @@ export const languages = [
   { value: 'vi', label: 'Vietnamese' },
 ].sort((a, b) => a.label.localeCompare(b.label))
 
-export default function EnhancedTranslatorComponent() {
+ function EnhancedTranslatorComponent() {
   const [sourceText, setSourceText] = useState('')
   const [translatedText1, setTranslatedText1] = useState('')
   const [translatedText2, setTranslatedText2] = useState('')
@@ -194,7 +194,7 @@ export default function EnhancedTranslatorComponent() {
         <div className="p-6 space-y-6">
           <div className="flex flex-wrap items-center gap-4">
             <Select value={sourceLanguage} onValueChange={setSourceLanguage} disabled={isTranslating}>
-              <SelectTrigger className="w-[200px] sm:w-full" style={{ cursor: 'url(/poin.png), auto' }}>
+              <SelectTrigger className="lg:w-[200px] sm:w-full" style={{ cursor: 'url(/poin.png), auto' }}>
                 <SelectValue placeholder="Detected Language" />
               </SelectTrigger>
               <SelectContent>
@@ -206,7 +206,7 @@ export default function EnhancedTranslatorComponent() {
               </SelectContent>
             </Select>
             <Select value={targetLanguage1} onValueChange={setTargetLanguage1} disabled={isTranslating}>
-              <SelectTrigger className="w-[200px] sm:w-full" style={{ cursor: 'url(/poin.png), auto' }}>
+              <SelectTrigger className="lg:w-[200px] sm:w-full" style={{ cursor: 'url(/poin.png), auto' }}>
                 <SelectValue placeholder="Target Language 1" />
               </SelectTrigger>
               <SelectContent>
@@ -218,7 +218,7 @@ export default function EnhancedTranslatorComponent() {
               </SelectContent>
             </Select>
             <Select value={targetLanguage2} onValueChange={setTargetLanguage2} disabled={isTranslating}>
-              <SelectTrigger className="w-[200px] sm:w-full" style={{ cursor: 'url(/poin.png), auto' }}>
+              <SelectTrigger className="lg:w-[200px] sm:w-full" style={{ cursor: 'url(/poin.png), auto' }}>
                 <SelectValue placeholder="Target Language 2 (Optional)" />
               </SelectTrigger>
               <SelectContent>
@@ -231,7 +231,7 @@ export default function EnhancedTranslatorComponent() {
               </SelectContent>
             </Select>
             <Select value={tone} onValueChange={setTone} disabled={isTranslating}>
-              <SelectTrigger className="w-[200px] sm:w-full" style={{ cursor: 'url(/poin.png), auto' }}>
+              <SelectTrigger className="lg:w-[200px] sm:w-full" style={{ cursor: 'url(/poin.png), auto' }}>
                 <SelectValue placeholder="Select Tone" />
               </SelectTrigger>
               <SelectContent>
@@ -342,3 +342,4 @@ export default function EnhancedTranslatorComponent() {
   )
 }
 
+export default EnhancedTranslatorComponent
