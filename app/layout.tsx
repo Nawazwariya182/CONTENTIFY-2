@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+// import { Inter } from "next/font/google";
 import "./globals.css";
 import { ClerkProvider } from '@clerk/nextjs'
 
-const inter = Inter({ subsets: ["latin"] });
+// const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "ContentiFy",
@@ -23,7 +23,7 @@ export default function RootLayout({
       <head>
         <link rel="icon" href="/logo.svg" />
       </head>
-      <body className={inter.className}>{children}</body>
+      <body>{children}</body>
     </html>
     </ClerkProvider>
   );

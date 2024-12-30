@@ -1,85 +1,50 @@
 import { GoogleGenerativeAI } from "@google/generative-ai";
 
-const AIXPLAIN_API_KEY = process.env.NEXT_PUBLIC_AIXPLAIN_API_KEY_1 || '';
-const AIXPLAIN_MODEL_ID = '64d21cbb6eb563074a698ef1';
 const GEMINI_API_KEY = process.env.NEXT_PUBLIC_GOOGLE_GEMINI_API_KEY || '';
-
 const genAI = new GoogleGenerativeAI(GEMINI_API_KEY);
 
-async function getAIxplainOutput(prompt: string): Promise<string> {
-  const response = await fetch(`https://models.aixplain.com/api/v1/execute/${AIXPLAIN_MODEL_ID}`, {
-    method: 'POST',
-    body: JSON.stringify({ text: prompt }),
-    headers: {
-      'x-api-key': AIXPLAIN_API_KEY,
-      'content-type': 'application/json'
-    }
-  });
+export async function enhancePrompt(prompt: string): Promise<string> {
+  const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+  const enhancementPrompt = `
+    Enhance and structure the following voice input into a clear, well-formatted content prompt.
+    Maintain key points while improving clarity and organization.
+    Consider context and implied meaning from spoken language.
+    Return only the enhanced prompt without any explanations.
 
-  if (!response.ok) {
-    throw new Error(`AIxplain API error: ${response.statusText}`);
-  }
+    Voice Input: "${prompt}"
+  `;
 
-  const results = await response.json();
-  const urlToPoll = results.data;
-
-  return new Promise((resolve, reject) => {
-    const pollInterval = setInterval(async () => {
-      try {
-        const statusResponse = await fetch(urlToPoll, {
-          method: 'GET',
-          headers: {
-            'x-api-key': AIXPLAIN_API_KEY,
-            'content-type': 'application/json'
-          }
-        });
-
-        if (!statusResponse.ok) {
-          throw new Error(`AIxplain status API error: ${statusResponse.statusText}`);
-        }
-
-        const results = await statusResponse.json();
-        if (results.completed) {
-          clearInterval(pollInterval);
-          resolve(results.data);
-        }
-      } catch (error) {
-        clearInterval(pollInterval);
-        reject(error);
-      }
-    }, 5000);
-  });
+  const result = await model.generateContent(enhancementPrompt);
+  console.log(result.response.text().trim());
+  return result.response.text().trim();
 }
 
-async function enhanceWithGemini(initialText: string, tone: string, outputLength: string, editPrompt?: string): Promise<string> {
-  const model = genAI.getGenerativeModel({ model: "gemini-1.5-pro" });
-  let prompt = `Enhance the following text. Use a ${tone} tone and aim for a ${outputLength} output length:\n\n${initialText}`;
+export async function generateContent(
+  prompt: string, 
+  tone: string, 
+  outputLength: string, 
+  editPrompt?: string
+): Promise<string> {
+  const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
   
-  if (editPrompt) {
-    prompt += `\n\nMake the following changes to the text: ${editPrompt}`;
-  }
+  const contentPrompt = `
+    Generate well-structured, formatted content based on this prompt:
+    "${prompt}"
+    
+    Requirements:
+    - Use a ${tone} tone throughout
+    - Create a ${outputLength} length output
+    - Include proper headings (using #, ##, ###)
+    - Use bullet points and numbered lists where appropriate
+    - Add emphasis using bold and italic text
+    - Break into logical paragraphs
+    - Include relevant quotes or callouts if applicable
+    ${editPrompt ? `- Apply these edits while maintaining structure: ${editPrompt}` : ''}
+    
+    Format the output in markdown with proper spacing and hierarchy.
+  `;
 
-  const result = await model.generateContent(prompt);
-  const response = await result.response;
-  return response.text();
-}
-
-export async function generateEnhancedContent(prompt: string, tone: string, outputLength: string, editPrompt?: string): Promise<string> {
-  try {
-    const aixplainOutput = await getAIxplainOutput(prompt);
-    const finalOutput = await enhanceWithGemini(aixplainOutput, tone, outputLength, editPrompt);
-    return finalOutput;
-  } catch (error) {
-    console.error("Error in enhanced content generation:", error);
-    throw error;
-  }
-}
-
-export async function autoCompletePrompt(partialPrompt: string): Promise<string> {
-  const model = genAI.getGenerativeModel({ model: "gemini-1.5-pro" });
-  const prompt = `Complete the following partial prompt in a natural and coherent way:\n\n${partialPrompt}`;
-
-  const result = await model.generateContent(prompt);
-  const response = await result.response;
-  return response.text();
+  const result = await model.generateContent(contentPrompt);
+  console.log(result.response.text().trim());
+  return result.response.text().trim();
 }

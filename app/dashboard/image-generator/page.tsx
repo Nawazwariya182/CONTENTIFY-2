@@ -1,20 +1,18 @@
 'use client'
 
-import { useState } from "react";
+import { useState, useContext } from "react";
 import { generateAlternativePrompts } from "@/utils/images/generateEnhancedPrompts";
-import { generateImages } from "@/utils/images/generateImages";
 import { saveImagesToDB } from "@/utils/images/saveImagesToDB";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
-import { ArrowLeft, Image, Loader2Icon } from "lucide-react";
+import { ArrowLeft, Image, Loader2Icon, ExternalLink } from 'lucide-react';
 import Link from "next/link";
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/components/ui/use-toast";
 import { useUser } from '@clerk/nextjs';
 import { TotalUsageContext } from '@/app/(context)/TotalUsageContext';
-import { useContext } from 'react';
 
 const styles = [
   "Cinematic",
@@ -30,6 +28,7 @@ export default function UpdatedImageGenerator() {
   const [prompt, setPrompt] = useState("");
   const [style, setStyle] = useState("");
   const [imageCount, setImageCount] = useState(1);
+  const [enhancedPrompts, setEnhancedPrompts] = useState<string[]>([]);
   const [images, setImages] = useState<string[]>([]);
   const [loading, setLoading] = useState(false);
   const { toast } = useToast();
@@ -52,8 +51,12 @@ export default function UpdatedImageGenerator() {
 
     try {
       const selectedStyle = style === "Mystery" ? styles[Math.floor(Math.random() * (styles.length - 1))] : style;
-      const alternativePrompts = await generateAlternativePrompts(prompt, selectedStyle, imageCount);
-      const generatedImages = await generateImages(alternativePrompts);
+      const generatedPrompts = await generateAlternativePrompts(prompt, selectedStyle, imageCount);
+      setEnhancedPrompts(generatedPrompts);
+
+      const generatedImages = generatedPrompts.map(enhancedPrompt =>
+        `https://image.pollinations.ai/prompt/${encodeURIComponent(enhancedPrompt)}`
+      );
 
       if (generatedImages.length > 0) {
         setImages(generatedImages);
@@ -91,7 +94,7 @@ export default function UpdatedImageGenerator() {
           </Button>
         </Link>
         <div className="space-y-4">
-          <h1 className="text-4xl font-bold">Updated Image Generation</h1>
+          <h1 className="text-4xl font-bold">Image Generation</h1>
           <p className="text-muted-foreground">Create stunning images from text prompts using our advanced AI model with style options.</p>
         </div>
         <form className="grid gap-4" onSubmit={handleSubmit}>
@@ -109,13 +112,13 @@ export default function UpdatedImageGenerator() {
           </div>
           <div className="grid gap-2">
             <Label htmlFor="style">Style</Label>
-            <Select value={style} onValueChange={setStyle} >
+            <Select value={style} onValueChange={setStyle}>
               <SelectTrigger style={{ cursor: 'url(/poin.png), auto' }}>
                 <SelectValue placeholder="Select a style" style={{ cursor: 'url(/poin.png), auto' }}/>
               </SelectTrigger>
               <SelectContent style={{ cursor: 'url(/poin.png), auto' }}>
                 {styles.map((s) => (
-                  <SelectItem key={s} value={s}style={{ cursor: 'url(/poin.png), auto' }}>
+                  <SelectItem key={s} value={s} style={{ cursor: 'url(/poin.png), auto' }}>
                     {s}
                   </SelectItem>
                 ))}
@@ -146,6 +149,27 @@ export default function UpdatedImageGenerator() {
           </Button>
         </form>
       </div>
+      {enhancedPrompts.length > 0 && (
+        <div className="mb-8">
+          {/* <h2 className="text-2xl font-bold mb-4">Enhanced Prompts</h2> */}
+          <ul className="list-disc pl-5 space-y-2">
+            {/* {enhancedPrompts.map((prompt, index) => (
+              <li key={index}>
+                <a
+                  href={`https://image.pollinations.ai/prompt/${encodeURIComponent(prompt)}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-blue-500 hover:underline flex items-center"
+                  style={{ cursor: 'url(/poin.png), auto' }}
+                >
+                  {prompt}
+                  <ExternalLink className="ml-2 h-4 w-4" />
+                </a>
+              </li>
+            ))} */}
+          </ul>
+        </div>
+      )}
       {images.length > 0 && (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           {images.map((image, index) => (
@@ -176,3 +200,4 @@ export default function UpdatedImageGenerator() {
     </div>
   );
 }
+

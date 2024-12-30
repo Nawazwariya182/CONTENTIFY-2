@@ -4,14 +4,13 @@ import React, { useState, useContext } from 'react'
 import { Button } from "@/components/ui/button"
 import { Textarea } from "@/components/ui/textarea"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { Loader2Icon } from "lucide-react"
+import { ArrowLeft, Loader2Icon } from 'lucide-react'
 import { toast } from 'react-hot-toast'
-import { extractEntities, sortEntities, getWikipediaLinks } from '@/utils/entity'
+import { extractEntities, getWikipediaLinks } from '@/utils/entity'
 import { TotalUsageContext } from '@/app/(context)/TotalUsageContext'
 import { UpdateContext } from '@/app/(context)/UpdateContext'
 import { useUser } from '@clerk/nextjs'
-import { db } from '@/utils/db'
-import { entityLinking } from '@/utils/schemas/entitylinkingschema'
+import Link from 'next/link'
 
 const entityTypes = [
   { value: 'all', label: 'All Entities' },
@@ -47,60 +46,44 @@ export default function EnhancedEntityLinkingComponent() {
 
     setIsProcessing(true)
     try {
-      // Extract entities from the input text
-      const extractedEntities = await extractEntities(inputText)
+      // Extract entities directly using Gemini
+      const extractedEntities = await extractEntities(inputText, entityType)
+      setEntities(extractedEntities)
       
-      // Sort entities using Gemini 1.5
-      const sortedEntities = await sortEntities(extractedEntities, entityType)
-      setEntities(sortedEntities)
-      
-      // Generate Wikipedia links for the sorted entities
-      if (sortedEntities.length > 0) {
-        const links = await getWikipediaLinks(sortedEntities)
+      // Generate Wikipedia links for the entities
+      if (extractedEntities.length > 0) {
+        const links = await getWikipediaLinks(extractedEntities)
         setEntityLinks(links)
-        
-        // Save entities to the database
-        await saveEntitiesToDB(inputText, sortedEntities, links)
         
         // Update credit usage
         setTotalUsage((prevUsage: number) => prevUsage + creditsNeeded)
         setupdatecredit?.(Date.now())
         
-        toast.success("Entities extracted, sorted, and linked successfully")
+        toast.success("Entities extracted and linked successfully")
       } else {
-        // toast.info("No entities found in the text.")
+        toast("No entities found in the text")
       }
     } catch (error) {
-      console.error("Error in entity linking process:", error)
+      console.error("Error in entity extraction process:", error)
       toast.error("Failed to process the text. Please try again.")
     } finally {
       setIsProcessing(false)
     }
   }
 
-  const saveEntitiesToDB = async (text: string, entities: string[], links: Record<string, string>) => {
-    if (!user?.id) return
-
-    try {
-      await db.insert(entityLinking).values({
-        userId: user.id,
-        inputText: text,
-        entities: JSON.stringify(entities),
-        entityLinks: JSON.stringify(links),
-        entityType,
-        createdAt: new Date().toISOString(),
-      })
-    } catch (error) {
-      console.error("Error saving entities to DB:", error)
-    }
-  }
-
   return (
     <div className="min-h-screen bg-gradient-to-b from-gray-100 to-gray-200 flex items-center justify-center p-4">
       <div className="w-full max-w-4xl bg-white rounded-lg shadow-2xl overflow-hidden">
-        <div className="bg-gradient-to-r from-blue-600 to-purple-600 text-white p-6">
+        <div className="flex justify-between align-middle bg-gradient-to-r from-blue-600 to-purple-600 text-white p-6">
+          <div>
           <h2 className="text-3xl font-bold mb-2">AI Entity Linker</h2>
-          <p className="text-sm opacity-80">Extract, sort, and link entities with advanced AI</p>
+          <p className="text-sm opacity-80">Extract and link entities with Gemini AI</p>
+          </div>
+          <Link href="/dashboard">
+          <Button className="bg-prim hover:bg-back mt-3 hover:text-acc hover:border-2 hover:border-prim transition-all w-20" style={{ cursor: 'url(/poin.png), auto' }}>
+            <ArrowLeft className="text-xl" /> Back
+          </Button>
+        </Link>
         </div>
         <div className="p-6 space-y-6">
           <div className="flex items-center space-x-4">
@@ -128,7 +111,7 @@ export default function EnhancedEntityLinkingComponent() {
                 </SelectTrigger>
                 <SelectContent style={{ cursor: 'url(/poin.png), auto' }}>
                   {entityTypes.map((type) => (
-                    <SelectItem key={type.value} value={type.value}style={{ cursor: 'url(/poin.png), auto' }} >
+                    <SelectItem key={type.value} value={type.value} style={{ cursor: 'url(/poin.png), auto' }}>
                       {type.label}
                     </SelectItem>
                   ))}
@@ -155,7 +138,7 @@ export default function EnhancedEntityLinkingComponent() {
           </div>
           {entities.length > 0 && (
             <div className="bg-gray-50 p-6 rounded-lg">
-              <h3 className="text-xl font-semibold mb-4">Extracted and Sorted Entities:</h3>
+              <h3 className="text-xl font-semibold mb-4">Extracted Entities:</h3>
               <ul className="space-y-2">
                 {entities.map((entity, index) => (
                   <li key={index} className="flex items-center space-x-2 p-2 bg-white rounded-md shadow">
@@ -183,3 +166,4 @@ export default function EnhancedEntityLinkingComponent() {
     </div>
   )
 }
+

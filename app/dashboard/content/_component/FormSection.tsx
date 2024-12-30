@@ -1,6 +1,6 @@
 'use client';
-import React, { useState } from 'react';
-import TEMPLATE from '../../_component/TemplateListSection'; // Correct import statement
+import React, { useState, useRef, useEffect } from 'react';
+import TEMPLATE from '../../_component/TemplateListSection';
 import Image from 'next/image';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
@@ -23,10 +23,11 @@ interface PROPS {
   };
   userFormInput: (formData: any) => void;
   loading: boolean;
-  currentUsage: number; 
+  currentUsage: number;
+  formRef: React.RefObject<HTMLFormElement>;
 }
 
-function FormSection({ selectedtemplate, userFormInput, loading, currentUsage }: PROPS) {
+function FormSection({ selectedtemplate, userFormInput, loading, currentUsage, formRef }: PROPS) {
   const [formData, setFormData] = useState<Record<string, any>>({});
   const limit = 80000;
 
@@ -45,7 +46,7 @@ function FormSection({ selectedtemplate, userFormInput, loading, currentUsage }:
       <Image src={selectedtemplate?.icon || '/default-icon.png'} alt='icon' width={60} height={60} />
       <h2 className='font-bold text-2xl mb-2 text-prim'>{selectedtemplate?.name}</h2>
       <p className='text-gray-600 text-sm'>{selectedtemplate?.desc}</p>
-      <form className='mt-6' onSubmit={onSubmit}>
+      <form className='mt-6' onSubmit={onSubmit} ref={formRef}>
         {selectedtemplate?.form?.map((item: FormItem, index: number) => (
           <div key={index} className='my-2 flex flex-col gap-2 mb-7'>
             <label className='font-medium'>{item.label}</label>
@@ -58,11 +59,11 @@ function FormSection({ selectedtemplate, userFormInput, loading, currentUsage }:
         ))}
         <Button
           type='submit'
-          className='w-full py-6 bg-prim hover:bg-back hover:text-acc hover:border-2 hover:border-prim transition-all' style={{ cursor: 'url(/poin.png), auto' }}
+          className='w-full py-6 bg-prim gap-3 hover:bg-back hover:text-acc hover:border-2 hover:border-prim transition-all'
+          style={{ cursor: 'url(/poin.png), auto' }}
           disabled={loading || currentUsage > limit}
-          
         >
-          {loading && <Loader2Icon className='animate-spin text-prim' />}
+          {loading && <Loader2Icon className='animate-spin text-acc' />}
           Create content
         </Button>
       </form>
@@ -71,3 +72,4 @@ function FormSection({ selectedtemplate, userFormInput, loading, currentUsage }:
 }
 
 export default FormSection;
+

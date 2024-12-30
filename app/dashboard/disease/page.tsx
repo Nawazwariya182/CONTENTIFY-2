@@ -6,10 +6,11 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
-import { AlertCircle, Loader2, Plus, X } from "lucide-react"
+import { AlertCircle, ArrowLeft, Loader2, Plus, X } from 'lucide-react'
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import Link from 'next/link'
 
 export default function DiseasePredictionUI() {
   const [patientData, setPatientData] = useState<PatientData>({
@@ -94,7 +95,13 @@ export default function DiseasePredictionUI() {
   }
 
   return (
-    <Card className="w-full max-w-2xl mx-auto">
+    <div>
+      <Link href="/dashboard" >
+        <Button className="bg-prim mx-[350px] sm:mx-[30px] mt-2 mb-[-20px] hover:bg-back hover:text-acc hover:border-2 hover:border-prim transition-all w-20" style={{ cursor: 'url(/poin.png), auto' }}>
+          <ArrowLeft className="text-xl" /> Back
+        </Button>
+      </Link>
+    <Card className="w-full max-w-2xl mx-auto mb-20 mt-10 ">
       <CardHeader>
         <CardTitle className="text-2xl">AI Disease Prediction</CardTitle>
       </CardHeader>
@@ -116,7 +123,7 @@ export default function DiseasePredictionUI() {
               <Label htmlFor="gender">Gender</Label>
               <Select onValueChange={(value) => setPatientData(prev => ({ ...prev, gender: value }))} >
                 <SelectTrigger style={{ cursor: 'url(/poin.png), auto' }}>
-                  <SelectValue placeholder="Select gender" style={{ cursor: 'url(/poin.png), auto' }}/>
+                  <SelectValue placeholder="Select gender" style={{ cursor: 'url(/poin.png), auto' }} />
                 </SelectTrigger>
                 <SelectContent style={{ cursor: 'url(/poin.png), auto' }}>
                   <SelectItem value="male" style={{ cursor: 'url(/poin.png), auto' }}>Male</SelectItem>
@@ -142,7 +149,7 @@ export default function DiseasePredictionUI() {
             </div>
             <ul className="mt-2 space-y-1">
               {patientData.symptoms.map((symptom, index) => (
-                <li key={index} className="flex items-center justify-between bg-second text-secondary-foreground rounded-md px-2 py-1 "style={{ cursor: 'url(/poin.png), auto' }}>
+                <li key={index} className="flex items-center justify-between bg-second text-secondary-foreground rounded-md px-2 py-1 " style={{ cursor: 'url(/poin.png), auto' }}>
                   <span>{symptom}</span>
                   <Button variant="ghost" size="sm" onClick={() => removeSymptom(index)} style={{ cursor: 'url(/poin.png), auto' }}>
                     <X className="h-4 w-4" />
@@ -203,9 +210,9 @@ export default function DiseasePredictionUI() {
             </div>
             <ul className="mt-2 space-y-1">
               {patientData.lifestyle.map((item, index) => (
-                <li key={index} className="flex items-center justify-between bg-second text-secondary-foreground rounded-md px-2 py-1"style={{ cursor: 'url(/poin.png), auto' }}>
+                <li key={index} className="flex items-center justify-between bg-second text-secondary-foreground rounded-md px-2 py-1" style={{ cursor: 'url(/poin.png), auto' }}>
                   <span>{item}</span>
-                  <Button variant="ghost" size="sm" onClick={() => removeLifestyle(index)}style={{ cursor: 'url(/poin.png), auto' }}>
+                  <Button variant="ghost" size="sm" onClick={() => removeLifestyle(index)} style={{ cursor: 'url(/poin.png), auto' }}>
                     <X className="h-4 w-4" />
                   </Button>
                 </li>
@@ -223,7 +230,6 @@ export default function DiseasePredictionUI() {
             )}
           </Button>
         </form>
-      
       </CardContent>
       <CardFooter className="flex flex-col">
         {error && (
@@ -267,5 +273,7 @@ export default function DiseasePredictionUI() {
         )}
       </CardFooter>
     </Card>
+    </div>
   )
 }
+

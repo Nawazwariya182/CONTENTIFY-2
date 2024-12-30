@@ -4,7 +4,7 @@ import React, { useState, useRef, useContext, useEffect } from 'react'
 import { Button } from "@/components/ui/button"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Textarea } from "@/components/ui/textarea"
-import { Loader2Icon, ArrowRightLeft, Volume2, VolumeX, ChevronDown, ChevronUp } from "lucide-react"
+import { Loader2Icon, Volume2, VolumeX, ChevronDown, ChevronUp, ArrowLeft } from 'lucide-react'
 import { toast } from 'react-hot-toast'
 import { translateText, detectLanguage } from '@/utils/trans'
 import { TotalUsageContext } from '@/app/(context)/TotalUsageContext'
@@ -12,6 +12,7 @@ import { UpdateContext } from '@/app/(context)/UpdateContext'
 import { useUser } from '@clerk/nextjs'
 import { db } from '@/utils/db'
 import { translate } from '@/utils/schema'
+import Link from 'next/link'
 
 const tones = [
   { value: 'professional', label: 'Professional' },
@@ -82,7 +83,16 @@ export default function EnhancedTranslatorComponent() {
 
   useEffect(() => {
     if (sourceText) {
-      detectLanguage(sourceText).then(setSourceLanguage)
+      const detectTimer = setTimeout(async () => {
+        try {
+          const detectedLang = await detectLanguage(sourceText)
+          setSourceLanguage(detectedLang)
+        } catch (error) {
+          console.error("Language detection error:", error)
+        }
+      }, 1000) // Debounce detection
+
+      return () => clearTimeout(detectTimer)
     }
   }, [sourceText])
 
@@ -92,7 +102,7 @@ export default function EnhancedTranslatorComponent() {
       return
     }
 
-    const creditsNeeded = targetLanguage2 ? Math.floor(Math.random() * (400 - 100 + 1) + 100) : Math.floor(Math.random() * (200 - 50 + 1) + 50)
+    const creditsNeeded = targetLanguage2 ? 200 : 100 // Fixed credit cost
 
     if (totalUsage + creditsNeeded > 100000) {
       toast.error("Not enough credits for translation")
@@ -101,21 +111,26 @@ export default function EnhancedTranslatorComponent() {
 
     setIsTranslating(true)
     try {
+      // Detect language if not already set
+      const detectedSourceLang = sourceLanguage || await detectLanguage(sourceText)
+      
+      // Perform translations
       const [result1, result2] = await Promise.all([
-        translateText(sourceText, sourceLanguage, targetLanguage1, tone),
-        targetLanguage2 ? translateText(sourceText, sourceLanguage, targetLanguage2, tone) : Promise.resolve('')
+        translateText(sourceText, detectedSourceLang, targetLanguage1, tone),
+        targetLanguage2 ? translateText(sourceText, detectedSourceLang, targetLanguage2, tone) : Promise.resolve('')
       ])
 
       setTranslatedText1(result1)
       setTranslatedText2(result2)
       setIsExpanded(true)
       
-      await saveTranslationToDB(sourceText, sourceLanguage, [
+      // Save to database
+      await saveTranslationToDB(sourceText, detectedSourceLang, [
         { language: targetLanguage1, text: result1 },
         ...(targetLanguage2 ? [{ language: targetLanguage2, text: result2 }] : [])
       ])
 
-      // setTotalUsage(prevUsage => prevUsage + creditsNeeded)
+      setTotalUsage((prevUsage: number) => prevUsage + creditsNeeded)
       setupdatecredit?.(Date.now())
       
       toast.success("Translation completed")
@@ -137,7 +152,7 @@ export default function EnhancedTranslatorComponent() {
         sourceLanguage,
         translations: JSON.stringify(translations),
         tone,
-        createdAt: new Date().toISOString(),
+        createdAt: new Date(),
       })
     } catch (error) {
       console.error("Error saving translation to DB:", error)
@@ -165,50 +180,65 @@ export default function EnhancedTranslatorComponent() {
   return (
     <div className="min-h-screen bg-gradient-to-b from-gray-100 to-gray-200 flex items-center justify-center p-4">
       <div className="w-full max-w-4xl bg-white rounded-lg shadow-2xl overflow-hidden">
-        <div className="bg-gradient-to-r from-blue-600 to-purple-600 text-white p-6">
-          <h2 className="text-3xl font-bold mb-2"> AI Translator</h2>
-          <p className="text-sm opacity-80">Bridging languages with advanced AI and customizable tones</p>
+      <div className="flex justify-between align-middle bg-gradient-to-r from-blue-600 to-purple-600 text-white p-6">
+          <div>
+          <h2 className="text-3xl font-bold mb-2">AI Translator</h2>
+          <p className="text-sm opacity-80">Powered by Gemini AI with customizable tones</p>
+          </div>
+          <Link href="/dashboard">
+          <Button className="bg-prim hover:bg-back mt-3 hover:text-acc hover:border-2 hover:border-prim transition-all w-20" style={{ cursor: 'url(/poin.png), auto' }}>
+            <ArrowLeft className="text-xl" /> Back
+          </Button>
+        </Link>
         </div>
         <div className="p-6 space-y-6">
           <div className="flex flex-wrap items-center gap-4">
             <Select value={sourceLanguage} onValueChange={setSourceLanguage} disabled={isTranslating}>
-              <SelectTrigger className="w-[200px]" style={{ cursor: 'url(/poin.png), auto' }}>
+              <SelectTrigger className="w-[200px] sm:w-full" style={{ cursor: 'url(/poin.png), auto' }}>
                 <SelectValue placeholder="Detected Language" />
               </SelectTrigger>
               <SelectContent>
                 {languages.map((lang) => (
-                  <SelectItem key={lang.value} value={lang.value}style={{ cursor: 'url(/poin.png), auto' }}>{lang.label}</SelectItem>
+                  <SelectItem key={lang.value} value={lang.value} style={{ cursor: 'url(/poin.png), auto' }}>
+                    {lang.label}
+                  </SelectItem>
                 ))}
               </SelectContent>
             </Select>
             <Select value={targetLanguage1} onValueChange={setTargetLanguage1} disabled={isTranslating}>
-              <SelectTrigger className="w-[200px]" style={{ cursor: 'url(/poin.png), auto' }}>
+              <SelectTrigger className="w-[200px] sm:w-full" style={{ cursor: 'url(/poin.png), auto' }}>
                 <SelectValue placeholder="Target Language 1" />
               </SelectTrigger>
               <SelectContent>
                 {languages.map((lang) => (
-                  <SelectItem key={lang.value} value={lang.value} style={{ cursor: 'url(/poin.png), auto' }}>{lang.label}</SelectItem>
+                  <SelectItem key={lang.value} value={lang.value} style={{ cursor: 'url(/poin.png), auto' }}>
+                    {lang.label}
+                  </SelectItem>
                 ))}
               </SelectContent>
             </Select>
             <Select value={targetLanguage2} onValueChange={setTargetLanguage2} disabled={isTranslating}>
-              <SelectTrigger className="w-[200px]"style={{ cursor: 'url(/poin.png), auto' }}>
+              <SelectTrigger className="w-[200px] sm:w-full" style={{ cursor: 'url(/poin.png), auto' }}>
                 <SelectValue placeholder="Target Language 2 (Optional)" />
               </SelectTrigger>
               <SelectContent>
                 <SelectItem value="none">None</SelectItem>
                 {languages.map((lang) => (
-                  <SelectItem key={lang.value} value={lang.value} style={{ cursor: 'url(/poin.png), auto' }}>{lang.label}</SelectItem>
+                  <SelectItem key={lang.value} value={lang.value} style={{ cursor: 'url(/poin.png), auto' }}>
+                    {lang.label}
+                  </SelectItem>
                 ))}
               </SelectContent>
             </Select>
             <Select value={tone} onValueChange={setTone} disabled={isTranslating}>
-              <SelectTrigger className="w-[200px]"style={{ cursor: 'url(/poin.png), auto' }}>
+              <SelectTrigger className="w-[200px] sm:w-full" style={{ cursor: 'url(/poin.png), auto' }}>
                 <SelectValue placeholder="Select Tone" />
               </SelectTrigger>
               <SelectContent>
                 {tones.map((t) => (
-                  <SelectItem key={t.value} value={t.value}style={{ cursor: 'url(/poin.png), auto' }}>{t.label}</SelectItem>
+                  <SelectItem key={t.value} value={t.value} style={{ cursor: 'url(/poin.png), auto' }}>
+                    {t.label}
+                  </SelectItem>
                 ))}
               </SelectContent>
             </Select>
@@ -231,15 +261,15 @@ export default function EnhancedTranslatorComponent() {
               className="absolute bottom-2 right-2"
               style={{ cursor: 'url(/poin.png), auto' }}
             >
-              {isSpeaking ? <VolumeX className="h-4 w-4 text-gray-500" style={{ cursor: 'url(/poin.png), auto' }}/> : <Volume2 className="h-4 w-4 text-gray-500" style={{ cursor: 'url(/poin.png), auto' }}/>}
+              {isSpeaking ? <VolumeX className="h-4 w-4 text-gray-500" /> : <Volume2 className="h-4 w-4 text-gray-500" />}
             </Button>
           </div>
           <div className="flex justify-center">
             <Button
               onClick={handleTranslate}
               disabled={isTranslating || !sourceText.trim()}
-              style={{ cursor: 'url(/poin.png), auto' }}
               className="px-8 py-2 bg-gradient-to-r from-blue-500 to-purple-500 text-white rounded-full hover:from-blue-600 hover:to-purple-600 transition-all duration-300 transform hover:scale-105"
+              style={{ cursor: 'url(/poin.png), auto' }}
             >
               {isTranslating ? (
                 <>
@@ -258,18 +288,18 @@ export default function EnhancedTranslatorComponent() {
                   value={translatedText1}
                   readOnly
                   rows={6}
-                  style={{ cursor: 'url(/type.png), auto' }}
                   className="w-full p-4 border-2 border-gray-300 rounded-lg bg-gray-50 resize-none text-lg"
+                  style={{ cursor: 'url(/type.png), auto' }}
                 />
                 <Button
                   variant="outline"
                   size="sm"
                   onClick={() => isSpeaking ? stopSpeaking() : speakText(translatedText1, targetLanguage1)}
                   disabled={!translatedText1}
-                  style={{ cursor: 'url(/poin.png), auto' }}
                   className="absolute bottom-2 right-2"
+                  style={{ cursor: 'url(/poin.png), auto' }}
                 >
-                  {isSpeaking ? <VolumeX className="h-4 w-4 text-gray-500"style={{ cursor: 'url(/poin.png), auto' }} /> : <Volume2 className="h-4 w-4 text-gray-500" style={{ cursor: 'url(/poin.png), auto' }}/>}
+                  {isSpeaking ? <VolumeX className="h-4 w-4 text-gray-500" /> : <Volume2 className="h-4 w-4 text-gray-500" />}
                 </Button>
               </div>
               {targetLanguage2 && (
@@ -289,7 +319,7 @@ export default function EnhancedTranslatorComponent() {
                     className="absolute bottom-2 right-2"
                     style={{ cursor: 'url(/poin.png), auto' }}
                   >
-                    {isSpeaking ? <VolumeX className="h-4 w-4 text-gray-500"style={{ cursor: 'url(/poin.png), auto' }} /> : <Volume2 className="h-4 w-4 text-gray-500" style={{ cursor: 'url(/poin.png), auto' }}/>}
+                    {isSpeaking ? <VolumeX className="h-4 w-4 text-gray-500" /> : <Volume2 className="h-4 w-4 text-gray-500" />}
                   </Button>
                 </div>
               )}
@@ -299,15 +329,16 @@ export default function EnhancedTranslatorComponent() {
         <div 
           className="bg-gray-100 p-2 flex justify-center cursor-pointer hover:bg-gray-200 transition-colors duration-200"
           onClick={() => setIsExpanded(!isExpanded)}
+          style={{ cursor: 'url(/poin.png), auto' }}
         >
           {isExpanded ? (
-            <ChevronUp className="h-6 w-6 text-gray-600" style={{ cursor: 'url(/poin.png), auto' }}/>
+            <ChevronUp className="h-6 w-6 text-gray-600" />
           ) : (
-            <ChevronDown className="h-6 w-6 text-gray-600" style={{ cursor: 'url(/poin.png), auto' }} />
+            <ChevronDown className="h-6 w-6 text-gray-600" />
           )}
         </div>
-      
       </div>
     </div>
   )
 }
+

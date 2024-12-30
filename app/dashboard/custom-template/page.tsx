@@ -4,7 +4,7 @@ import React, { useState, useRef, useEffect } from 'react'
 import Image from 'next/image'
 import { Textarea } from "@/components/ui/textarea"
 import { Button } from "@/components/ui/button"
-import { Loader2Icon, ArrowLeft, Copy, RefreshCw } from "lucide-react"
+import { Loader2Icon, ArrowLeft, Copy, RefreshCw } from 'lucide-react'
 import Link from 'next/link'
 import { useUser } from '@clerk/nextjs'
 import moment from 'moment'
@@ -55,12 +55,16 @@ export default function EnhancedCustomTemplateGenerator() {
       setRefinedPrompt(refinedPrompt)
       setAiOutput(content)
 
+      // Calculate credits used (random between 60-100 for demo)
+      const creditsUsed = Math.floor(Math.random() * (100 - 60 + 1) + 60)
+      setTotalUsage((prev: number) => prev + creditsUsed)
+
       await saveOutputToDB(prompt, refinedPrompt, content)
 
       setupdatecredit?.(Date.now())
       toast({
         title: "Content generated successfully!",
-        description: "Your custom content has been created.",
+        description: "Your custom content has been created using Gemini AI.",
       })
     } catch (error) {
       console.error("Error generating AI content:", error)
@@ -82,7 +86,7 @@ export default function EnhancedCustomTemplateGenerator() {
         templateslug: 'custom',
         createby: user?.primaryEmailAddress?.emailAddress || '',
         createdat: moment().format('DD/MM/yyyy'),
-        // refinedprompt: refinedPrompt,
+        // refinedprompt: refinedPrompt, // Now storing the refined prompt
       })
     } catch (error) {
       console.error("Error saving output to the database:", error)
@@ -142,6 +146,14 @@ export default function EnhancedCustomTemplateGenerator() {
                   placeholder="Describe the content you want to generate..."
                 />
               </div>
+              {/* {refinedPrompt && (
+                <div className="mt-4">
+                  <label className="block text-sm font-medium mb-1">Enhanced Prompt:</label>
+                  <div className="p-3 bg-muted rounded-lg text-sm">
+                    {refinedPrompt}
+                  </div>
+                </div>
+              )} */}
               <Button
                 type="submit"
                 className="w-full bg-prim hover:bg-back hover:text-acc hover:border-2 hover:border-prim text-back"
@@ -158,11 +170,11 @@ export default function EnhancedCustomTemplateGenerator() {
           <CardHeader>
             <CardTitle className="flex justify-between items-center">
               Your Enhanced Result
-              <div className="space-x-2">
-                <Button onClick={handleCopy} variant="outline"className='bg-prim hover:bg-back hover:text-acc hover:border-2 hover:border-prim text-back'style={{ cursor: 'url(/poin.png), auto' }}>
+              <div className="space-x-2 flex justify-between items-center">
+                <Button onClick={handleCopy} variant="outline" className='bg-prim hover:bg-back hover:text-acc hover:border-2 hover:border-prim text-back' style={{ cursor: 'url(/poin.png), auto' }}>
                   <Copy className="mr-2 h-4 w-4" /> Copy
                 </Button>
-                <Button onClick={handleReset} variant="outline"style={{ cursor: 'url(/poin.png), auto' }}>
+                <Button onClick={handleReset} variant="outline" style={{ cursor: 'url(/poin.png), auto' }}>
                   <RefreshCw className="mr-2 h-4 w-4" /> Reset
                 </Button>
               </div>
@@ -191,3 +203,4 @@ export default function EnhancedCustomTemplateGenerator() {
     </div>
   )
 }
+

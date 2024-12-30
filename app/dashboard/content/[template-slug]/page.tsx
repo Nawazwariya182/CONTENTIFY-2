@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState, useRef, useEffect } from 'react';
 import FormSection from '../_component/FormSection';
 import OutputSection from '../_component/OutputSection';
 import { TEMPLATE } from '../../_component/TemplateCard';
@@ -30,10 +30,23 @@ function CreateNewContent(props: PROPS) {
 
   const [loading, setloading] = useState(false);
   const { user } = useUser();
-  const [aiOut, setaioutput] = useState<string>();
+  const [aiOut, setaioutput] = useState<string>('');
   const Router = useRouter();
   const { TotalUsage, SetTotalUsage } = useContext(TotalUsageContext);
   const { UpdateCredit, setupdatecredit } = useContext(UpdateContext);
+  const formRef = useRef<HTMLFormElement>(null);
+
+  useEffect(() => {
+    // Prevent keyboard pop-up on page load
+    if (formRef.current) {
+      const inputs = formRef.current.querySelectorAll('input, textarea');
+      inputs.forEach(input => {
+        if (input instanceof HTMLInputElement || input instanceof HTMLTextAreaElement) {
+          input.blur();
+        }
+      });
+    }
+  }, []);
 
   const GenerateAIContent = async (FormData: any) => {
     if (TotalUsage >= 15000) {
@@ -53,7 +66,6 @@ function CreateNewContent(props: PROPS) {
       setaioutput("An error occurred while generating content. Please try again.");
     } finally {
       setloading(false);
-      // setupdatecredit(Date.now());
     }
   };
 
@@ -84,9 +96,10 @@ function CreateNewContent(props: PROPS) {
           userFormInput={(v: any) => GenerateAIContent(v)}
           loading={loading}
           currentUsage={0}
+          formRef={formRef}
         />
         <div className='col-span-2'>
-          <OutputSection aioutput={aiOut as string} />
+          <OutputSection aioutput={aiOut} />
         </div>
       </div>
       <div className="mt-8 text-center"></div>
@@ -95,3 +108,4 @@ function CreateNewContent(props: PROPS) {
 }
 
 export default CreateNewContent;
+

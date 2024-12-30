@@ -64,6 +64,11 @@ const config = {
         md: "calc(var(--radius) - 2px)",
         sm: "calc(var(--radius) - 4px)",
       },
+      screens: {
+        lg: "1024px", // Large (Desktop)
+        md: "768px",  // Medium (Tablet)
+        sm: "0px",    // Small (Mobile)
+      },
       keyframes: {
         "accordion-down": {
           from: { height: "0" },

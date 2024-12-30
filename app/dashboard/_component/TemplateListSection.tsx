@@ -66,7 +66,9 @@ function TemplateListSection({ UserSearchInput }: any) {
     <Translate/>
     <Food/>
     <CustomGeneratorTemplate/>
+    <div className='sm:hidden lg:block'>
     <Voice/>
+    </div>
     {/* <Summary/> */}
     {/* <VideoGeneratorTemplate/> */}
       {TemplatesList.map((item: TEMPLATE, index: number) => (

@@ -118,7 +118,7 @@ export default function Home() {
           </div>
         </section>
 
-        <section id="gallery" className="py-20 bg-second">
+        {/* <section id="gallery" className="py-20 bg-second">
           <div className="container mx-auto px-4">
             <h2 className="text-3xl font-bold text-center mb-12 text-text">Our Gallery</h2>
             <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
@@ -140,7 +140,7 @@ export default function Home() {
               ))}
             </div>
           </div>
-        </section>
+        </section> */}
       </main>
 
       <footer className="bg-back text-text py-8">

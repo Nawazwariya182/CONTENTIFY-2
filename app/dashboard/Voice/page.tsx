@@ -1,27 +1,47 @@
 'use client'
 
-import React, { useState, useRef, useEffect, useContext } from 'react'
-import { Button } from "@/components/ui/button"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { Slider } from "@/components/ui/slider"
-import { Textarea } from "@/components/ui/textarea"
-import { Loader2Icon, Mic, MicOff, VolumeX, Volume2, Edit2, Check } from "lucide-react"
-import { Editor } from '@toast-ui/react-editor'
-import '@toast-ui/editor/dist/toastui-editor.css'
-import { toast } from 'react-hot-toast'
-import { generateEnhancedContent, autoCompletePrompt } from '@/utils/Gpt-4o'
-import { TotalUsageContext } from '@/app/(context)/TotalUsageContext'
-import { UpdateContext } from '@/app/(context)/UpdateContext'
-import { useUser } from '@clerk/nextjs'
-import { db } from '@/utils/db'
-import { voiceGen } from '@/utils/schema'
-
 declare global {
   interface Window {
     SpeechRecognition: any;
     webkitSpeechRecognition: any;
   }
 }
+
+import React, { useState, useRef, useEffect, useContext } from 'react'
+import { Button } from "@/components/ui/button"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import { Textarea } from "@/components/ui/textarea"
+import { Slider } from "@/components/ui/slider"
+import { Mic, MicOff, VolumeX, Volume2, Edit2, Check, Settings2 } from 'lucide-react'
+import { Editor } from '@toast-ui/react-editor'
+import '@toast-ui/editor/dist/toastui-editor.css'
+import { toast } from 'react-hot-toast'
+import { enhancePrompt, generateContent } from '@/utils/Gpt-4o'
+import { VoiceProcessor } from '@/utils/voice-processing'
+import { TotalUsageContext } from '@/app/(context)/TotalUsageContext'
+import { UpdateContext } from '@/app/(context)/UpdateContext'
+import { useUser } from '@clerk/nextjs'
+import { db } from '@/utils/db'
+import { voiceGen } from '@/utils/schema'
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card"
+import {
+  Tabs,
+  TabsContent,
+  TabsList,
+  TabsTrigger,
+} from "@/components/ui/tabs"
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip"
 
 const tones = [
   { value: 'neutral', label: 'Neutral' },
@@ -37,6 +57,27 @@ const outputLengths = [
   { value: 'long', label: 'Long' },
 ]
 
+const THEME = {
+  primary: {
+    gradient: 'from-blue-600 to-purple-600',
+    hover: 'from-blue-700 to-purple-700',
+    text: 'text-black',
+    border: 'border-purple-600',
+  },
+  secondary: {
+    gradient: 'from-blue-100 to-purple-100',
+    hover: 'from-blue-200 to-purple-200',
+    text: 'text-black',
+    border: 'border-purple-200',
+  },
+  accent: {
+    gradient: 'from-indigo-500 to-purple-500',
+    hover: 'from-indigo-600 to-purple-600',
+    text: 'text-black',
+    border: 'border-purple-500',
+  }
+} as const;
+
 export default function EnhancedVoiceAIContentGenerator() {
   const [isListening, setIsListening] = useState(false)
   const [isSpeaking, setIsSpeaking] = useState(false)
@@ -45,14 +86,15 @@ export default function EnhancedVoiceAIContentGenerator() {
   const [aiOutput, setAiOutput] = useState('')
   const [tone, setTone] = useState('neutral')
   const [outputLength, setOutputLength] = useState('medium')
-  const [voiceIndex, setVoiceIndex] = useState(0)
-  const [voices, setVoices] = useState<SpeechSynthesisVoice[]>([])
-  const [sensitivity, setSensitivity] = useState(50)
+  const [activeTab, setActiveTab] = useState('input')
+  const [sensitivity, setSensitivity] = useState(75)
+  const [audioLevel, setAudioLevel] = useState(0)
+  
   const editorRef = useRef<Editor>(null)
   const recognitionRef = useRef<any>(null)
-  const audioContextRef = useRef<AudioContext | null>(null)
-  const sourceNodeRef = useRef<MediaStreamAudioSourceNode | null>(null)
-  const analyserRef = useRef<AnalyserNode | null>(null)
+  const voiceProcessorRef = useRef<VoiceProcessor | null>(null)
+  const animationFrameRef = useRef<number>()
+  
   const { totalUsage, setTotalUsage } = useContext(TotalUsageContext)
   const { setupdatecredit } = useContext(UpdateContext)
   const { user } = useUser()
@@ -64,18 +106,34 @@ export default function EnhancedVoiceAIContentGenerator() {
         recognitionRef.current = new SpeechRecognition()
         recognitionRef.current.continuous = true
         recognitionRef.current.interimResults = true
+        recognitionRef.current.lang = 'en-US'
       }
-      setVoices(window.speechSynthesis.getVoices())
-      window.speechSynthesis.onvoiceschanged = () => setVoices(window.speechSynthesis.getVoices())
+      voiceProcessorRef.current = new VoiceProcessor()
+    }
+
+    return () => {
+      if (voiceProcessorRef.current) {
+        voiceProcessorRef.current.cleanup()
+      }
+      if (animationFrameRef.current) {
+        cancelAnimationFrame(animationFrameRef.current)
+      }
     }
   }, [])
 
   useEffect(() => {
     if (editorRef.current) {
-      const editorInstance = editorRef.current.getInstance()
-      editorInstance.setMarkdown(aiOutput)
+      editorRef.current.getInstance().setMarkdown(aiOutput)
     }
   }, [aiOutput])
+
+  const updateAudioLevel = () => {
+    if (voiceProcessorRef.current && isListening) {
+      const level = voiceProcessorRef.current.getAudioLevel()
+      setAudioLevel(level)
+      animationFrameRef.current = requestAnimationFrame(updateAudioLevel)
+    }
+  }
 
   const handleListen = async () => {
     if (!recognitionRef.current) {
@@ -85,46 +143,33 @@ export default function EnhancedVoiceAIContentGenerator() {
 
     if (isListening) {
       recognitionRef.current.stop()
-      if (audioContextRef.current) {
-        audioContextRef.current.close()
+      if (voiceProcessorRef.current) {
+        voiceProcessorRef.current.cleanup()
+      }
+      if (animationFrameRef.current) {
+        cancelAnimationFrame(animationFrameRef.current)
       }
       setIsListening(false)
     } else {
       try {
-        const stream = await navigator.mediaDevices.getUserMedia({ audio: true })
-        audioContextRef.current = new AudioContext()
-        sourceNodeRef.current = audioContextRef.current.createMediaStreamSource(stream)
-        analyserRef.current = audioContextRef.current.createAnalyser()
-        sourceNodeRef.current.connect(analyserRef.current)
+        const stream = await navigator.mediaDevices.getUserMedia({ 
+          audio: { 
+            echoCancellation: true,
+            noiseSuppression: true,
+            autoGainControl: true
+          } 
+        })
+
+        await voiceProcessorRef.current?.initialize(stream, sensitivity)
+        updateAudioLevel()
 
         recognitionRef.current.start()
         setIsListening(true)
 
-        let finalTranscript = ''
-        let silenceTimer: NodeJS.Timeout | null = null
-        const silenceThreshold = 3000 // 3 seconds of silence
-
-        const resetSilenceTimer = () => {
-          if (silenceTimer) clearTimeout(silenceTimer)
-          silenceTimer = setTimeout(() => {
-            recognitionRef.current.stop()
-          }, silenceThreshold)
-        }
-
-        const checkAudioLevel = () => {
-          if (!analyserRef.current) return
-          const dataArray = new Uint8Array(analyserRef.current.frequencyBinCount)
-          analyserRef.current.getByteFrequencyData(dataArray)
-          const average = dataArray.reduce((sum, value) => sum + value, 0) / dataArray.length
-          if (average > sensitivity) {
-            resetSilenceTimer()
-          }
-        }
-
-        const audioCheckInterval = setInterval(checkAudioLevel, 100)
-
         recognitionRef.current.onresult = (event: any) => {
           let interimTranscript = ''
+          let finalTranscript = ''
+          
           for (let i = event.resultIndex; i < event.results.length; i++) {
             const transcript = event.results[i][0].transcript
             if (event.results[i].isFinal) {
@@ -133,8 +178,8 @@ export default function EnhancedVoiceAIContentGenerator() {
               interimTranscript += transcript
             }
           }
-          setTranscript(finalTranscript + interimTranscript)
-          resetSilenceTimer()
+          
+          setTranscript(prev => prev + finalTranscript)
         }
 
         recognitionRef.current.onerror = (event: any) => {
@@ -145,11 +190,9 @@ export default function EnhancedVoiceAIContentGenerator() {
 
         recognitionRef.current.onend = () => {
           setIsListening(false)
-          if (silenceTimer) clearTimeout(silenceTimer)
-          clearInterval(audioCheckInterval)
           stream.getTracks().forEach(track => track.stop())
-          if (audioContextRef.current) {
-            audioContextRef.current.close()
+          if (voiceProcessorRef.current) {
+            voiceProcessorRef.current.cleanup()
           }
         }
       } catch (error) {
@@ -159,89 +202,56 @@ export default function EnhancedVoiceAIContentGenerator() {
     }
   }
 
+  const handleSensitivityChange = (value: number[]) => {
+    const newSensitivity = value[0]
+    setSensitivity(newSensitivity)
+    if (voiceProcessorRef.current) {
+      voiceProcessorRef.current.updateSensitivity(newSensitivity)
+    }
+  }
+
   const handleConfirmPrompt = async () => {
     if (!transcript.trim()) {
       toast.error("Please provide a prompt before confirming.")
       return
     }
-    try {
-      const completedPrompt = await autoCompletePrompt(transcript)
-      setTranscript(completedPrompt)
-      generateAIContent(completedPrompt)
-    } catch (error) {
-      console.error("Error in auto-completing prompt:", error)
-      toast.error("Failed to auto-complete prompt. Please try again.")
-    }
-  }
-
-  const generateAIContent = async (prompt: string) => {
-    const creditsNeeded = Math.floor(Math.random() * (500 - 50 + 1) + 50)
-    if (totalUsage + creditsNeeded > 100000) {
-      toast.error("Not enough credits to generate content")
-      return
-    }
 
     setLoading(true)
     try {
-      const aiResponse = await generateEnhancedContent(prompt, tone, outputLength)
-      setAiOutput(aiResponse)
-      setTotalUsage((prevUsage: number) => prevUsage + creditsNeeded)
-      setupdatecredit?.(Date.now())
-      await saveContentToDB(prompt, aiResponse)
-      toast.success("Content generated successfully!")
+      const enhancedPrompt = await enhancePrompt(transcript)
+      setTranscript(enhancedPrompt)
+      await generateAIContent(enhancedPrompt)
+      setActiveTab('output')
     } catch (error) {
-      console.error("Error generating AI content:", error)
-      toast.error("Failed to generate content. Please try again.")
+      console.error("Error in processing prompt:", error)
+      toast.error("Failed to process prompt. Please try again.")
     } finally {
       setLoading(false)
     }
   }
 
-  const handleSpeak = () => {
-    if ('speechSynthesis' in window) {
-      if (isSpeaking) {
-        window.speechSynthesis.cancel()
-        setIsSpeaking(false)
-      } else {
-        const utterance = new SpeechSynthesisUtterance(aiOutput)
-        utterance.voice = voices[voiceIndex]
-        utterance.onend = () => setIsSpeaking(false)
-        window.speechSynthesis.speak(utterance)
-        setIsSpeaking(true)
-      }
-    } else {
-      toast.error("Text-to-speech is not supported in this browser.")
+  const generateAIContent = async (prompt: string) => {
+    const creditsNeeded = 100
+    if (totalUsage + creditsNeeded > 100000) {
+      toast.error("Not enough credits to generate content")
+      return
     }
-  }
 
-  const handleEdit = async () => {
-    const editPrompt = prompt("What changes would you like to make to the output?")
-    if (editPrompt) {
-      if (totalUsage + 50 > 100000) {
-        toast.error("Not enough credits to make changes")
-        return
-      }
-
-      setLoading(true)
-      try {
-        const editedContent = await generateEnhancedContent(aiOutput, tone, outputLength, editPrompt)
-        setAiOutput(editedContent)
-        setTotalUsage((prevUsage: number) => prevUsage + 50)
-        setupdatecredit?.(Date.now())
-        await saveContentToDB(transcript, editedContent)
-        toast.success("Content updated successfully!")
-      } catch (error) {
-        console.error("Error editing AI content:", error)
-        toast.error("Failed to update content. Please try again.")
-      } finally {
-        setLoading(false)
-      }
+    try {
+      const content = await generateContent(prompt, tone, outputLength)
+      setAiOutput(content)
+      setTotalUsage((prev: number) => prev + creditsNeeded)
+      setupdatecredit?.(Date.now())
+      await saveContentToDB(prompt, content)
+      toast.success("Content generated successfully!")
+    } catch (error) {
+      console.error("Error generating content:", error)
+      toast.error("Failed to generate content. Please try again.")
     }
   }
 
   const saveContentToDB = async (prompt: string, content: string) => {
     if (!user?.id) return
-
     try {
       await db.insert(voiceGen).values({
         userId: user.id,
@@ -249,142 +259,240 @@ export default function EnhancedVoiceAIContentGenerator() {
         output: content,
         tone,
         outputLength,
-        createdAt: new Date().toISOString(),
+        createdAt: new Date(),
       })
     } catch (error) {
-      console.error("Error saving content to DB:", error)
+      console.error("Error saving to DB:", error)
+    }
+  }
+
+  const handleEdit = async () => {
+    const editPrompt = prompt("What changes would you like to make to the output?")
+    if (editPrompt) {
+      setLoading(true)
+      try {
+        const editedContent = await generateContent(aiOutput, tone, outputLength, editPrompt)
+        setAiOutput(editedContent)
+        toast.success("Content updated successfully!")
+      } catch (error) {
+        toast.error("Failed to update content")
+      } finally {
+        setLoading(false)
+      }
     }
   }
 
   return (
-    <div className="p-4 md:p-10 bg-gradient-to-br from-gray-50 to-gray-100 min-h-screen">
-      <div className="max-w-4xl mx-auto bg-white rounded-lg shadow-lg p-6 border border-gray-200">
-        <h2 className="font-bold text-2xl mb-6 text-prim">Voice AI Content Generator</h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-          <Select value={tone} onValueChange={setTone}>
-            <SelectTrigger style={{ cursor: 'url(/poin.png), auto' }}>
-              <SelectValue placeholder="Select tone" />
-            </SelectTrigger>
-            <SelectContent>
-              {tones.map((t) => (
-                <SelectItem key={t.value} value={t.value} style={{ cursor: 'url(/poin.png), auto' }}>
-                  {t.label}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
-          <Select value={outputLength} onValueChange={setOutputLength}>
-            <SelectTrigger style={{ cursor: 'url(/poin.png), auto' }}>
-              <SelectValue placeholder="Select output length" />
-            </SelectTrigger>
-            <SelectContent>
-              {outputLengths.map((len) => (
-                <SelectItem key={len.value} value={len.value} style={{ cursor: 'url(/poin.png), auto' }}>
-                  {len.label}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
-          <div className="flex items-center space-x-2">
-            <span>Voice:</span>
-            <Select value={voiceIndex.toString()} onValueChange={(value) => setVoiceIndex(parseInt(value))}>
-              <SelectTrigger style={{ cursor: 'url(/poin.png), auto' }}>
-                <SelectValue placeholder="Select voice" />
+    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 p-4 md:p-8">
+      <Card className="max-w-5xl mx-auto border border-purple-100">
+        <CardHeader className={`bg-gradient-to-r ${THEME.primary.gradient}`}>
+          <CardTitle className="text-2xl md:text-3xl font-bold text-white">
+            AI Content Generator
+          </CardTitle>
+          <CardDescription className="text-white/90">
+            Transform your voice or text into enhanced content with AI
+          </CardDescription>
+        </CardHeader>
+        <CardContent className="space-y-6 p-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <Select value={tone} onValueChange={setTone}>
+              <SelectTrigger 
+                className={`w-full border-2 hover:border-purple-400 transition-colors ${THEME.primary.border}`}
+                style={{ cursor: 'url(/poin.png), auto' }}
+              >
+                <SelectValue placeholder="Select tone" />
               </SelectTrigger>
               <SelectContent>
-                {voices.map((voice, index) => (
-                  <SelectItem key={index} value={index.toString()} style={{ cursor: 'url(/poin.png), auto' }}>
-                    {voice.name}
+                {tones.map((t) => (
+                  <SelectItem 
+                    key={t.value} 
+                    value={t.value}
+                    className="hover:bg-purple-50"
+                    style={{ cursor: 'url(/poin.png), auto' }}
+                  >
+                    {t.label}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+            <Select value={outputLength} onValueChange={setOutputLength}>
+              <SelectTrigger 
+                className={`w-full border-2 hover:border-purple-400 transition-colors ${THEME.primary.border}`}
+                style={{ cursor: 'url(/poin.png), auto' }}
+              >
+                <SelectValue placeholder="Select output length" />
+              </SelectTrigger>
+              <SelectContent>
+                {outputLengths.map((len) => (
+                  <SelectItem 
+                    key={len.value} 
+                    value={len.value}
+                    className="hover:bg-purple-50"
+                    style={{ cursor: 'url(/poin.png), auto' }}
+                  >
+                    {len.label}
                   </SelectItem>
                 ))}
               </SelectContent>
             </Select>
           </div>
-          <div className="flex flex-col space-y-2">
-            <label htmlFor="sensitivity" className="text-sm font-medium">
-              Microphone Sensitivity: {sensitivity}%
-            </label>
+
+          <div className="space-y-2">
+            <div className="flex items-center justify-between">
+              <label className="text-sm font-medium text-gray-700">
+                Microphone Sensitivity: {sensitivity}%
+              </label>
+              <div className="w-24 h-2 bg-gray-100 rounded-full overflow-hidden border border-gray-200">
+                {/* <div 
+                  className={`h-full bg-gradient-to-r ${THEME.accent.gradient} transition-all duration-100`}
+                  style={{ width: `${(audioLevel / 255) * 100}%` }}
+                /> */}
+              </div>
+            </div>
             <Slider
-              id="sensitivity"
               min={0}
               max={100}
               step={1}
               value={[sensitivity]}
-              onValueChange={(value) => setSensitivity(value[0])}
+              onValueChange={handleSensitivityChange}
+              className={`[&>span:first-child]:bg-gradient-to-r [&>span:first-child]:${THEME.primary.gradient}`}
             />
           </div>
-        </div>
-        <div className="mb-4 space-x-4">
-          <Button
-            onClick={handleListen}
-            className={`${isListening ? 'bg-red-500 hover:bg-red-600' : 'bg-prim hover:bg-back hover:text-acc hover:border-2 hover:border-prim text-back'} text-primary-foreground transition-colors duration-300`}
-            disabled={loading}
-            style={{ cursor: 'url(/poin.png), auto' }}
-          >
-            {isListening ? <MicOff className="mr-2 h-4 w-4" /> : <Mic className="mr-2 h-4 w-4" />}
-            {isListening ? 'Stop Listening' : 'Start Listening'}
-          </Button>
-          <Button
-            onClick={handleSpeak}
-            className={`${isSpeaking ? 'bg-red-500 hover:bg-red-600' : 'bg-prim hover:bg-back hover:text-acc hover:border-2 hover:border-prim text-back'} text-primary-foreground transition-colors duration-300`}
-            disabled={loading || !aiOutput}
-            style={{ cursor: 'url(/poin.png), auto' }}
-          >
-            {isSpeaking ? <VolumeX className="mr-2 h-4 w-4" /> : <Volume2 className="mr-2 h-4 w-4" />}
-            {isSpeaking ? 'Stop Speaking' : 'Speak Output'}
-          </Button>
-          <Button
-            onClick={handleEdit}
-            className="bg-prim hover:bg-back hover:text-acc hover:border-2 hover:border-prim text-back text-primary-foreground transition-colors duration-300"
-            disabled={loading || !aiOutput}
-            style={{ cursor: 'url(/poin.png), auto' }}
-          >
-            <Edit2 className="mr-2 h-4 w-4" />
-            Edit Output
-          </Button>
-        </div>
-        <div className="flex items-center space-x-2 mb-4">
-          <Textarea
-            value={transcript}
-            onChange={(e) => setTranscript(e.target.value)}
-            placeholder="Your speech will appear here..."
-            className="flex-grow p-2 border rounded"
-            rows={4}
-            style={{ cursor: 'url(/type.png), auto' }}
-          />
-          <Button
-            onClick={handleConfirmPrompt}
-            className="bg-prim hover:bg-back hover:text-acc hover:border-2 hover:border-prim text-back"
-            disabled={loading || !transcript.trim()}
-            style={{ cursor: 'url(/poin.png), auto' }}
-          >
-            <Check className="mr-2  h-4 w-4" />
-            Confirm
-          </Button>
-        </div>
-        <div className="font-p border border-gray-200 rounded-lg overflow-hidden">
-          <Editor
-            ref={editorRef}
-            initialValue={aiOutput || "AI-generated content will appear here..."}
-            height="400px"
-            initialEditType="wysiwyg"
-            useCommandShortcut={true}
-            toolbarItems={[
-              ['heading', 'bold', 'italic', 'strike'],
-              ['hr', 'quote'],
-              ['ul', 'ol', 'task', 'indent', 'outdent'],
-              ['table', 'image', 'link'],
-              ['code', 'codeblock']
-            ]}
-          />
-        </div>
-        {loading && (
-          <div className="flex justify-center items-center mt-4">
-            <Loader2Icon className="animate-spin mr-2" />
-            <span>Processing...</span>
-          </div>
-        )}
-      </div>
+
+          <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
+            <TabsList className="grid w-full grid-cols-2 p-1 bg-purple-50 rounded-lg">
+              <TabsTrigger 
+                value="input"
+                className={`data-[state=active]:bg-gradient-to-r data-[state=active]:${THEME.primary.gradient} data-[state=active]:text-black`}
+                style={{ cursor: 'url(/poin.png), auto' }}
+              >
+                Input
+              </TabsTrigger>
+              <TabsTrigger 
+                value="output"
+                className={`data-[state=active]:bg-gradient-to-r data-[state=active]:${THEME.primary.gradient} data-[state=active]:text-black`}
+                style={{ cursor: 'url(/poin.png), auto' }}
+              >
+                Output
+              </TabsTrigger>
+            </TabsList>
+            <TabsContent value="input" className="space-y-4 pt-4">
+              <div className="flex flex-col space-y-4">
+                <div className="flex flex-col md:flex-row gap-2">
+                  <TooltipProvider>
+                    <Tooltip>
+                      <TooltipTrigger asChild>
+                        <Button 
+                          onClick={handleListen}
+                          className={`flex-1 ${
+                            isListening 
+                              ? 'bg-red-500 hover:bg-red-600' 
+                              : `bg-gradient-to-r ${THEME.primary.gradient} hover:${THEME.primary.hover}`
+                          } text-white transition-all duration-300`}
+                          disabled={loading}
+                          style={{ cursor: 'url(/poin.png), auto' }}
+                        >
+                          {isListening ? (
+                            <>
+                              <MicOff className="mr-2 h-4 w-4" />
+                              Stop Recording
+                            </>
+                          ) : (
+                            <>
+                              <Mic className="mr-2 h-4 w-4" />
+                              Start Recording
+                            </>
+                          )}
+                        </Button>
+                      </TooltipTrigger>
+                      <TooltipContent>
+                        <p>Click to start/stop voice recording</p>
+                      </TooltipContent>
+                    </Tooltip>
+                  </TooltipProvider>
+                </div>
+                <div className="flex gap-2">
+                  <Textarea
+                    value={transcript}
+                    onChange={(e) => setTranscript(e.target.value)}
+                    placeholder="Your input will appear here. You can also type directly..."
+                    className={`flex-1 min-h-[200px] border-2 ${THEME.primary.border} focus:ring-purple-400`}
+                    style={{ cursor: 'url(/type.png), auto' }}
+                  />
+                  <Button
+                    onClick={handleConfirmPrompt}
+                    className={`self-start bg-gradient-to-r ${THEME.primary.gradient} hover:${THEME.primary.hover} text-white transition-all duration-300`}
+                    disabled={loading || !transcript.trim()}
+                    style={{ cursor: 'url(/poin.png), auto' }}
+                  >
+                    <Check className="mr-2 h-4 w-4" />
+                    Generate
+                  </Button>
+                </div>
+              </div>
+            </TabsContent>
+            <TabsContent value="output" className="space-y-4 pt-4">
+              <div className="flex flex-col md:flex-row gap-2 mb-4">
+                {/* <Button
+                  onClick={() => setIsSpeaking(!isSpeaking)}
+                  className={`flex-1 ${
+                    isSpeaking 
+                      ? 'bg-red-500 hover:bg-red-600' 
+                      : `bg-gradient-to-r ${THEME.accent.gradient} hover:${THEME.accent.hover}`
+                  } text-white transition-all duration-300`}
+                  disabled={loading || !aiOutput}
+                  style={{ cursor: 'url(/poin.png), auto' }}
+                >
+                  {isSpeaking ? (
+                    <>
+                      <VolumeX className="mr-2 h-4 w-4" />
+                      Stop Speaking
+                    </>
+                  ) : (
+                    <>
+                      <Volume2 className="mr-2 h-4 w-4" />
+                      Speak Output
+                    </>
+                  )}
+                </Button> */}
+                {/* <Button
+                  onClick={handleEdit}
+                  className={`flex-1 bg-gradient-to-r ${THEME.secondary.gradient} hover:${THEME.secondary.hover} ${THEME.secondary.text}`}
+                  disabled={loading || !aiOutput}
+                  style={{ cursor: 'url(/poin.png), auto' }}
+                >
+                  <Edit2 className="mr-2 h-4 w-4" />
+                  Edit Output
+                </Button> */}
+              </div>
+              <div className="border-2 rounded-lg overflow-hidden bg-white border-purple-100">
+                <Editor
+                  ref={editorRef}
+                  initialValue={aiOutput || "Generated content will appear here..."}
+                  height="400px"
+                  initialEditType="wysiwyg"
+                  useCommandShortcut={true}
+                  theme="light"
+                  toolbarItems={[
+                    ['heading', 'bold', 'italic', 'strike'],
+                    ['hr', 'quote'],
+                    ['ul', 'ol', 'task', 'indent', 'outdent'],
+                    ['table', 'image', 'link'],
+                    ['code', 'codeblock']
+                  ]}
+                />
+              </div>
+            </TabsContent>
+          </Tabs>
+
+          {loading && (
+            <div className="flex justify-center items-center py-4">
+              <div className={`animate-spin rounded-full h-8 w-8 border-2 border-t-transparent ${THEME.primary.border}`} />
+            </div>
+          )}
+        </CardContent>
+      </Card>
     </div>
   )
 }
+

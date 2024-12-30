@@ -1,120 +1,48 @@
-const AIXPLAIN_API_KEY = process.env.NEXT_PUBLIC_AIXPLAIN_API_KEY_3 || '';
-const AIXPLAIN_TRANSLATE_MODEL_ID = '66aa869f6eb56342c26057e1';
-const AIXPLAIN_DETECT_MODEL_ID = '66aa869f6eb56342c26057e2';
+import { GoogleGenerativeAI } from "@google/generative-ai";
 
-interface TranslationResponse {
-  data: string;
-  completed: boolean;
-}
+const GEMINI_API_KEY = process.env.NEXT_PUBLIC_GOOGLE_GEMINI_API_KEY || '';
+const genAI = new GoogleGenerativeAI(GEMINI_API_KEY);
 
-interface DetectionResponse {
-  data: string;
-  completed: boolean;
-}
+export async function detectLanguage(text: string): Promise<string> {
+  const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+  
+  const prompt = `
+    Detect the language of the following text and return ONLY the ISO 639-1 language code (e.g., 'en' for English, 'es' for Spanish).
+    No other text or explanation, just the code.
 
-export async function translateText(text: string, sourceLanguage: string, targetLanguage: string, tone: string): Promise<string> {
+    Text: "${text}"
+  `;
+
   try {
-    const response = await fetch(`https://models.aixplain.com/api/v1/execute/${AIXPLAIN_TRANSLATE_MODEL_ID}`, {
-      method: 'POST',
-      body: JSON.stringify({
-        text: text,
-        sourcelanguage: sourceLanguage,
-        targetlanguage: targetLanguage,
-        tone: tone, // Add the tone parameter
-      }),
-      headers: {
-        'x-api-key': AIXPLAIN_API_KEY,
-        'content-type': 'application/json'
-      }
-    });
-
-    if (!response.ok) {
-      throw new Error(`AIxplain API error: ${response.statusText}`);
-    }
-
-    const results = await response.json();
-    const urlToPoll = results.data;
-
-    return new Promise((resolve, reject) => {
-      const pollInterval = setInterval(async () => {
-        try {
-          const statusResponse = await fetch(urlToPoll, {
-            method: 'GET',
-            headers: {
-              'x-api-key': AIXPLAIN_API_KEY,
-              'content-type': 'application/json'
-            }
-          });
-
-          if (!statusResponse.ok) {
-            throw new Error(`AIxplain status API error: ${statusResponse.statusText}`);
-          }
-
-          const results: TranslationResponse = await statusResponse.json();
-          if (results.completed) {
-            clearInterval(pollInterval);
-            resolve(results.data);
-          }
-        } catch (error) {
-          clearInterval(pollInterval);
-          reject(error);
-        }
-      }, 5000);
-    });
+    const result = await model.generateContent(prompt);
+    return result.response.text().trim();
   } catch (error) {
-    console.error("Translation error:", error);
+    console.error("Language detection error:", error);
     throw error;
   }
 }
 
-export async function detectLanguage(text: string): Promise<string> {
+export async function translateText(
+  text: string, 
+  sourceLanguage: string, 
+  targetLanguage: string, 
+  tone: string
+): Promise<string> {
+  const model = genAI.getGenerativeModel({ model: "gemini-1.5-pro" });
+  
+  const prompt = `
+    Translate the following text from ${sourceLanguage} to ${targetLanguage}.
+    Use a ${tone} tone in the translation.
+    Return only the translated text, no explanations or additional content.
+
+    Text to translate: "${text}"
+  `;
+
   try {
-    const response = await fetch(`https://models.aixplain.com/api/v1/execute/${AIXPLAIN_DETECT_MODEL_ID}`, {
-      method: 'POST',
-      body: JSON.stringify({
-        text: text,
-      }),
-      headers: {
-        'x-api-key': AIXPLAIN_API_KEY,
-        'content-type': 'application/json'
-      }
-    });
-
-    if (!response.ok) {
-      // throw new Error(`AIxplain API error: ${response.statusText}`);
-    }
-
-    const results = await response.json();
-    const urlToPoll = results.data;
-
-    return new Promise((resolve, reject) => {
-      const pollInterval = setInterval(async () => {
-        try {
-          const statusResponse = await fetch(urlToPoll, {
-            method: 'GET',
-            headers: {
-              'x-api-key': AIXPLAIN_API_KEY,
-              'content-type': 'application/json'
-            }
-          });
-
-          if (!statusResponse.ok) {
-            // throw new Error(`AIxplain status API error: ${statusResponse.statusText}`);/
-          }
-
-          const results: DetectionResponse = await statusResponse.json();
-          if (results.completed) {
-            clearInterval(pollInterval);
-            resolve(results.data);
-          }
-        } catch (error) {
-          clearInterval(pollInterval);
-          reject(error);
-        }
-      }, 5000);
-    });
+    const result = await model.generateContent(prompt);
+    return result.response.text().trim();
   } catch (error) {
-    console.error("Language detection error:", error);
+    console.error("Translation error:", error);
     throw error;
   }
 }
