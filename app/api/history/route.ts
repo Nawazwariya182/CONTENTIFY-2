@@ -1,12 +1,17 @@
-// app/api/history/route.ts
 import { NextResponse } from 'next/server';
-import { db } from '@/utils/db'; // Import server-side db instance
+import { db } from '@/utils/db';
 import { aioutput } from '@/utils/schema';
 import { desc, eq } from 'drizzle-orm';
-import { currentUser } from '@clerk/nextjs/server'; // Adjust import based on actual use
+import { currentUser } from '@clerk/nextjs/server';
 
 export async function GET() {
   try {
+    // Check if the database connection is established
+    if (!db) {
+      console.error('Database connection not established');
+      return NextResponse.json({ error: 'Database connection error' }, { status: 500 });
+    }
+
     const user = await currentUser();
     if (!user?.emailAddresses[0]) {
       console.error('User not authenticated');
@@ -25,3 +30,4 @@ export async function GET() {
     return NextResponse.json({ error: 'Error fetching data' }, { status: 500 });
   }
 }
+
