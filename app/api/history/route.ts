@@ -1,27 +1,31 @@
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 import { db } from '@/utils/db';
 import { aioutput } from '@/utils/schema';
 import { desc, eq } from 'drizzle-orm';
-import { currentUser } from '@clerk/nextjs/server';
+import { auth } from '@clerk/nextjs/server';
 
-export async function GET() {
+export const dynamic = 'force-dynamic';
+
+export async function GET(req: NextRequest) {
   try {
-    // Check if the database connection is established
     if (!db) {
       console.error('Database connection not established');
       return NextResponse.json({ error: 'Database connection error' }, { status: 500 });
     }
 
-    const user = await currentUser();
-    if (!user?.emailAddresses[0]) {
+    const { userId } = auth();
+    if (!userId) {
       console.error('User not authenticated');
       return NextResponse.json({ error: 'User not authenticated' }, { status: 401 });
     }
 
-    const email = user.emailAddresses[0].emailAddress;
-    console.log(`Authenticated user email: ${email}`);
+    const data = await db
+      .select()
+      .from(aioutput)
+      .where(eq(aioutput.createby, userId))
+      .orderBy(desc(aioutput.createdat))
+      .execute();
 
-    const data = await db.select().from(aioutput).where(eq(aioutput.createby, email)).orderBy(desc(aioutput.createdat)).execute();
     console.log('Fetched data:', data);
 
     return NextResponse.json(data);
@@ -30,4 +34,3 @@ export async function GET() {
     return NextResponse.json({ error: 'Error fetching data' }, { status: 500 });
   }
 }
-
