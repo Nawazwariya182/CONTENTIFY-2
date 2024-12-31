@@ -1,3 +1,4 @@
+//DISEASE PREDICTION 
 import { GoogleGenerativeAI, GenerativeModel } from "@google/generative-ai";
 
 export type PatientData = {
@@ -20,7 +21,7 @@ export type DiseasePrediction = {
   error?: string;
 };
 
-const GEMINI_API_KEY = process.env.NEXT_PUBLIC_GOOGLE_GEMINI_API_KEY || '';
+const GEMINI_API_KEY = process.env.NEXT_PUBLIC_GOOGLE_GEMINI_API_KEY_2 || '';
 
 const genAI = new GoogleGenerativeAI(GEMINI_API_KEY);
 let geminiModel: GenerativeModel;

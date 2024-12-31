@@ -1,6 +1,7 @@
+// TRANSLATE
 import { GoogleGenerativeAI } from "@google/generative-ai";
 
-const GEMINI_API_KEY = process.env.NEXT_PUBLIC_GOOGLE_GEMINI_API_KEY || '';
+const GEMINI_API_KEY = process.env.NEXT_PUBLIC_GOOGLE_GEMINI_API_KEY_7 || '';
 const genAI = new GoogleGenerativeAI(GEMINI_API_KEY);
 
 export async function detectLanguage(text: string): Promise<string> {
@@ -28,7 +29,7 @@ export async function translateText(
   targetLanguage: string, 
   tone: string
 ): Promise<string> {
-  const model = genAI.getGenerativeModel({ model: "gemini-1.5-pro" });
+  const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
   
   const prompt = `
     Translate the following text from ${sourceLanguage} to ${targetLanguage}.

@@ -1,3 +1,4 @@
+//FOOD
 import { GoogleGenerativeAI } from "@google/generative-ai";
 
 export type Restaurant = {
@@ -23,7 +24,7 @@ export type FoodSuggestion = {
   error?: string;
 };
 
-const GEMINI_API_KEY = process.env.NEXT_PUBLIC_GOOGLE_GEMINI_API_KEY || '';
+const GEMINI_API_KEY = process.env.NEXT_PUBLIC_GOOGLE_GEMINI_API_KEY_5 || '';
 const genAI = new GoogleGenerativeAI(GEMINI_API_KEY);
 
 export async function getFoodSuggestions(
@@ -33,10 +34,11 @@ export async function getFoodSuggestions(
   orderedItems: string[]
 ): Promise<FoodSuggestion> {
   try {
-    const model = genAI.getGenerativeModel({ model: "gemini-1.5-pro" });
+    const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
 
     const prompt = `
       Act as a food expert and provide suggestions for the following scenario:
+      note: search on the basis of real world data and search that first that the resturant and area exist in real world and if yes then get the menu of the following resturant and then suggest the dishes and accompaniments and if no then say give the real world data to get the suggestions
       Restaurant: ${restaurant.name}
       Area: ${restaurant.area}
       Cuisine Type: ${restaurant.cuisineType}

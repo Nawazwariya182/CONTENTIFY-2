@@ -1,6 +1,7 @@
+// VOICE
 import { GoogleGenerativeAI } from "@google/generative-ai";
 
-const GEMINI_API_KEY = process.env.NEXT_PUBLIC_GOOGLE_GEMINI_API_KEY || '';
+const GEMINI_API_KEY = process.env.NEXT_PUBLIC_GOOGLE_GEMINI_API_KEY_6 || '';
 const genAI = new GoogleGenerativeAI(GEMINI_API_KEY);
 
 export async function enhancePrompt(prompt: string): Promise<string> {

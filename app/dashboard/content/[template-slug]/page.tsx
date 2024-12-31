@@ -75,7 +75,7 @@ function CreateNewContent(props: PROPS) {
       airesponse: airesponse || '',
       templateslug: slug || '',
       createby: user?.primaryEmailAddress?.emailAddress || '',
-      createdat: moment().format('DD/MM/yyyy'),
+      createdat: new Date().toISOString(),
     });
   };
 
