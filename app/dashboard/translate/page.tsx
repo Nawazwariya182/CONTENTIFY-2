@@ -104,7 +104,7 @@ const languages = [
 
     const creditsNeeded = targetLanguage2 ? 200 : 100 // Fixed credit cost
 
-    if (totalUsage + creditsNeeded > 100000) {
+    if (totalUsage + creditsNeeded > 20000) {
       toast.error("Not enough credits for translation")
       return
     }

@@ -228,7 +228,7 @@ function EnhancedVoiceAIContentGenerator() {
 
   const generateAIContent = async (prompt: string) => {
     const creditsNeeded = 100
-    if (totalUsage + creditsNeeded > 100000) {
+    if (totalUsage + creditsNeeded > 20000) {
       toast.error("Not enough credits to generate content")
       return
     }
@@ -400,7 +400,7 @@ function EnhancedVoiceAIContentGenerator() {
                             </>
                           )}
                         </Button>
-                      </TooltipTrigger>
+                      </TooltipTrigger >
                       <TooltipContent>
                         <p>Click to start/stop voice recording</p>
                       </TooltipContent>

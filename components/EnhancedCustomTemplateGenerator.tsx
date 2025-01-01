@@ -299,7 +299,7 @@ function EnhancedCustomTemplateGenerator() {
   const { setupdatecredit } = useContext(UpdateContext)
   const editorRef = useRef<Editor>(null)
   const { toast } = useToast()
-  const limit = 1000000
+  const limit = 20000
 
   useEffect(() => {
     if (editorRef.current) {

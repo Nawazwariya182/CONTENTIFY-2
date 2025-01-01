@@ -39,7 +39,7 @@ export default function EnhancedEntityLinkingComponent() {
 
     const creditsNeeded = Math.floor(Math.random() * (100 - 60 + 1) + 60)
 
-    if (totalUsage + creditsNeeded > 100000) {
+    if (totalUsage + creditsNeeded > 20000) {
       toast.error("Not enough credits for entity extraction")
       return
     }

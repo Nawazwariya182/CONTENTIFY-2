@@ -63,10 +63,10 @@ const UsageTrack: React.FC = () => {
         <div className='h-2 bg-second/25 w-full rounded-full'>
           <div
             className='h-2 bg-white rounded-full'
-            style={{ width: `${(totalUsage / 100000) * 100}%` }}
+            style={{ width: `${(totalUsage / 20000) * 100}%` }}
           />
         </div>
-        <h2 className='text-xs my-2'>{totalUsage}/100000 Creditsa</h2>
+        <h2 className='text-xs my-2'>{totalUsage}/20000 Creditsa</h2>
       </div>
     </div>
   );

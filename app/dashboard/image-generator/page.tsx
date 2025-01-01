@@ -39,7 +39,7 @@ export default function UpdatedImageGenerator() {
     e.preventDefault();
     setLoading(true);
 
-    if (totalUsage + imageCount * 300 > 100000) {
+    if (totalUsage + imageCount * 300 > 20000) {
       toast({
         title: "Not enough credits",
         description: "You don't have enough credits to generate these images.",
