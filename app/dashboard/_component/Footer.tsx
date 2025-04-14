@@ -1,6 +1,21 @@
-import React from 'react';
-import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
-import { FacebookIcon, GitlabIcon, InstagramIcon, LinkedinIcon, TwitterIcon, YoutubeIcon } from "lucide-react";
+/*
+  Copyright © 2025 Nawaz & Tabish All rights reserved.
+  Project: Contentify (Proprietary Software)
+  
+  This code is the exclusive property of the copyright holder.
+  Unauthorized copying, modification, redistribution, or use of any part
+  of this codebase — including the name “Contentify” — is strictly prohibited.
+
+  This software is confidential and proprietary. By accessing or using this code,
+  you agree to comply with the terms set forth in the LICENSE file.
+*/
+import React from "react";
+import {
+  FacebookIcon,
+  InstagramIcon,
+  TwitterIcon,
+  YoutubeIcon,
+} from "lucide-react";
 import Link from "next/link";
 
 function Footer() {
@@ -13,7 +28,7 @@ function Footer() {
             href="https://www.facebook.com/share/uMBuVXpYKB4qzjyK/"
             className="flex items-center gap-2 text-muted-foreground hover:text-prim"
             prefetch={false}
-            style={{ cursor: 'url(/poin.png), auto' }}
+            style={{ cursor: "url(/poin.png), auto" }}
           >
             <FacebookIcon className="h-5 w-5 text-acc" />
             Facebook
@@ -22,19 +37,19 @@ function Footer() {
             href="https://www.instagram.com/contentify_ai/profilecard/?igsh=MWp1b2kwZ2N3eWRsYQ=="
             className="flex items-center gap-2 text-muted-foreground hover:text-prim"
             prefetch={false}
-            style={{ cursor: 'url(/poin.png), auto' }}
+            style={{ cursor: "url(/poin.png), auto" }}
           >
             <InstagramIcon className="h-5 w-5 text-acc" />
             Instagram
           </Link>
         </div>
-        <div className='grid gap-1'>
+        <div className="grid gap-1">
           <h3 className="font-semibold text-prim">Social</h3>
           <Link
             href="https://x.com/Contentify_ai?t=CVwuWLEFfQFczzvHm69RIQ&s=08"
             className="flex items-center gap-2 text-muted-foreground hover:text-prim"
             prefetch={false}
-            style={{ cursor: 'url(/poin.png), auto' }}
+            style={{ cursor: "url(/poin.png), auto" }}
           >
             <TwitterIcon className="h-5 w-5 text-acc" />
             Twitter
@@ -43,7 +58,7 @@ function Footer() {
             href="https://youtube.com/@contentify-ai?si=WIfo6UW8kfiIy1oJ"
             className="flex items-center gap-2 text-muted-foreground hover:text-prim"
             prefetch={false}
-            style={{ cursor: 'url(/poin.png), auto' }}
+            style={{ cursor: "url(/poin.png), auto" }}
           >
             <YoutubeIcon className="h-5 w-5 text-acc" />
             Youtube
@@ -55,7 +70,7 @@ function Footer() {
             href="/dashboard/About"
             className="text-muted-foreground hover:text-prim"
             prefetch={false}
-            style={{ cursor: 'url(/poin.png), auto' }}
+            style={{ cursor: "url(/poin.png), auto" }}
           >
             About Us
           </Link>
@@ -63,7 +78,7 @@ function Footer() {
             href="/dashboard/Contact"
             className="text-muted-foreground hover:text-prim"
             prefetch={false}
-            style={{ cursor: 'url(/poin.png), auto' }}
+            style={{ cursor: "url(/poin.png), auto" }}
           >
             Our Team
           </Link>
@@ -74,7 +89,7 @@ function Footer() {
             href="/dashboard/Blog"
             className="text-muted-foreground hover:text-prim"
             prefetch={false}
-            style={{ cursor: 'url(/poin.png), auto' }}
+            style={{ cursor: "url(/poin.png), auto" }}
           >
             Blog
           </Link>
@@ -82,7 +97,7 @@ function Footer() {
             href="/dashboard/How"
             className="text-muted-foreground hover:text-prim"
             prefetch={false}
-            style={{ cursor: 'url(/poin.png), auto' }}
+            style={{ cursor: "url(/poin.png), auto" }}
           >
             How it Works?
           </Link>
@@ -93,7 +108,7 @@ function Footer() {
             href="/dashboard/PP"
             className="text-muted-foreground hover:text-prim"
             prefetch={false}
-            style={{ cursor: 'url(/poin.png), auto' }}
+            style={{ cursor: "url(/poin.png), auto" }}
           >
             Privacy Policy
           </Link>
@@ -101,7 +116,7 @@ function Footer() {
             href="/dashboard/TOS"
             className="text-muted-foreground hover:text-prim"
             prefetch={false}
-            style={{ cursor: 'url(/poin.png), auto' }}
+            style={{ cursor: "url(/poin.png), auto" }}
           >
             Terms of Service
           </Link>

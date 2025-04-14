@@ -1,3 +1,16 @@
+/*
+  Copyright © 2025 Nawaz & Tabish All rights reserved.
+  Project: Contentify (Proprietary Software)
+  
+  This code is the exclusive property of the copyright holder.
+  Unauthorized copying, modification, redistribution, or use of any part
+  of this codebase — including the name “Contentify” — is strictly prohibited.
+
+  This software is confidential and proprietary. By accessing or using this code,
+  you agree to comply with the terms set forth in the LICENSE file.
+*/
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -29,7 +42,7 @@
     --chart-3: 197 37% 24%;
     --chart-4: 43 74% 66%;
     --chart-5: 27 87% 67%;
-    --nwcolor:#FFFFF0;
+    --nwcolor: #FFFFF0;
   }
 
   .dark {
@@ -63,8 +76,29 @@
 @layer base {
   * {
     @apply border-border;
+    font-family: 'Poppins', sans-serif;
   }
+
   body {
     @apply bg-background text-foreground;
   }
+}
+
+@layer utilities {
+  .bg-gradient-radial {
+    background-image: radial-gradient(var(--tw-gradient-stops));
+  }
+
+  .hide-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+
+  .hide-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+}
+
+html {
+  scroll-behavior: smooth;
 }

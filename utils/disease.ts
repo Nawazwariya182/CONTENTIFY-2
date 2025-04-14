@@ -1,3 +1,14 @@
+/*
+  Copyright © 2025 Nawaz & Tabish All rights reserved.
+  Project: Contentify (Proprietary Software)
+  
+  This code is the exclusive property of the copyright holder.
+  Unauthorized copying, modification, redistribution, or use of any part
+  of this codebase — including the name “Contentify” — is strictly prohibited.
+
+  This software is confidential and proprietary. By accessing or using this code,
+  you agree to comply with the terms set forth in the LICENSE file.
+*/
 //DISEASE PREDICTION 
 import { GoogleGenerativeAI, GenerativeModel } from "@google/generative-ai";
 
@@ -29,7 +40,7 @@ let geminiModel: GenerativeModel;
 export async function getDiseasePrediction(patientData: PatientData): Promise<DiseasePrediction> {
   try {
     if (!geminiModel) {
-      geminiModel = genAI.getGenerativeModel({ model: "gemini-1.5-pro" });
+      geminiModel = genAI.getGenerativeModel({ model: "gemini-2.5-pro-exp-03-25" });
     }
 
     const prompt = `Based on the following patient data, provide:

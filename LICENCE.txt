@@ -1,0 +1,15 @@
+Contentify — Proprietary Software License
+Copyright © 2025 Nawaz & Tabish. All rights reserved.
+
+This software and associated files are proprietary and confidential.
+You are NOT permitted to:
+
+- Use this code in any personal, educational, or commercial project.
+- Modify, distribute, or publish this code or its components.
+- Use the name “Contentify” for any software, website, or product.
+- Host, share, or reuse this code in any form, public or private.
+
+Violation of these terms will result in legal action under applicable copyright laws.
+
+By opening, copying, or using any part of this project, you agree to these terms.
+For licensing inquiries or special permissions, contact: [Your Email Address]

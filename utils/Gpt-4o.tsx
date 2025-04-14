@@ -1,3 +1,14 @@
+/*
+  Copyright © 2025 Nawaz & Tabish All rights reserved.
+  Project: Contentify (Proprietary Software)
+  
+  This code is the exclusive property of the copyright holder.
+  Unauthorized copying, modification, redistribution, or use of any part
+  of this codebase — including the name “Contentify” — is strictly prohibited.
+
+  This software is confidential and proprietary. By accessing or using this code,
+  you agree to comply with the terms set forth in the LICENSE file.
+*/
 // VOICE
 import { GoogleGenerativeAI } from "@google/generative-ai";
 
@@ -5,7 +16,7 @@ const GEMINI_API_KEY = process.env.NEXT_PUBLIC_GOOGLE_GEMINI_API_KEY_6 || '';
 const genAI = new GoogleGenerativeAI(GEMINI_API_KEY);
 
 export async function enhancePrompt(prompt: string): Promise<string> {
-  const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+  const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash-lite" });
   const enhancementPrompt = `
     Enhance and structure the following voice input into a clear, well-formatted content prompt.
     Maintain key points while improving clarity and organization.
@@ -26,7 +37,7 @@ export async function generateContent(
   outputLength: string, 
   editPrompt?: string
 ): Promise<string> {
-  const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+  const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash-lite" });
   
   const contentPrompt = `
     Generate well-structured, formatted content based on this prompt:

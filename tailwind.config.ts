@@ -1,14 +1,13 @@
-import type { Config } from "tailwindcss"
-
-const config = {
+/** @type {import('tailwindcss').Config} */
+module.exports = {
   darkMode: ["class"],
   content: [
-    './pages/**/*.{ts,tsx}',
-    './components/**/*.{ts,tsx}',
-    './app/**/*.{ts,tsx}',
-    './src/**/*.{ts,tsx}',
+    "./pages/**/*.{ts,tsx}",
+    "./components/**/*.{ts,tsx}",
+    "./app/**/*.{ts,tsx}",
+    "./src/**/*.{ts,tsx}",
+    "*.{js,ts,jsx,tsx,mdx}",
   ],
-  prefix: "",
   theme: {
     container: {
       center: true,
@@ -25,11 +24,11 @@ const config = {
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
         primary: {
-          DEFAULT: "#557448",
+          DEFAULT: "hsl(var(--primary))",
           foreground: "hsl(var(--primary-foreground))",
         },
         secondary: {
-          DEFAULT: "#dedcff",
+          DEFAULT: "hsl(var(--secondary))",
           foreground: "hsl(var(--secondary-foreground))",
         },
         destructive: {
@@ -52,12 +51,11 @@ const config = {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
         },
-        // Your custom colors
-        'text': '#050315',
-        'back': '#fbfbfe',
-        'prim': '#2f27ce',
-        'second': '#dedcff',
-        'acc': '#514BFA',
+        text: "#050315",
+        back: "#fbfbfe",
+        prim: "#2f27ce",
+        second: "#dedcff",
+        acc: "#514BFA",
       },
       borderRadius: {
         lg: "var(--radius)",
@@ -66,17 +64,17 @@ const config = {
       },
       screens: {
         lg: "1024px", // Large (Desktop)
-        md: "768px",  // Medium (Tablet)
-        sm: "0px",    // Small (Mobile)
+        md: "768px", // Medium (Tablet)
+        sm: "0px", // Small (Mobile)
       },
       keyframes: {
         "accordion-down": {
-          from: { height: "0" },
+          from: { height: 0 },
           to: { height: "var(--radix-accordion-content-height)" },
         },
         "accordion-up": {
           from: { height: "var(--radix-accordion-content-height)" },
-          to: { height: "0" },
+          to: { height: 0 },
         },
       },
       animation: {
@@ -86,6 +84,5 @@ const config = {
     },
   },
   plugins: [require("tailwindcss-animate")],
-} satisfies Config
+}
 
-export default config

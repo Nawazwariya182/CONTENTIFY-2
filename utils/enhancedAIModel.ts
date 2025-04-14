@@ -1,3 +1,14 @@
+/*
+  Copyright © 2025 Nawaz & Tabish All rights reserved.
+  Project: Contentify (Proprietary Software)
+  
+  This code is the exclusive property of the copyright holder.
+  Unauthorized copying, modification, redistribution, or use of any part
+  of this codebase — including the name “Contentify” — is strictly prohibited.
+
+  This software is confidential and proprietary. By accessing or using this code,
+  you agree to comply with the terms set forth in the LICENSE file.
+*/
 // CUSTOM TEMPLATE
 import { GoogleGenerativeAI } from "@google/generative-ai";
 
@@ -5,7 +16,7 @@ const GEMINI_API_KEY = process.env.NEXT_PUBLIC_GOOGLE_GEMINI_API_KEY_3 || '';
 const genAI = new GoogleGenerativeAI(GEMINI_API_KEY);
 
 async function enhancePromptWithGemini(prompt: string): Promise<string> {
-  const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+  const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash-lite" });
   const refinementPrompt = `
     Enhance and refine the following content creation prompt to make it more specific, detailed, and comprehensive. 
     Add relevant context, specifications, and structure suggestions while maintaining the original intent:
@@ -20,7 +31,7 @@ async function enhancePromptWithGemini(prompt: string): Promise<string> {
 }
 
 async function generateContentWithGemini(enhancedPrompt: string): Promise<string> {
-  const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+  const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash-lite" });
   const contentPrompt = `
     Create comprehensive content based on this prompt: "${enhancedPrompt}"
     
