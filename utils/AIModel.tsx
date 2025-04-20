@@ -27,8 +27,8 @@ async function enhancePromptWithGemini(prompt: string): Promise<string> {
 
 async function generateOutputWithGemini(enhancedPrompt: string): Promise<string> {
   const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" }); // Using Gemini Pro as Gemini 2.0 is not available yet
-  
-  const result = await model.generateContent(enhancedPrompt);
+  const generatePrompt = `Generate a detailed and specific response based on the following prompt: "${enhancedPrompt}"`;
+  const result = await model.generateContent(generatePrompt);
   const response = await result.response;
   return response.text();
 }
