@@ -45,6 +45,7 @@ const styles = [
   "Watercolor",
   "Impressionistic",
   "Pop Art",
+  "Realistic Art"
 ]
 
 export default function ImageGenerator() {
