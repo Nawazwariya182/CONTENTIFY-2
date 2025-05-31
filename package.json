@@ -17,6 +17,7 @@
     "@electric-sql/pglite": "latest",
     "@emotion/is-prop-valid": "latest",
     "@google/generative-ai": "^0.14.1",
+    "next-sitemap": "^4.2.3",
     "@headlessui/react": "^2.1.2",
     "@heroicons/react": "^2.1.5",
     "@hookform/resolvers": "^3.9.1",
