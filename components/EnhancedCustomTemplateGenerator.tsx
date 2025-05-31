@@ -135,7 +135,8 @@ function EnhancedCustomTemplateGenerator() {
         <Card className="lg:col-span-1">
           <CardHeader>
             <CardTitle className="flex items-center gap-4">
-              <Image src='https://cdn-icons-png.flaticon.com/128/13963/13963247.png' alt="Custom Template" width={40} height={40} />
+              <Image
+          priority src='https://cdn-icons-png.flaticon.com/128/13963/13963247.png' alt="Custom Template" width={40} height={40} />
               Custom Template
             </CardTitle>
           </CardHeader>

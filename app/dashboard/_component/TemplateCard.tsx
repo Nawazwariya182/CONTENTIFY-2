@@ -69,6 +69,7 @@ export const TemplateCard: React.FC<TEMPLATE> = (item) => {
           width={50}
           height={50}
           className="rounded-sm"
+          priority
         />
         <span className="bg-prim text-second px-2 py-1 rounded-full text-xs font-semibold">
           {item.category}
@@ -92,6 +93,7 @@ export const ImageGeneratorTemplate: React.FC = () => {
           width={50}
           height={50}
           className="rounded-sm"
+          
         />
         <div className="flex items-center">
           <Pin className="w-6 h-6 text-prim mr-2" />

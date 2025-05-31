@@ -63,6 +63,7 @@ function Header() {
                 height={40}
                 alt="Logo"
                 className="rounded-full"
+                priority
               />
               <span className="hidden font-bold text-xl sm:inline-block">
                 Contentify

@@ -217,7 +217,8 @@ export default function ImageGenerator() {
           ) : (
             <div className="flex items-center justify-center h-[400px] border-2 border-dashed rounded-lg">
               <div className="text-center">
-                <ImageIcon className="mx-auto h-12 w-12 text-muted-foreground" />
+                <Image
+          priorityIcon className="mx-auto h-12 w-12 text-muted-foreground" />
                 <p className="mt-4 text-muted-foreground">Enter a prompt and generate images</p>
               </div>
             </div>

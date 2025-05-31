@@ -40,6 +40,7 @@ export default function Component() {
             </div>
             <div className="flex justify-center">
               <Image
+          priority
                 src="/g2.webp"
                 width={400}
                 height={400}
@@ -173,6 +174,7 @@ export default function Component() {
               </div>
               <div className="flex justify-center">
                 <Image
+          priority
                   src="/g3.webp"
                   width={600}
                   height={400}

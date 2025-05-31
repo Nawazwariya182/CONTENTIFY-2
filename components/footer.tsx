@@ -87,12 +87,12 @@ export default function Footer() {
       </div>
 
       <div className="container mx-auto max-w-6xl relative z-10">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-12">
+        <div className="grid grid-cols-1 md1:grid-cols-4 sm1:grid-cols-1 gap-12">
           <div ref={logoRef} className="md:col-span-1">
             <Link href="/" className="flex items-center">
-              <span className="text-5xl font-bold bg-gradient-to-r from-blue-400 to-purple-500 text-transparent bg-clip-text">
+              <h1 className="text-5xl font-bold bg-gradient-to-r from-blue-400 to-purple-500 text-transparent bg-clip-text">
                CONTENTIFY
-              </span>
+              </h1>
             </Link>
             <p className="text-gray-800 sm:text-sm mt-4 mb-6">
               Transform your content strategy with our AI-powered generation platform. Create engaging, SEO-optimized content in seconds.
@@ -133,7 +133,7 @@ export default function Footer() {
           </div>
 
           <div ref={formRef} className="md:col-span-1">
-            <h4 className="text-black font-semibold mb-4">Stay Updated</h4>
+            <h1 className="text-black font-semibold mb-4">Stay Updated</h1>
             <p className="text-gray-900 mb-4">Subscribe to our newsletter for the latest updates and news.</p>
             <div className="relative">
               <div className="absolute -inset-0.5 bg-gradient-to-r from-blue-500 to-purple-500 rounded-lg blur opacity-30 group-hover:opacity-100 transition duration-1000 group-hover:duration-200" />

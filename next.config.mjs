@@ -4,7 +4,6 @@ const nextConfig = {
         domains:['cdn-icons-png.flaticon.com']
     },
     transpilePackages: ['three'],
-
 };
 
 export default nextConfig;

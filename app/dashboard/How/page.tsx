@@ -39,6 +39,7 @@ export default function Component() {
             </div>
           </div>
           <Image
+          priority
             src="/g4.jpeg"
             alt="AI Content Generation"
             width={600}
@@ -121,6 +122,7 @@ export default function Component() {
               </CardHeader>
               <CardContent>
                 <Image
+          priority
                   src="/g.webp"
                   alt="Blog post illustration"
                   width={300}
@@ -145,6 +147,7 @@ export default function Component() {
               </CardHeader>
               <CardContent>
                 <Image
+          priority
                   src="/g2.webp"
                   alt="Smart home device illustration"
                   width={300}
@@ -168,6 +171,7 @@ export default function Component() {
               </CardHeader>
               <CardContent>
                 <Image
+          priority
                   src="/g3.webp"
                   alt="Social media post illustration"
                   width={300}

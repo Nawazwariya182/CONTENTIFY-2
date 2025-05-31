@@ -64,6 +64,7 @@ function FormSection({
   return (
     <div className="p-5 shadow-md border rounded-md font-p bg-white">
       <Image
+          priority
         src={selectedtemplate?.icon || "/default-icon.png"}
         alt="icon"
         width={60}

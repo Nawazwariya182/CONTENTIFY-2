@@ -118,7 +118,7 @@ function EnhancedVoiceAIContentGenerator() {
   const { setupdatecredit } = useContext(UpdateContext)
   const { user } = useUser()
 
-  // Initialize speech recognition and voice processor
+  // 33
   useEffect(() => {
     if (typeof window !== "undefined") {
       const SpeechRecognition = (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition
