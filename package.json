@@ -21,6 +21,7 @@
     "@heroicons/react": "^2.1.5",
     "@hookform/resolvers": "^3.9.1",
     "@libsql/client": "latest",
+    "next-sitemap": "^4.2.3",
     "@libsql/client-wasm": "latest",
     "@neondatabase/serverless": "latest",
     "@op-engineering/op-sqlite": "latest",
