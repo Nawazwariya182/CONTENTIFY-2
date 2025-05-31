@@ -17,8 +17,13 @@ export const metadata: Metadata = {
   title: "ContentiFy",
   description: "Created by NW",
   icons: '/logo1.svg',
-  robots: 'index, follow',
+  robots: {
+    index: true,
+    follow: true,
+    nocache: false,
+  },
 };
+
 
 export default function RootLayout({
   children,
