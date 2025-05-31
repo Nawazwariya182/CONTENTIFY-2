@@ -16,7 +16,8 @@ import { ClerkProvider } from '@clerk/nextjs'
 export const metadata: Metadata = {
   title: "ContentiFy",
   description: "Created by NW",
-  icons: '/logo1.svg'
+  icons: '/logo1.svg',
+  robots: 'index, follow',
 };
 
 export default function RootLayout({
