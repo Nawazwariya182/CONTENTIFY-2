@@ -108,7 +108,14 @@ export default function Hero() {
               </span>
             </h1>
 
-            <p ref={subtitleRef} className="text-lg md:text-xl sm:text-base text-gray-900 max-w-xl leading-relaxed">
+            <p 
+              ref={subtitleRef} 
+              className="text-lg md:text-xl sm:text-base text-gray-900 max-w-xl leading-relaxed"
+              style={{
+                transform: 'translate3d(0, 0, 0)', // Force GPU acceleration
+                willChange: 'transform, opacity'
+              }}
+            >
               Create stunning, interactive web experiences with our powerful platform. Seamlessly blend animations, 3D
               elements, and modern design.
             </p>

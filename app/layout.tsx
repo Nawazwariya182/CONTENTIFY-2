@@ -42,7 +42,9 @@ export default function RootLayout({
     <ClerkProvider>
       <html lang="en">
         <head>
-          <link rel="preconnect" href="https://www.google-analytics.com" />
+          <link rel="preconnect" href="https://www.google-analytics.com" crossOrigin="anonymous"/>
+          <link rel="preconnect" href="https://prod.spline.design" />
+          <link rel="preconnect" href="https://adjusted-flea-33.clerk.accounts.dev" />
           <link rel="dns-prefetch" href="https://www.google-analytics.com" />
         </head>
         <body className={poppins.className}>
