@@ -140,7 +140,7 @@ export default function Hero() {
             {/* Simple loading skeleton */}
             {!splineLoaded && (
               <div className="absolute inset-0 flex items-center justify-center p-4">
-                <div className="w-full h-full bg-gray-200 rounded-xl animate-pulse"></div>
+                <div className="sm1:w-full sm1:h-full md1:w-full md1:h-full lg:w-[500px] lg:h-[500px] bg-gray-200 rounded-xl animate-pulse"></div>
               </div>
             )}
             
