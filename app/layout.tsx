@@ -14,6 +14,7 @@ import "./globals.css";
 import { ClerkProvider } from '@clerk/nextjs'
 import { Poppins } from 'next/font/google'
 import SuppressConsole from './errsurpass';
+import Script from "next/script";
 
 const poppins = Poppins({
   subsets: ['latin'],
@@ -42,10 +43,21 @@ export default function RootLayout({
     <ClerkProvider>
       <html lang="en">
         <head>
-          <link rel="preconnect" href="https://www.google-analytics.com" crossOrigin="anonymous"/>
-          <link rel="preconnect" href="https://prod.spline.design" />
-          <link rel="preconnect" href="https://adjusted-flea-33.clerk.accounts.dev" />
+          <link rel="preconnect" href="https://www.google-analytics.com" crossOrigin="anonymous" />
+          <link rel="preconnect" href="https://prod.spline.design" crossOrigin="anonymous" />
+          <link rel="preconnect" href="https://adjusted-flea-33.clerk.accounts.dev" crossOrigin="anonymous" />
           <link rel="dns-prefetch" href="https://www.google-analytics.com" />
+          <Script
+            src="https://www.google-analytics.com/analytics.js"
+            strategy="lazyOnload"
+          />
+
+          {/* Example Clerk SDK lazy load */}
+          <Script
+            src="https://adjusted-flea-33.clerk.accounts.dev/npm/@clerk/clerk-js@5.67.5/dist/clerk.browser.js"
+            strategy="lazyOnload"
+            crossOrigin="anonymous"
+          />
         </head>
         <body className={poppins.className}>
           <SuppressConsole />
