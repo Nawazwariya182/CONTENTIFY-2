@@ -42,12 +42,13 @@ const videoStyles = [
   "Mystery",
 ]
 
-// const videoDurations = [
-//   { label: "3 seconds", value: 3 },
-//   { label: "5 seconds", value: 5 },
-//   { label: "10 seconds", value: 10 },
-//   { label: "15 seconds", value: 15 },
-// ]
+const videoDurations = [
+  { label: "Very Short (4 f)", value: 4 },
+  { label: "Short (5 f)", value: 5 },
+  { label: "Medium (8 f)", value: 8 },
+  { label: "Long (12 f)", value: 12 },
+  { label: "Max (16 f)", value: 16 },
+]
 
 interface GeneratedVideo {
   url: string
@@ -64,13 +65,55 @@ export default function VideoGenerator() {
   const [video, setVideo] = useState<GeneratedVideo | null>(null)
   const [loading, setLoading] = useState(false)
   const [isPlaying, setIsPlaying] = useState(false)
+  const [errorMsg, setErrorMsg] = useState<string | null>(null)
+  const [attempt, setAttempt] = useState(0)
   const { toast } = useToast()
   const { totalUsage, setTotalUsage } = useContext(TotalUsageContext)
+
+  const CLIENT_TIMEOUT_MS = 55000 // a bit less than server default 60000 to catch it client-side
+
+  async function generateVideoOnce(enhanced: string, chosenModel: string, frames: number, attemptNumber: number) {
+    const controller = new AbortController()
+    const t = setTimeout(() => controller.abort(), CLIENT_TIMEOUT_MS)
+
+    try {
+      const response = await fetch("/api/video", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ prompt: enhanced, model: chosenModel, duration: frames }),
+        signal: controller.signal,
+      })
+
+      if (!response.ok) {
+        // Try to parse JSON error
+        let reason = ""
+        try {
+          const j = await response.json()
+          reason = j?.error || ""
+        } catch {
+          /* ignore */
+        }
+        const message = reason || `Request failed (${response.status})`
+        throw new Error(message)
+      }
+
+      const blob = await response.blob()
+      const videoUrl = URL.createObjectURL(blob)
+      setVideo({ url: videoUrl, blob, prompt: enhanced })
+      setTotalUsage((prevUsage: number) => prevUsage + 1500)
+      toast({ title: "Video generated successfully", description: `Attempt ${attemptNumber} succeeded.` })
+      setErrorMsg(null)
+    } finally {
+      clearTimeout(t)
+    }
+  }
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     setLoading(true)
     setVideo(null)
+    setErrorMsg(null)
+    setAttempt(0)
 
     if (totalUsage > 15000) {
       toast({
@@ -88,42 +131,43 @@ export default function VideoGenerator() {
       const enhanced = await generateEnhancedVideoPrompt(prompt, selectedStyle, duration)
       setEnhancedPrompt(enhanced)
 
-      const response = await fetch("/api/video", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          prompt: enhanced,
-          model,
-          duration,
-        }),
-      })
+      // First attempt
+      setAttempt(1)
+      try {
+        await generateVideoOnce(enhanced, model, duration, 1)
+      } catch (err: any) {
+        const msg = String(err?.message || err)
+        // Decide retry criteria
+        const timeoutLike =
+          msg.includes("aborted") ||
+          msg.includes("Timeout") ||
+            msg.includes("504") ||
+            msg.toLowerCase().includes("exceeded")
+        if (!timeoutLike) throw err
 
-      if (!response.ok) {
-        throw new Error("Failed to generate video")
+        // Retry with lighter settings once
+        setAttempt(2)
+        toast({
+          title: "Retrying with lighter settings",
+          description: "Initial attempt timed out. Switching to lighter model & fewer frames.",
+        })
+        const fallbackModel = videoModels[1] // smaller
+        const fallbackFrames = Math.min( Math.max(4, Math.round(duration / 2)), 8)
+        await generateVideoOnce(enhanced, fallbackModel, fallbackFrames, 2)
       }
-
-      const blob = await response.blob()
-      const videoUrl = URL.createObjectURL(blob)
-
-      setVideo({
-        url: videoUrl,
-        blob,
-        prompt: enhanced,
-      })
-
-      setTotalUsage((prevUsage: number) => prevUsage + 1500)
-
-      toast({
-        title: "Video generated successfully",
-        description: "Your video has been generated and is ready to view.",
-      })
-    } catch (error) {
+    } catch (error: any) {
       console.error("Error generating video:", error)
+      setErrorMsg(
+        `Generation failed${attempt ? ` on attempt ${attempt}` : ""}: ${error?.message || "Unknown error"}.
+Suggestions:
+- Reduce frames/duration
+- Use the smaller model
+- Simplify the prompt
+- Try again later (model may be busy)`
+      )
       toast({
         title: "Error",
-        description: "An error occurred while generating the video.",
+        description: "Video generation failed. See details above.",
         variant: "destructive",
       })
     }
@@ -197,7 +241,8 @@ export default function VideoGenerator() {
                 <p className="text-sm text-muted-foreground">Choose "Mystery" for a random style</p>
               </div>
 
-              {/* <div className="space-y-2">
+              {/* UNCOMMENTED: Model selector */}
+              <div className="space-y-2">
                 <Label htmlFor="model" className="text-lg font-medium">
                   AI Model
                 </Label>
@@ -213,11 +258,13 @@ export default function VideoGenerator() {
                     ))}
                   </SelectContent>
                 </Select>
-              </div> */}
+                <p className="text-xs text-muted-foreground">Smaller model is faster and helps avoid timeouts.</p>
+              </div>
 
-              {/* <div className="space-y-2">
+              {/* UNCOMMENTED: Duration / frames selector */}
+              <div className="space-y-2">
                 <Label htmlFor="duration" className="text-lg font-medium">
-                  Video Duration
+                  Frames (approx duration)
                 </Label>
                 <Select value={duration.toString()} onValueChange={(value) => setDuration(Number(value))}>
                   <SelectTrigger>
@@ -231,7 +278,8 @@ export default function VideoGenerator() {
                     ))}
                   </SelectContent>
                 </Select>
-              </div> */}
+                <p className="text-xs text-muted-foreground">Fewer frames = faster generation.</p>
+              </div>
 
               <Button type="submit" className="w-full text-white bg-prim" disabled={loading || !prompt.trim()}>
                 {loading ? (
@@ -295,6 +343,17 @@ export default function VideoGenerator() {
                 <VideoIcon className="mx-auto h-12 w-12 text-muted-foreground" />
                 <p className="mt-4 text-muted-foreground">Enter a prompt and generate a video</p>
               </div>
+            </div>
+          )}
+
+          {errorMsg && (
+            <div className="p-4 border border-destructive/40 bg-destructive/10 rounded text-sm whitespace-pre-line">
+              {errorMsg}
+              {attempt === 2 && !video && (
+                <div className="mt-2">
+                  Retry suggestions exhausted. Try again with fewer frames or simpler prompt.
+                </div>
+              )}
             </div>
           )}
         </div>

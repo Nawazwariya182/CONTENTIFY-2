@@ -35,18 +35,34 @@ async function enhanceVideoPromptWithGemini(prompt: string, style: string, durat
 }
 
 export async function generateEnhancedVideoPrompt(prompt: string, style = "", duration = 5): Promise<string> {
+  const base = `${style ? `${style} style: ` : ""}${prompt}`
   try {
     if (!GEMINI_API_KEY) {
       console.warn("Gemini API key not found, using original prompt")
-      return `${style ? `${style} style: ` : ""}${prompt}`
+      return base
     }
 
-    const enhancedPrompt = await enhanceVideoPromptWithGemini(prompt, style, duration)
+    const TIMEOUT_MS = 8000
+    const timeoutPromise = new Promise<string>((resolve) =>
+      setTimeout(
+        () =>
+          resolve(
+            `${base}, cinematic lighting, dynamic smooth camera motion, detailed environment, high quality`
+          ),
+        TIMEOUT_MS
+      )
+    )
+
+    // Race enhancement vs timeout to avoid blocking
+    const enhancedPrompt = await Promise.race([
+      enhanceVideoPromptWithGemini(prompt, style, duration),
+      timeoutPromise,
+    ])
+
     console.log("Enhanced Video Prompt:", enhancedPrompt)
     return enhancedPrompt
   } catch (error) {
     console.error("Error enhancing video prompt:", error)
-    // Fallback to basic enhancement
-    return `${style ? `${style} style: ` : ""}${prompt}, cinematic lighting, smooth camera movement, high quality video`
+    return `${base}, cinematic lighting, smooth camera movement, high quality video`
   }
 }
