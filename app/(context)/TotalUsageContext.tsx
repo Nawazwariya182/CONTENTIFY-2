@@ -1,14 +1,27 @@
-/*
-  Copyright © 2025 Nawaz & Tabish All rights reserved.
-  Project: Contentify (Proprietary Software)
-  
-  This code is the exclusive property of the copyright holder.
-  Unauthorized copying, modification, redistribution, or use of any part
-  of this codebase — including the name “Contentify” — is strictly prohibited.
+"use client"
 
-  This software is confidential and proprietary. By accessing or using this code,
-  you agree to comply with the terms set forth in the LICENSE file.
-*/
-import { createContext } from "react";
+import type React from "react"
 
-export const TotalUsageContext = createContext<any>(0);
+import { createContext, useState, type ReactNode } from "react"
+
+interface TotalUsageContextType {
+  totalUsage: number
+  setTotalUsage: (usage: number | ((prev: number) => number)) => void
+}
+
+const TotalUsageContext = createContext<TotalUsageContextType>({
+  totalUsage: 0,
+  setTotalUsage: () => {},
+})
+
+interface TotalUsageProviderProps {
+  children: ReactNode
+}
+
+const TotalUsageProvider: React.FC<TotalUsageProviderProps> = ({ children }) => {
+  const [totalUsage, setTotalUsage] = useState<number>(0)
+
+  return <TotalUsageContext.Provider value={{ totalUsage, setTotalUsage }}>{children}</TotalUsageContext.Provider>
+}
+
+export { TotalUsageContext, TotalUsageProvider }

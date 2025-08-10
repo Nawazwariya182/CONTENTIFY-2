@@ -345,3 +345,63 @@ export const Disease: React.FC = () => {
     </CardWrapper>
   );
 };
+
+export const VideoGeneratorTemplate: React.FC = () => {
+  return (
+    <CardWrapper href="/dashboard/video">
+      <div className="flex justify-between items-start mb-4">
+        <Image
+          src="https://cdn-icons-png.flaticon.com/128/1179/1179120.png"
+          alt="Video Generator Icon"
+          width={50}
+          height={50}
+          className="rounded-sm"
+          
+        />
+        <div className="flex items-center">
+          <Pin className="w-6 h-6 text-prim mr-2" />
+          <span className="bg-prim text-second px-2 py-1 rounded-full text-xs font-semibold">
+            AI Powered
+          </span>
+        </div>
+      </div>
+      <div>
+        <h2 className="font-bold text-xl mb-2 text-prim">Video Generator</h2>
+        <p className="text-text line-clamp-3 text-sm">
+          Generate custom videos with ease using our powerful video generator
+          tool.
+        </p>
+      </div>
+    </CardWrapper>
+  );
+};
+
+export const PodcastGeneratorTemplate: React.FC = () => {
+  return (
+    <CardWrapper href="/dashboard/podcast">
+      <div className="flex justify-between items-start mb-4">
+        <Image
+          src="https://cdn-icons-png.flaticon.com/128/13963/13963246.png"
+          alt="Image Generator Icon"
+          width={50}
+          height={50}
+          className="rounded-sm"
+          
+        />
+        <div className="flex items-center">
+          <Pin className="w-6 h-6 text-prim mr-2" />
+          <span className="bg-prim text-second px-2 py-1 rounded-full text-xs font-semibold">
+            AI Powered
+          </span>
+        </div>
+      </div>
+      <div>
+        <h2 className="font-bold text-xl mb-2 text-prim">Image Generator</h2>
+        <p className="text-text line-clamp-3 text-sm">
+          Generate custom images with ease using our powerful image generator
+          tool.
+        </p>
+      </div>
+    </CardWrapper>
+  );
+};

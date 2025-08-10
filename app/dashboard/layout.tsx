@@ -22,7 +22,7 @@ function Layout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const [totalUsage, setTotalUsage] = useState<Number>();
+  const [totalUsage, setTotalUsage] = useState<number>(0);
   const [UpdateCredit, setUpdateCredit] = useState<any>();
 
   return (
