@@ -44,7 +44,7 @@ function TemplateListSection({ UserSearchInput }: any) {
   return (
     <div className="z-0 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5 p-10 bg-white">
       <ImageGeneratorTemplate />
-      <VideoGeneratorTemplate />
+      {/* <VideoGeneratorTemplate /> */}
       {/* <PodcastGeneratorTemplate /> */}
       <Disease />
       <Translate />
