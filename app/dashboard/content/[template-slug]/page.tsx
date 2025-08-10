@@ -42,7 +42,7 @@ function CreateNewContent(props: PROPS) {
   const { user } = useUser();
   const [aiOut, setaioutput] = useState<string>("");
   const Router = useRouter();
-  const { TotalUsage, SetTotalUsage } = useContext(TotalUsageContext);
+  const { totalUsage, setTotalUsage } = useContext(TotalUsageContext);
   const { UpdateCredit, setupdatecredit } = useContext(UpdateContext);
   const formRef = useRef<HTMLFormElement>(null);
 
@@ -61,7 +61,7 @@ function CreateNewContent(props: PROPS) {
   }, []);
 
   const GenerateAIContent = async (FormData: any) => {
-    if (TotalUsage >= 15000) {
+    if (totalUsage >= 15000) {
       return;
     }
 

@@ -168,7 +168,13 @@ export class VoiceEnhancer {
     }
 
     // Try to find different accents
-    const uniqueAccents = [...new Set(sortedVoices.map((v) => v.accent))]
+    const uniqueAccents: string[] = []
+    for (let i = 0; i < sortedVoices.length; i++) {
+      const accent = sortedVoices[i].accent
+      if (uniqueAccents.indexOf(accent) === -1) {
+        uniqueAccents.push(accent)
+      }
+    }
     if (uniqueAccents.length > 1) {
       const voice1 = sortedVoices.find((v) => v.accent === uniqueAccents[0])
       const voice2 = sortedVoices.find((v) => v.accent === uniqueAccents[1])
