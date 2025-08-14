@@ -15,7 +15,7 @@ import { useState, useRef, useContext, useEffect } from "react"
 import { Button } from "@/components/ui/button"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Textarea } from "@/components/ui/textarea"
-import { Loader2Icon, Volume2, VolumeX, ArrowLeft } from "lucide-react"
+import { Loader2Icon, Volume2, VolumeX, Copy, Check, RefreshCcw, Trash2 } from "lucide-react" // updated icons
 import { toast } from "react-hot-toast"
 import { translateText, detectLanguage } from "@/utils/trans"
 import { TotalUsageContext } from "@/app/(context)/TotalUsageContext"
@@ -83,9 +83,11 @@ function EnhancedTranslatorComponent() {
   const [tone, setTone] = useState("professional")
   const [isTranslating, setIsTranslating] = useState(false)
   const [isSpeaking, setIsSpeaking] = useState(false)
+  const [copied, setCopied] = useState<{ t1: boolean; t2: boolean }>({ t1: false, t2: false }) // new
   const speechSynthesisRef = useRef<SpeechSynthesis | null>(null)
   const { totalUsage, setTotalUsage } = useContext(TotalUsageContext)
   const { setupdatecredit } = useContext(UpdateContext)
+  const charCount = sourceText.length // new
 
   useEffect(() => {
     if (sourceText) {
@@ -101,6 +103,13 @@ function EnhancedTranslatorComponent() {
       return () => clearTimeout(detectTimer)
     }
   }, [sourceText])
+
+  useEffect(() => {
+    if (copied.t1 || copied.t2) {
+      const timer = setTimeout(() => setCopied({ t1: false, t2: false }), 1800)
+      return () => clearTimeout(timer)
+    }
+  }, [copied])
 
   const handleTranslate = async () => {
     if (!sourceText.trim()) {
@@ -128,6 +137,7 @@ function EnhancedTranslatorComponent() {
       setTranslatedText2(result2)
 
       setupdatecredit?.(Date.now())
+      setTotalUsage?.((prev: number) => prev + creditsNeeded) // update credits UI
 
       toast.success("Translation completed")
     } catch (error) {
@@ -156,121 +166,177 @@ function EnhancedTranslatorComponent() {
     }
   }
 
+  // NEW helpers
+  const handleCopy = (text: string, key: "t1" | "t2") => {
+    if (!text) return
+    navigator.clipboard.writeText(text)
+    setCopied((prev) => ({ ...prev, [key]: true }))
+    toast.success("Copied")
+  }
+
+  const swapLanguages = () => {
+    if (!targetLanguage1) return
+    setSourceText(translatedText1 || sourceText)
+    setTranslatedText1("")
+    setTranslatedText2("")
+    setTargetLanguage1(sourceLanguage || targetLanguage1)
+    setSourceLanguage(targetLanguage1)
+    toast("Languages swapped")
+  }
+
+  const clearAll = () => {
+    setSourceText("")
+    setTranslatedText1("")
+    setTranslatedText2("")
+    toast("Cleared")
+  }
+
+  const handleTarget2Change = (val: string) => {
+    if (val === "none") {
+      setTargetLanguage2("")
+      setTranslatedText2("")
+    } else {
+      setTargetLanguage2(val)
+    }
+  }
+
   return (
-    <div className="min-h-screen bg-white flex mb-0 mt-0 justify-center p-4">
-      <div className="w-full max-w-9xl m-0 bg-white rounded-lg  overflow-hidden">
-        <div className="bg-white text-prim p-6 flex justify-between items-center">
-          <div>
-            <h2 className="text-3xl font-bold mb-2">AI Translator</h2>
-            <p className="text-sm opacity-80">Powered by Gemini AI with customizable tones</p>
-          </div>
-        </div>
+    <div className="min-h-screen w-full bg-gradient-to-br from-slate-50 via-white to-slate-100 dark:from-slate-900 dark:via-slate-950 dark:to-slate-900 py-8 px-4 transition-colors">
+      <div className="mx-auto max-w-7xl space-y-8">
+        {/* Header */}
+        <header className="flex flex-col gap-2">
+          <h1 className="text-4xl font-bold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 via-violet-600 to-fuchsia-600">
+            AI Translator
+          </h1>
+          <p className="text-sm text-slate-600 dark:text-slate-400">
+            Multilingual, tone-aware translation powered by Gemini. Swap, listen, copy & refine instantly.
+          </p>
+        </header>
 
-        <div className="flex flex-col lg:flex-row">
-          {/* Input Section (Left) */}
-          <div className="lg:w-1/2 p-6 border-r border-gray-200">
-            <h3 className="text-xl font-semibold mb-4 text-gray-700">Input</h3>
+        {/* Main Grid */}
+        <div className="grid lg:grid-cols-2 gap-8">
+          {/* Input Panel */}
+            <div className="relative rounded-2xl border border-white/40 dark:border-slate-700/60 bg-white/70 dark:bg-slate-900/60 backdrop-blur-xl shadow-xl p-6 flex flex-col gap-5">
+              <div className="flex flex-col gap-4">
+                <div className="grid grid-cols-2 gap-3">
+                  <Select value={sourceLanguage} onValueChange={setSourceLanguage} disabled={isTranslating}>
+                    <SelectTrigger className="w-full h-11 text-sm bg-white/60 dark:bg-slate-800/60 backdrop-blur rounded-xl border-slate-200 dark:border-slate-700">
+                      <SelectValue placeholder="Detected Language" />
+                    </SelectTrigger>
+                    <SelectContent className="max-h-64">
+                      {languages.map((lang) => (
+                        <SelectItem key={lang.value} value={lang.value}>
+                          {lang.label}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
 
-            <div className="space-y-4">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                <Select value={sourceLanguage} onValueChange={setSourceLanguage} disabled={isTranslating}>
-                  <SelectTrigger className="w-full" style={{ cursor: "url(/poin.png), auto" }}>
-                    <SelectValue placeholder="Detected Language" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {languages.map((lang) => (
-                      <SelectItem key={lang.value} value={lang.value} style={{ cursor: "url(/poin.png), auto" }}>
-                        {lang.label}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
+                  <Select value={tone} onValueChange={setTone} disabled={isTranslating}>
+                    <SelectTrigger className="w-full h-11 text-sm bg-white/60 dark:bg-slate-800/60 backdrop-blur rounded-xl border-slate-200 dark:border-slate-700">
+                      <SelectValue placeholder="Tone" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {tones.map((t) => (
+                        <SelectItem key={t.value} value={t.value}>
+                          {t.label}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
 
-                <Select value={tone} onValueChange={setTone} disabled={isTranslating}>
-                  <SelectTrigger className="w-full" style={{ cursor: "url(/poin.png), auto" }}>
-                    <SelectValue placeholder="Select Tone" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {tones.map((t) => (
-                      <SelectItem key={t.value} value={t.value} style={{ cursor: "url(/poin.png), auto" }}>
-                        {t.label}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
+                <div className="relative group">
+                  <Textarea
+                    value={sourceText}
+                    onChange={(e) => setSourceText(e.target.value)}
+                    placeholder="Type or paste text here..."
+                    rows={9}
+                    disabled={isTranslating}
+                    className="w-full text-base leading-relaxed rounded-xl border-2 border-slate-200/70 dark:border-slate-700/70 bg-white/60 dark:bg-slate-800/60 backdrop-blur focus-visible:ring-2 focus-visible:ring-indigo-500/60 resize-none pr-12"
+                  />
+                  <div className="absolute right-2 bottom-2 flex items-center gap-2">
+                    <Button
+                      variant="outline"
+                      size="icon"
+                      onClick={() => (isSpeaking ? stopSpeaking() : speakText(sourceText, sourceLanguage))}
+                      disabled={!sourceText}
+                      className="h-8 w-8 rounded-lg border-slate-300 dark:border-slate-600 bg-white/70 dark:bg-slate-800/70 hover:bg-indigo-50 dark:hover:bg-slate-700"
+                    >
+                      {isSpeaking ? <VolumeX className="h-4 w-4" /> : <Volume2 className="h-4 w-4" />}
+                    </Button>
+                  </div>
+                  <div className="absolute left-2 bottom-2 text-[11px] font-medium text-slate-500 dark:text-slate-400">
+                    {charCount} chars
+                  </div>
+                </div>
               </div>
 
-              <div className="relative">
-                <Textarea
-                  value={sourceText}
-                  onChange={(e) => setSourceText(e.target.value)}
-                  placeholder="Enter text to translate"
-                  rows={10}
-                  disabled={isTranslating}
-                  style={{ cursor: "url(/type.png), auto" }}
-                  className="w-full p-4 border-2 border-gray-300 rounded-lg resize-none text-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                />
+              {/* Toolbar */}
+              <div className="flex flex-wrap gap-3">
                 <Button
-                  variant="outline"
-                  size="sm"
-                  onClick={() => (isSpeaking ? stopSpeaking() : speakText(sourceText, sourceLanguage))}
-                  disabled={!sourceText}
-                  className="absolute bottom-2 right-2"
-                  style={{ cursor: "url(/poin.png), auto" }}
+                  onClick={handleTranslate}
+                  disabled={isTranslating || !sourceText.trim()}
+                  className="flex-1 h-11 rounded-xl bg-gradient-to-r from-indigo-600 to-fuchsia-600 hover:from-indigo-500 hover:to-fuchsia-500 text-white font-medium shadow-md hover:shadow-lg transition-all"
                 >
-                  {isSpeaking ? (
-                    <VolumeX className="h-4 w-4 text-gray-500" />
+                  {isTranslating ? (
+                    <>
+                      <Loader2Icon className="mr-2 h-4 w-4 animate-spin" />
+                      Translating
+                    </>
                   ) : (
-                    <Volume2 className="h-4 w-4 text-gray-500" />
+                    "Translate"
                   )}
                 </Button>
+                <Button
+                  type="button"
+                  variant="outline"
+                  onClick={swapLanguages}
+                  disabled={!sourceLanguage || !targetLanguage1 || (!translatedText1 && !sourceText)}
+                  className="h-11 px-4 rounded-xl border-slate-300 dark:border-slate-600 bg-white/70 dark:bg-slate-800/70 hover:bg-indigo-50 dark:hover:bg-slate-700"
+                >
+                  <RefreshCcw className="h-4 w-4" />
+                </Button>
+                <Button
+                  type="button"
+                  variant="outline"
+                  onClick={clearAll}
+                  disabled={!sourceText && !translatedText1 && !translatedText2}
+                  className="h-11 px-4 rounded-xl border-slate-300 dark:border-slate-600 bg-white/70 dark:bg-slate-800/70 hover:bg-rose-50 dark:hover:bg-slate-700"
+                >
+                  <Trash2 className="h-4 w-4 text-rose-500" />
+                </Button>
               </div>
-
-              <Button
-                onClick={handleTranslate}
-                disabled={isTranslating || !sourceText.trim()}
-                className="w-full py-2 bg-prim text-white rounded-full hover:bg-acc hover:text-white/80 transition-all duration-300 transform "
-                style={{ cursor: "url(/poin.png), auto" }}
-              >
-                {isTranslating ? (
-                  <>
-                    <Loader2Icon className="mr-2 h-4 w-4 animate-spin" />
-                    Translating...
-                  </>
-                ) : (
-                  "Translate"
-                )}
-              </Button>
+              <div className="text-[11px] text-slate-500 dark:text-slate-500">
+                Credits used: {totalUsage} / 20000
+              </div>
             </div>
-          </div>
 
-          {/* Output Section (Right) */}
-          <div className="lg:w-1/2 p-6 bg-gray-50">
-            <h3 className="text-xl font-semibold mb-4 text-gray-700">Output</h3>
-
-            <div className="space-y-4">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mb-4">
+          {/* Output Panel */}
+          <div className="space-y-6">
+            <div className="rounded-2xl border border-white/40 dark:border-slate-700/60 bg-white/70 dark:bg-slate-900/60 backdrop-blur-xl shadow-xl p-6 flex flex-col gap-5">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                 <Select value={targetLanguage1} onValueChange={setTargetLanguage1} disabled={isTranslating}>
-                  <SelectTrigger className="w-full" style={{ cursor: "url(/poin.png), auto" }}>
+                  <SelectTrigger className="w-full h-11 text-sm rounded-xl bg-white/60 dark:bg-slate-800/60 border-slate-200 dark:border-slate-700">
                     <SelectValue placeholder="Target Language 1" />
                   </SelectTrigger>
-                  <SelectContent>
+                  <SelectContent className="max-h-64">
                     {languages.map((lang) => (
-                      <SelectItem key={lang.value} value={lang.value} style={{ cursor: "url(/poin.png), auto" }}>
+                      <SelectItem key={lang.value} value={lang.value}>
                         {lang.label}
                       </SelectItem>
                     ))}
                   </SelectContent>
                 </Select>
 
-                <Select value={targetLanguage2} onValueChange={setTargetLanguage2} disabled={isTranslating}>
-                  <SelectTrigger className="w-full" style={{ cursor: "url(/poin.png), auto" }}>
+                <Select value={targetLanguage2 || "none"} onValueChange={handleTarget2Change} disabled={isTranslating}>
+                  <SelectTrigger className="w-full h-11 text-sm rounded-xl bg-white/60 dark:bg-slate-800/60 border-slate-200 dark:border-slate-700">
                     <SelectValue placeholder="Target Language 2 (Optional)" />
                   </SelectTrigger>
-                  <SelectContent>
+                  <SelectContent className="max-h-64">
                     <SelectItem value="none">None</SelectItem>
                     {languages.map((lang) => (
-                      <SelectItem key={lang.value} value={lang.value} style={{ cursor: "url(/poin.png), auto" }}>
+                      <SelectItem key={lang.value} value={lang.value}>
                         {lang.label}
                       </SelectItem>
                     ))}
@@ -278,56 +344,75 @@ function EnhancedTranslatorComponent() {
                 </Select>
               </div>
 
-              <div className="relative">
+              {/* Primary Translation */}
+              <div className="relative group">
                 <Textarea
                   value={translatedText1}
                   readOnly
                   rows={5}
-                  className="w-full p-4 border-2 border-gray-300 rounded-lg bg-white resize-none text-lg"
-                  style={{ cursor: "url(/type.png), auto" }}
+                  className="w-full text-base leading-relaxed rounded-xl border-2 border-slate-200/70 dark:border-slate-700/70 bg-white/60 dark:bg-slate-800/60 backdrop-blur resize-none pr-24"
+                  placeholder="Translation will appear here..."
                 />
-                <Button
-                  variant="outline"
-                  size="sm"
-                  onClick={() => (isSpeaking ? stopSpeaking() : speakText(translatedText1, targetLanguage1))}
-                  disabled={!translatedText1}
-                  className="absolute bottom-2 right-2"
-                  style={{ cursor: "url(/poin.png), auto" }}
-                >
-                  {isSpeaking ? (
-                    <VolumeX className="h-4 w-4 text-gray-500" />
-                  ) : (
-                    <Volume2 className="h-4 w-4 text-gray-500" />
-                  )}
-                </Button>
+                <div className="absolute right-2 bottom-2 flex gap-2">
+                  <Button
+                    variant="outline"
+                    size="icon"
+                    onClick={() => (isSpeaking ? stopSpeaking() : speakText(translatedText1, targetLanguage1))}
+                    disabled={!translatedText1}
+                    className="h-8 w-8 rounded-lg border-slate-300 dark:border-slate-600 bg-white/70 dark:bg-slate-800/70 hover:bg-indigo-50 dark:hover:bg-slate-700"
+                  >
+                    {isSpeaking ? <VolumeX className="h-4 w-4" /> : <Volume2 className="h-4 w-4" />}
+                  </Button>
+                  <Button
+                    variant="outline"
+                    size="icon"
+                    onClick={() => handleCopy(translatedText1, "t1")}
+                    disabled={!translatedText1}
+                    className="h-8 w-8 rounded-lg border-slate-300 dark:border-slate-600 bg-white/70 dark:bg-slate-800/70 hover:bg-indigo-50 dark:hover:bg-slate-700"
+                  >
+                    {copied.t1 ? <Check className="h-4 w-4 text-emerald-500" /> : <Copy className="h-4 w-4" />}
+                  </Button>
+                </div>
               </div>
 
+              {/* Secondary Translation */}
               {targetLanguage2 && (
-                <div className="relative mt-4">
+                <div className="relative group">
                   <Textarea
                     value={translatedText2}
                     readOnly
                     rows={5}
-                    className="w-full p-4 border-2 border-gray-300 rounded-lg bg-white resize-none text-lg"
-                    style={{ cursor: "url(/type.png), auto" }}
+                    className="w-full text-base leading-relaxed rounded-xl border-2 border-slate-200/70 dark:border-slate-700/70 bg-white/60 dark:bg-slate-800/60 backdrop-blur resize-none pr-24"
+                    placeholder="Second translation will appear here..."
                   />
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    onClick={() => (isSpeaking ? stopSpeaking() : speakText(translatedText2, targetLanguage2))}
-                    disabled={!translatedText2}
-                    className="absolute bottom-2 right-2"
-                    style={{ cursor: "url(/poin.png), auto" }}
-                  >
-                    {isSpeaking ? (
-                      <VolumeX className="h-4 w-4 text-gray-500" />
-                    ) : (
-                      <Volume2 className="h-4 w-4 text-gray-500" />
-                    )}
-                  </Button>
+                  <div className="absolute right-2 bottom-2 flex gap-2">
+                    <Button
+                      variant="outline"
+                      size="icon"
+                      onClick={() => (isSpeaking ? stopSpeaking() : speakText(translatedText2, targetLanguage2))}
+                      disabled={!translatedText2}
+                      className="h-8 w-8 rounded-lg border-slate-300 dark:border-slate-600 bg-white/70 dark:bg-slate-800/70 hover:bg-indigo-50 dark:hover:bg-slate-700"
+                    >
+                      {isSpeaking ? <VolumeX className="h-4 w-4" /> : <Volume2 className="h-4 w-4" />}
+                    </Button>
+                    <Button
+                      variant="outline"
+                      size="icon"
+                      onClick={() => handleCopy(translatedText2, "t2")}
+                      disabled={!translatedText2}
+                      className="h-8 w-8 rounded-lg border-slate-300 dark:border-slate-600 bg-white/70 dark:bg-slate-800/70 hover:bg-indigo-50 dark:hover:bg-slate-700"
+                    >
+                      {copied.t2 ? <Check className="h-4 w-4 text-emerald-500" /> : <Copy className="h-4 w-4" />}
+                    </Button>
+                  </div>
                 </div>
               )}
             </div>
+
+            {/* Subtle Info */}
+            <p className="text-xs text-slate-500 dark:text-slate-500 px-1">
+              Tip: Use Swap after translating to reverse direction instantly.
+            </p>
           </div>
         </div>
       </div>

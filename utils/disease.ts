@@ -40,7 +40,7 @@ let geminiModel: GenerativeModel;
 export async function getDiseasePrediction(patientData: PatientData): Promise<DiseasePrediction> {
   try {
     if (!geminiModel) {
-      geminiModel = genAI.getGenerativeModel({ model: "gemini-2.5-pro-exp-03-25" });
+      geminiModel = genAI.getGenerativeModel({ model: "gemini-2.5-pro" });
     }
 
     const prompt = `Based on the following patient data, provide:

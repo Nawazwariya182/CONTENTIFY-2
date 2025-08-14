@@ -16,7 +16,7 @@ const GEMINI_API_KEY = process.env.NEXT_PUBLIC_GOOGLE_GEMINI_API_KEY_7 || '';
 const genAI = new GoogleGenerativeAI(GEMINI_API_KEY);
 
 export async function detectLanguage(text: string): Promise<string> {
-  const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash-lite" });
+  const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash-lite" });
   
   const prompt = `
     Detect the language of the following text and return ONLY the ISO 639-1 language code (e.g., 'en' for English, 'es' for Spanish).
@@ -40,7 +40,7 @@ export async function translateText(
   targetLanguage: string, 
   tone: string
 ): Promise<string> {
-  const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash-lite" });
+  const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash-lite" });
   
   const prompt = `
     Translate the following text from ${sourceLanguage} to ${targetLanguage}.

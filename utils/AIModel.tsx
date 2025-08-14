@@ -17,7 +17,7 @@ const GEMINI_API_KEY = process.env.NEXT_PUBLIC_GOOGLE_GEMINI_API_KEY_1 || '';
 const genAI = new GoogleGenerativeAI(GEMINI_API_KEY);
 
 async function enhancePromptWithGemini(prompt: string): Promise<string> {
-  const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash-lite" });
+  const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash-lite" });
   const enhancePrompt = `Enhance and expand upon the following prompt to make it more detailed and specific: "${prompt}" and add a phrase "don't give in html format"` ;
   
   const result = await model.generateContent(enhancePrompt);
@@ -26,7 +26,7 @@ async function enhancePromptWithGemini(prompt: string): Promise<string> {
 }
 
 async function generateOutputWithGemini(enhancedPrompt: string): Promise<string> {
-  const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" }); // Using Gemini Pro as Gemini 2.0 is not available yet
+  const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash" }); // Using Gemini Pro as Gemini 2.0 is not available yet
   const generatePrompt = `Generate a detailed and specific response based on the following prompt: "${enhancedPrompt}"`;
   const result = await model.generateContent(generatePrompt);
   const response = await result.response;

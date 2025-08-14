@@ -9,7 +9,7 @@ const GEMINI_API_KEY = process.env.NEXT_PUBLIC_GOOGLE_GEMINI_API_KEY_1 || ""
 const genAI = new GoogleGenerativeAI(GEMINI_API_KEY)
 
 async function enhanceVideoPromptWithGemini(prompt: string, style: string, duration: number): Promise<string> {
-  const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash-lite" })
+  const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash-lite" })
 
   const enhancePrompt = `
     Enhance and expand the following video prompt to make it more detailed and cinematic for AI video generation:

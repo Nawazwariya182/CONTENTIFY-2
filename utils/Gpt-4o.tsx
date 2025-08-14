@@ -16,7 +16,7 @@ const GEMINI_API_KEY = process.env.NEXT_PUBLIC_GOOGLE_GEMINI_API_KEY_6 || '';
 const genAI = new GoogleGenerativeAI(GEMINI_API_KEY);
 
 export async function enhancePrompt(prompt: string): Promise<string> {
-  const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash-lite" });
+  const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash-lite" });
   const enhancementPrompt = `
     Enhance and structure the following voice input into a clear, well-formatted content prompt.
     Maintain key points while improving clarity and organization.
@@ -37,7 +37,7 @@ export async function generateContent(
   outputLength: string, 
   editPrompt?: string
 ): Promise<string> {
-  const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash-lite" });
+  const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash" });
   
   const contentPrompt = `
     Generate well-structured, formatted content based on this prompt:

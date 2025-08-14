@@ -16,7 +16,7 @@ const GEMINI_API_KEY = process.env.NEXT_PUBLIC_GOOGLE_GEMINI_API_KEY_3 || '';
 const genAI = new GoogleGenerativeAI(GEMINI_API_KEY);
 
 async function enhancePromptWithGemini(prompt: string): Promise<string> {
-  const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash-lite" });
+  const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash-lite" });
   const refinementPrompt = `
     Enhance and refine the following content creation prompt to make it more specific, detailed, and comprehensive. 
     Add relevant context, specifications, and structure suggestions while maintaining the original intent:
@@ -31,7 +31,7 @@ async function enhancePromptWithGemini(prompt: string): Promise<string> {
 }
 
 async function generateContentWithGemini(enhancedPrompt: string): Promise<string> {
-  const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash-lite" });
+  const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash" });
   const contentPrompt = `
     Create comprehensive content based on this prompt: "${enhancedPrompt}"
     
