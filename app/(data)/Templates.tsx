@@ -13,6 +13,140 @@ import { TEMPLATE } from "../dashboard/_component/TemplateCard";
 
 const Templates: TEMPLATE[] = [
     {
+        name: "Interview Preparation",
+        desc: "An AI tool that creates a personalized interview preparation guide based on the job role, skills, and experience provided.",
+        category: "Career",
+        icon: "https://cdn-icons-png.flaticon.com/128/3758/3758436.png",
+        aiprompt: "Generate a tailored interview preparation plan based on the given job role, required skills, and candidate experience. Include common interview questions, suggested answers, and tips for excelling in the interview.",
+        slug: "Interview-Preparation-Guide",
+        form: [
+            {
+                label: "Enter job role",
+                field: "input",
+                name: "jobRole",
+                required: true
+            },
+            {
+                label: "Enter required skills",
+                field: "textarea",
+                name: "skills",
+                required: true
+            },
+            {
+                label: "Enter your experience level",
+                field: "input",
+                name: "experienceLevel",
+                required: true
+            }
+        ]
+    },
+    {
+        name: "Discount Offer Generator",
+        desc: "An AI tool that creates catchy and persuasive discount offers based on product details and discount rates.",
+        category: "E-commerce",
+        icon: "https://cdn-icons-png.flaticon.com/128/2652/2652181.png",
+        aiprompt: "Generate an attractive and engaging discount offer based on the provided product name, discount percentage, and promotional tone. Include a sense of urgency and call-to-action.",
+        slug: "Generate-Discount-Offer",
+        form: [
+            {
+                label: "Enter product name",
+                field: "input",
+                name: "productName",
+                required: true
+            },
+            {
+                label: "Enter discount percentage",
+                field: "input",
+                name: "discountPercent",
+                required: true
+            },
+            {
+                label: "Enter promotional tone (e.g., exciting, urgent, friendly)",
+                field: "input",
+                name: "tone",
+                required: true
+            }
+        ]
+    },
+    {
+        name: "Poem Writer",
+        desc: "An AI tool that writes personalized poems based on a theme, style, and desired tone.",
+        category: "Creative Writing",
+        icon: "https://cdn-icons-png.flaticon.com/128/2633/2633072.png",
+        aiprompt: "Write a beautiful and creative poem based on the provided theme, style, and tone. Make sure it feels personal and emotionally engaging.",
+        slug: "Generate-Poem",
+        form: [
+            {
+                label: "Enter poem theme",
+                field: "input",
+                name: "theme",
+                required: true
+            },
+            {
+                label: "Enter poem style (e.g., rhyming, free verse, haiku)",
+                field: "input",
+                name: "style",
+                required: true
+            },
+            {
+                label: "Enter tone (e.g., romantic, sad, happy, inspirational)",
+                field: "input",
+                name: "tone",
+                required: true
+            }
+        ]
+    },
+    {
+        name: "Game Idea Creator",
+        desc: "An AI tool that generates unique and detailed game concepts with gameplay mechanics, target audience, and story ideas.",
+        category: "Entertainment",
+        icon: "https://cdn-icons-png.flaticon.com/128/686/686589.png",
+        aiprompt: "Generate a unique and creative game idea based on the given genre, platform, and theme. Include gameplay mechanics, target audience, and a brief storyline.",
+        slug: "Generate-Game-Idea",
+        form: [
+            {
+                label: "Enter game genre",
+                field: "input",
+                name: "genre",
+                required: true
+            },
+            {
+                label: "Enter platform (e.g., PC, Mobile, Console)",
+                field: "input",
+                name: "platform",
+                required: true
+            },
+            {
+                label: "Enter theme or inspiration",
+                field: "textarea",
+                name: "theme",
+                required: true
+            }
+        ]
+    },
+    {
+        name: "Motivational Quote Generator",
+        desc: "An AI tool that generates uplifting and inspiring quotes based on a topic or situation.",
+        category: "Personal Development",
+        icon: "https://cdn-icons-png.flaticon.com/128/10228/10228091.png",
+        aiprompt: "Generate a short, impactful, and motivational quote based on the provided topic or life situation. Make it inspiring and easy to remember.",
+        slug: "Generate-Motivational-Quote",
+        form: [
+            {
+                label: "Enter topic or situation",
+                field: "input",
+                name: "topic",
+                required: true
+            },
+            {
+                label: "Enter tone (e.g., uplifting, empowering, calming)",
+                field: "input",
+                name: "tone",
+                required: true
+            }
+        ]
+    },
+    {
         name: "Blog Title",
         desc: "An AI tool that generates blog titles based on your blog information.",
         category: "Blog",
@@ -468,7 +602,7 @@ const Templates: TEMPLATE[] = [
                 required: true
             }
         ]
-    },    
+    },
     {
         name: "Meeting Agenda",
         desc: "An AI tool that generates meeting agendas based on the provided details.",
